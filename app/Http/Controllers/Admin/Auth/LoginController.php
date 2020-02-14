@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
+use Illuminate\Http\Request;
+use App\Models\User;
+use Validator,Redirect,Response;
 
 class LoginController extends Controller
 {
@@ -42,5 +45,29 @@ class LoginController extends Controller
     public function logout(Request $request) {
         Auth::logout();
         return redirect('admin/login');
+    }
+
+        /**
+     * Handle an authentication attempt.
+     *
+     * @param  \Illuminate\Http\Request $request
+     *
+     * @return Response
+     */
+    public function login(Request $request)
+    {
+        request()->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('admin/dashboard');
+        }
+
+        return Redirect::to("login")->withErrors(['error' => trans('auth.invalid_credentials')]);
     }
 }
