@@ -1,5 +1,5 @@
-@extends('admin.layouts.app')
-@extends('title', 'Login')
+@extends('admin.layouts.base')
+@section('title', 'Login')
 @section('content')
 <body class="bg-gradient-primary">
 

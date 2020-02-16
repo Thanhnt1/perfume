@@ -18,5 +18,6 @@ Route::group(['middleware' => 'admin'], function(){
 
 });
 
-Route::get('/loginView', 'HomeController@login')->name('loginView');
-Route::get('/registerView', 'HomeController@register')->name('registerView');
+Route::get('/login-admin', 'HomeController@login')->name('loginView');
+Route::get('/register-admin', 'HomeController@register')->name('registerView');
+Route::get('/logout', 'Auth\LoginController@logout')->name('logoutView');

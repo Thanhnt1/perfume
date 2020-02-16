@@ -44,10 +44,10 @@ class LoginController extends Controller
 
     public function logout(Request $request) {
         Auth::logout();
-        return redirect('admin/login');
+        return redirect()->route('loginView');;
     }
 
-        /**
+    /**
      * Handle an authentication attempt.
      *
      * @param  \Illuminate\Http\Request $request
