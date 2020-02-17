@@ -1,3 +1,8 @@
 @include('client.layouts.partials.header')
-@yield('content') 
+<div class="pageWrap">
+    @include('client.layouts.partials.topbar')
+    @yield('content')
+</div>
+<!-- /pageWrap -->
+@yield('advertisement')
 @include('client.layouts.partials.footer')
