@@ -17,7 +17,7 @@ class CreateReturnsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->unsignedInteger('bill_id')->nullable()->default(null);
-            $table->unsignedInteger('shipping_deparment_id')->nullable()->default(null);
+            $table->unsignedInteger('shipping_department_id')->nullable()->default(null);
             $table->unsignedInteger('admin_id')->nullable()->default(null);
             $table->date('return_date')->nullable()->default(null);
             $table->date('receive_date')->nullable()->default(null);
@@ -27,7 +27,7 @@ class CreateReturnsTable extends Migration
             
             $table->index(["bill_id"], 'FK_RELATIONSHIP_24');
 
-            $table->index(["shipping_deparment_id"], 'FK_RELATIONSHIP_20');
+            $table->index(["shipping_department_id"], 'FK_RELATIONSHIP_20');
 
             $table->index(["admin_id"], 'FK_RELATIONSHIP_17');
 
@@ -37,8 +37,8 @@ class CreateReturnsTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
 
-            $table->foreign('shipping_deparment_id', 'FK_RELATIONSHIP_20')
-                ->references('id')->on('shipping_deparment')
+            $table->foreign('shipping_department_id', 'FK_RELATIONSHIP_20')
+                ->references('id')->on('shipping_department')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
 

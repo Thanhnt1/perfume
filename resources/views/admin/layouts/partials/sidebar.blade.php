@@ -14,7 +14,7 @@
   
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-          <a class="nav-link" href="index.html">
+          <a class="nav-link" href="{{ route('admin.dashboard') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
         </li>
@@ -22,7 +22,7 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
   
-        <!-- Heading -->
+        {{-- <!-- Heading -->
         <div class="sidebar-heading">
           Interface
         </div>
@@ -40,10 +40,10 @@
               <a class="collapse-item" href="cards.html">Cards</a>
             </div>
           </div>
-        </li>
+        </li> --}}
   
         <!-- Nav Item - Utilities Collapse Menu -->
-        <li class="nav-item">
+        {{-- <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-fw fa-wrench"></i>
             <span>Utilities</span>
@@ -57,18 +57,18 @@
               <a class="collapse-item" href="utilities-other.html">Other</a>
             </div>
           </div>
-        </li>
+        </li> --}}
   
         <!-- Divider -->
-        <hr class="sidebar-divider">
+        {{-- <hr class="sidebar-divider"> --}}
   
         <!-- Heading -->
         <div class="sidebar-heading">
-          Addons
+          Manager
         </div>
   
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
+        {{-- <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-folder"></i>
             <span>Pages</span>
@@ -85,20 +85,41 @@
               <a class="collapse-item" href="blank.html">Blank Page</a>
             </div>
           </div>
-        </li>
+        </li> --}}
   
-        <!-- Nav Item - Charts -->
+        <!-- Nav Item - Products -->
         <li class="nav-item">
-          <a class="nav-link" href="charts.html">
+          <a class="nav-link" href="{{ route('admin.products') }}">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Charts</span></a>
+            <span>Products</span></a>
         </li>
   
-        <!-- Nav Item - Tables -->
+        <!-- Nav Item - Bills -->
         <li class="nav-item">
-          <a class="nav-link" href="tables.html">
+          <a class="nav-link" href="{{ route('admin.bills') }}">
             <i class="fas fa-fw fa-table"></i>
-            <span>Tables</span></a>
+            <span>Bills</span></a>
+        </li>
+
+        <!-- Nav Item - Users -->
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('admin.users') }}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Users</span></a>
+        </li>
+
+        <!-- Nav Item - Order proccessing -->
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('admin.order-proccessing') }}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Order proccessing</span></a>
+        </li>
+
+        <!-- Nav Item - Promotions -->
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('admin.promotions') }}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Promotions</span></a>
         </li>
   
         <!-- Divider -->

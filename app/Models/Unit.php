@@ -10,16 +10,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $deleted_at
  * @property string $created_at
  * @property string $updated_at
- * @property Admin[] $admins
+ * @property Product[] $products
  */
-class Role extends Model
+class Unit extends Model
 {
     /**
      * The table associated with the model.
      * 
      * @var string
      */
-    protected $table = 'roles';
+    protected $table = 'units';
 
     /**
      * @var array
@@ -29,8 +29,8 @@ class Role extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function admins()
+    public function products()
     {
-        return $this->hasMany('App\Admin');
+        return $this->hasMany('App\Product');
     }
 }

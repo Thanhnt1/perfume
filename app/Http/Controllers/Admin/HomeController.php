@@ -34,16 +34,7 @@ class HomeController extends Controller
      */
     public function login()
     {
-        return view('admin.login');
+        return view('admin.auth.login');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function register()
-    {
-        return view('admin.register');
-    }
 }

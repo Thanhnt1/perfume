@@ -14,10 +14,25 @@ use Illuminate\Http\Request;
 Auth::routes();
 
 Route::group(['middleware' => 'admin'], function(){
-    Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+    // Dashboard
+    Route::get('/dashboard', 'HomeController@index')->name('admin.dashboard');
+
+    // Products
+    Route::get('/products', 'ProductController@index')->name('admin.products');
+
+    // Bills
+    Route::get('/bills', 'BillController@index')->name('admin.bills');
+
+    // Users
+    Route::get('/users', 'UserController@index')->name('admin.users');
+
+    // Order proccessing
+    Route::get('/order-proccessing', 'BillController@orderProccessingIndex')->name('admin.order-proccessing');
+
+    // Promotions
+    Route::get('/promotions', 'PromotionController@index')->name('admin.promotions');
 
 });
 
 Route::get('/login-admin', 'HomeController@login')->name('loginView');
-Route::get('/register-admin', 'HomeController@register')->name('registerView');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logoutView');

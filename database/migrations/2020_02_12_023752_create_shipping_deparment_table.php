@@ -13,7 +13,7 @@ class CreateShippingDeparmentTable extends Migration
      */
     public function up()
     {
-        Schema::create('shipping_deparment', function (Blueprint $table) {
+        Schema::create('shipping_department', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name')->nullable()->default(null);
@@ -31,6 +31,6 @@ class CreateShippingDeparmentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shipping_deparment');
+        Schema::dropIfExists('shipping_department');
     }
 }

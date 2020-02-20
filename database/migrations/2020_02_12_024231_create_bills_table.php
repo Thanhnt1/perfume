@@ -17,7 +17,7 @@ class CreateBillsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->unsignedInteger('customer_id')->nullable()->default(null);
-            $table->unsignedInteger('shipping_deparment_id')->nullable()->default(null);
+            $table->unsignedInteger('shipping_department_id')->nullable()->default(null);
             $table->unsignedInteger('admin_id')->nullable()->default(null);
             $table->unsignedInteger('type_shipping_id')->nullable()->default(null);
             $table->float('total_price')->nullable()->default(null);
@@ -37,7 +37,7 @@ class CreateBillsTable extends Migration
 
             $table->index(["admin_id"], 'FK_RELATIONSHIP_14');
 
-            $table->index(["shipping_deparment_id"], 'FK_RELATIONSHIP_15');
+            $table->index(["shipping_department_id"], 'FK_RELATIONSHIP_15');
 
             $table->index(["type_shipping_id"], 'FK_RELATIONSHIP_30');
 
@@ -47,8 +47,8 @@ class CreateBillsTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
 
-            $table->foreign('shipping_deparment_id', 'FK_RELATIONSHIP_15')
-                ->references('id')->on('shipping_deparment')
+            $table->foreign('shipping_department_id', 'FK_RELATIONSHIP_15')
+                ->references('id')->on('shipping_department')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
 
