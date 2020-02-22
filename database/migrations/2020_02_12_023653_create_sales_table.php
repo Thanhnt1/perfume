@@ -16,6 +16,7 @@ class CreateSalesTable extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->uuid('uuid');
             $table->date('start_date')->nullable()->default(null);
             $table->date('end_date')->nullable()->default(null);
             $table->integer('price')->nullable()->default(null);

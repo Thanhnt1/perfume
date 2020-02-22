@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use App\Traits\Uuids;
 
 /**
  * @property int $id
@@ -32,8 +35,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property ProductReturn[] $productReturns
  * @property ProductSale[] $productSales
  */
-class Product extends Model
+class Product extends Base implements AuditableContract
 {
+    use Uuids, Auditable;
+    
     /**
      * The table associated with the model.
      * 

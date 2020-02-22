@@ -16,6 +16,7 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->uuid('uuid');
             $table->unsignedInteger('category_id')->nullable()->default(null);
             $table->unsignedInteger('supplier_id')->nullable()->default(null);
             $table->unsignedInteger('unit_id')->nullable()->default(null);

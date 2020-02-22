@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use App\Traits\Uuids;
 
 /**
  * @property int $id
@@ -15,8 +18,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at
  * @property ProductSale[] $productSales
  */
-class Sale extends Model
+class Sale extends Model implements AuditableContract
 {
+    use Uuids, Auditable;
     /**
      * The table associated with the model.
      * 

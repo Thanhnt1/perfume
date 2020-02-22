@@ -16,6 +16,7 @@ class CreateBillsTable extends Migration
         Schema::create('bills', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->uuid('uuid');
             $table->unsignedInteger('customer_id')->nullable()->default(null);
             $table->unsignedInteger('shipping_department_id')->nullable()->default(null);
             $table->unsignedInteger('admin_id')->nullable()->default(null);

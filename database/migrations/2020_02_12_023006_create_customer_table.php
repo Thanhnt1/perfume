@@ -16,6 +16,7 @@ class CreateCustomerTable extends Migration
         Schema::create('customer', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->uuid('uuid');
             $table->unsignedInteger('cart_id')->nullable();
             $table->string('name');
             $table->string('email')->unique();

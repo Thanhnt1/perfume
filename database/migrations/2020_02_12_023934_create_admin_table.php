@@ -16,6 +16,7 @@ class CreateAdminTable extends Migration
         Schema::create('admin', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->uuid('uuid');
             $table->unsignedInteger('role_id');
             $table->string('name');
             $table->string('email')->unique();

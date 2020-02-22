@@ -16,6 +16,7 @@ class CreateCartTable extends Migration
         Schema::create('cart', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->uuid('uuid');
             $table->unsignedInteger('customer_id');
             $table->softDeletes();
             $table->timestamps();

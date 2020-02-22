@@ -16,6 +16,7 @@ class CreateReturnsTable extends Migration
         Schema::create('returns', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->uuid('uuid');
             $table->unsignedInteger('bill_id')->nullable()->default(null);
             $table->unsignedInteger('shipping_department_id')->nullable()->default(null);
             $table->unsignedInteger('admin_id')->nullable()->default(null);
