@@ -8,15 +8,15 @@
   <meta name="author" content="">
   <title>@yield('title', config('app.name', 'Laravel'))</title>
 
-  <link href="{{ asset('client/css/flaticon.css') }}" rel="stylesheet">
-  <link href="{{ asset('client/css/bootstrap.css') }}" rel="stylesheet">
-  <link href="{{ asset('client/css/style.css') }}" rel="stylesheet">
+  <link href="/client/css/flaticon.css" rel="stylesheet">
+  <link href="/client/css/bootstrap.css" rel="stylesheet">
+  <link href="/client/css/style.css" rel="stylesheet">
 
-  <link href="{{ asset('client/css/owl.carousel.css') }}" rel="stylesheet">
-  <link href="{{ asset('client/css/owl.transitions.css') }}" rel="stylesheet">
-  <link href="{{ asset('client/js/rs-plugin/css/settings.css') }}" rel="stylesheet" type="text/css">
-  <link href="{{ asset('client/css/responsive.css') }}" rel="stylesheet">
-  <link href="{{ asset('client/css/color.css') }}" rel="stylesheet">
+  <link href="/client/css/owl.carousel.css" rel="stylesheet">
+  <link href="/client/css/owl.transitions.css" rel="stylesheet">
+  <link href="/client/js/rs-plugin/css/settings.css" rel="stylesheet" type="text/css">
+  <link href="/client/css/responsive.css" rel="stylesheet">
+  <link href="/client/css/color.css" rel="stylesheet">
   
   <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>

@@ -1,16 +1,16 @@
 <!-- JavaScript
 ================================================== -->
-<script src="{{ asset('client/js/plugins.js') }}"></script>
-<script src="{{ asset('client/js/script.js') }}"></script>
-<script src="{{ asset('client/js/bootstrap.min.js') }}"></script>
+<script src="/client/js/plugins.js"></script>
+<script src="/client/js/script.js"></script>
+<script src="/client/js/bootstrap.min.js"></script>
 
-<script src="{{ asset('client/js/ie10-viewport-bug-workaround.js') }}"></script>
+<script src="/client/js/ie10-viewport-bug-workaround.js"></script>
 
 
 <!-- revolution slider plugin -->
 
-<script type="text/javascript" src="{{ asset('client/js/rs-plugin/js/jquery.themepunch.tools.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('client/js/rs-plugin/js/jquery.themepunch.revolution.min.js') }}"></script>
+<script type="text/javascript" src="/client/js/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+<script type="text/javascript" src="/client/js/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
  <script type="text/javascript">
 
   var revapi;
