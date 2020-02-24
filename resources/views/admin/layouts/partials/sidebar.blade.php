@@ -89,21 +89,21 @@
   
         <!-- Nav Item - Products -->
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('admin.products') }}">
+          <a class="nav-link" href="{{ route('admin.products.index') }}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Products</span></a>
         </li>
   
         <!-- Nav Item - Bills -->
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('admin.bills') }}">
+          <a class="nav-link" href="{{ route('admin.bills.index') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Bills</span></a>
         </li>
 
         <!-- Nav Item - Users -->
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('admin.users') }}">
+          <a class="nav-link" href="{{ route('admin.users.index') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Users</span></a>
         </li>

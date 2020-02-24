@@ -3,7 +3,13 @@
 @section('content')
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
+    <div class="row row justify-content-between">
+        <div class="col-4"><h1 class="h3 mb-4 text-gray-800">Blank Page</h1></div>
+        <div class="col-4 text-right">
+            <a href="{{ route('admin.products.create') }}" class="btn btn-success"><i class="fa fa-plus"></i> Add</a>
+        </div>
+    </div>
+    
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
@@ -30,35 +36,30 @@
 @endsection
 
 @section('custom-js')
-<script>
-    $(function() {
-        $('#datatable').DataTable({
+<script type="text/javascript">
+    var table = $('#datatable').DataTable({
             ...optionDataTable,
             ajax: {
-                url: '/admin/post/data',
-                data : JSON.parse('<?php echo json_encode(request()->all()) ?>')
+                type: "GET",
+                url: "{{ route('admin.products.index') }}",
+                data : function ( d ) {}
             },
             columns: [{
                     data: 'id',
                     name: 'id'
-                },{
-                    data: 'title',
-                    name: 'title'
-                },{
-                    data: 'language',
-                    name: 'language',
-                    className: 'text-center'
-                },{
+                },
+                
+                {
                     data: 'created_at',
                     name: 'created_at'
-                },{
-                    data: 'actions',
-                    name: 'actions',
-                    className: 'text-right',
-                    orderable: false
-                }
+                },
+                // {
+                //     data: 'actions',
+                //     name: 'actions',
+                //     className: 'text-right',
+                //     orderable: false
+                // }
             ],
         });
-    });
 </script>   
 @endsection

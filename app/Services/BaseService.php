@@ -4,7 +4,7 @@ namespace App\Services;
 use App\Traits\ExceptionHandler;
 use App\Repositories\BaseRepository;
 use Illuminate\Container\Container as Application;
-use Ramsey\Uuid\Uuid;
+// use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 abstract class BaseService

@@ -7,6 +7,11 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/admin/js/sb-admin-2.min.js"></script>
+
+    {{-- Datatable --}}
+    <script src="/admin/js/Datatables/datatables.min.js"></script>
+
+    <script src="/admin/js/custom-js.js"></script>
     
     @yield('custom-js')
 </html>

@@ -18,13 +18,17 @@ Route::group(['middleware' => 'admin'], function(){
     Route::get('/dashboard', 'HomeController@index')->name('admin.dashboard');
 
     // Products
-    Route::get('/products', 'ProductController@index')->name('admin.products');
+    Route::group(['prefix' => 'products'], function(){
+        Route::get('/', 'ProductController@index')->name('admin.products.index');
+        Route::get('/create', 'ProductController@create')->name('admin.products.create');
+        Route::get('/store', 'ProductController@store')->name('admin.products.store');
 
+    });
     // Bills
-    Route::get('/bills', 'BillController@index')->name('admin.bills');
+    Route::get('/bills', 'BillController@index')->name('admin.bills.index');
 
     // Users
-    Route::get('/users', 'UserController@index')->name('admin.users');
+    Route::get('/users', 'UserController@index')->name('admin.users.index');
 
     // Order proccessing
     Route::get('/order-proccessing', 'BillController@orderProccessingIndex')->name('admin.order-proccessing');

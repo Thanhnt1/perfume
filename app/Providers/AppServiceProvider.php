@@ -13,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Product
+        $this->app->singleton(\App\Repositories\Product\IProductRepository::class, \App\Repositories\Product\ProductRepository::class);
+        $this->app->singleton(\App\Services\Product\IProductService::class, \App\Services\Product\ProductService::class);
     }
 
     /**

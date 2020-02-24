@@ -177,6 +177,9 @@ return [
 
         // Auditing
         OwenIt\Auditing\AuditingServiceProvider::class,
+
+        // Datatable
+        Yajra\DataTables\DataTablesServiceProvider::class,
     ],
 
     /*
@@ -227,7 +230,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
     ],
 
 ];
