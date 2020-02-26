@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\Product\IProductService;
+use App\Models\Category;
+use App\Models\Supplier;
+use App\Models\Unit;
 
 class ProductController extends Controller
 {
@@ -37,7 +40,15 @@ class ProductController extends Controller
      */
     public function create(Request $request)
     {
-        return view('admin.products.create');
+        $categories = Category::all();
+        $supplier = Supplier::all();
+        $unit = Unit::all();
+
+        return view('admin.products.create', [
+            'categories' => $categories,
+            'supplier' => $supplier,
+            'unit' => $unit
+        ]);
     }
 
     /**

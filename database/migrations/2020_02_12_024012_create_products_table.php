@@ -41,7 +41,7 @@ class CreateProductsTable extends Migration
 
 
             $table->foreign('category_id', 'FK_RELATIONSHIP_13')
-                ->references('category_id')->on('categories')
+                ->references('id')->on('categories')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
 

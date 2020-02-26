@@ -12,6 +12,16 @@
     <script src="/admin/js/Datatables/datatables.min.js"></script>
 
     <script src="/admin/js/custom-js.js"></script>
+
+    <!-- Dropzone -->
+    <script src="/admin/vendor/dropzone/dropzone.js"></script>
+
+    {{-- Select2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
     
+    {{-- Ckeditor --}}
+    <script src="/admin/vendor/ckeditor/ckeditor.js"></script>
+
+    @yield('chart-dashboard')
     @yield('custom-js')
 </html>

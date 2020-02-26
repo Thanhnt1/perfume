@@ -37,4 +37,13 @@ class HomeController extends Controller
         return view('admin.auth.login');
     }
 
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadImagesProduct()
+    {
+        // return view('admin.auth.login');
+    }
 }

@@ -56,7 +56,7 @@ class Product extends Base implements AuditableContract
      */
     public function category()
     {
-        return $this->belongsTo('App\Category', null, 'category_id');
+        return $this->belongsTo('App\Category');
     }
 
     /**

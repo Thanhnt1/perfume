@@ -24,6 +24,9 @@ Route::group(['middleware' => 'admin'], function(){
         Route::get('/store', 'ProductController@store')->name('admin.products.store');
 
     });
+    // Images
+    Route::post('/images-product', 'HomeController@uploadImagesProduct')->name('admin.product.uploadImages');
+
     // Bills
     Route::get('/bills', 'BillController@index')->name('admin.bills.index');
 

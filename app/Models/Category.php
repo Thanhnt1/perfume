@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int $category_id
+ * @property int $id
  * @property string $name
  * @property string $description
  * @property string $deleted_at
@@ -23,13 +23,6 @@ class Category extends Model
     protected $table = 'categories';
 
     /**
-     * The primary key for the model.
-     * 
-     * @var string
-     */
-    protected $primaryKey = 'category_id';
-
-    /**
      * @var array
      */
     protected $fillable = ['name', 'description', 'deleted_at', 'created_at', 'updated_at'];
@@ -39,6 +32,6 @@ class Category extends Model
      */
     public function products()
     {
-        return $this->hasMany('App\Product', null, 'category_id');
+        return $this->hasMany('App\Product');
     }
 }

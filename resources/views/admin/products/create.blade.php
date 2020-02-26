@@ -9,71 +9,157 @@
     
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.products.store') }}" method="post" id="user-form">
+            <form action="{{ route('admin.products.store') }}" method="post" id="product-form">
                 @csrf
                 <div class="row">
-                    <div class="col-sm-5">
-                        <!-- <hr class="mt-0"> -->
+                    <div class="col-6">
                         <div class="form-group">
                             <label for="name">Name<i class="text-danger">&nbsp;*</i></label>
-                            <input type="text" class="form-control" id="first_name" name="first_name" value="{{ old('first_name') }}" tabindex="1" required>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" tabindex="1" autofocus required>
                         </div>
                         <div class="form-group">
-                            <label for="quantity">Quantity<i class="text-danger">&nbsp;*</i></label>
-                            {{-- <input type="text" class="form-control" id="email" name="email" value="{{ old('email') }}" tabindex="3" required> --}}
+                            <label for="supplier">Supplier</label>
+                            <select id="supplier" name="supplier[]" class="form-control" tabindex="3" required>
+                                @foreach($supplier as $value)
+                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="import_price">Import price<i class="text-danger">&nbsp;*</i></label>
-                            {{-- <input type="password" class="form-control" id="password" name="password" value="{{ old('password') }}" pattern="^(?=.*[A-Z])(?=.*[0-9]).{6,}$"
-                            oninvalid="setCustomValidity('{{ trans('user.mesValidatePassword')}}')" oninput="setCustomValidity('')" tabindex="5" required> --}}
-                        </div>
-            
-                        <div class="form-group">
-                            <label for="category_id">Category<i class="text-danger">&nbsp;*</i></label>
-                            <div class="">
-                                <select id="category_id" name="category_id[]" multiple class="form-control" tabindex="7" required>
-                                    {{-- @foreach($roles as $value => $name)
-                                        <option value="{{ $value }}" {{ in_array($value, old('role_id', [])) ? 'selected="selected"' : '' }}>{{ $name }}</option>
-                                    @endforeach --}}
-                                </select>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">$</span>
+                                </div>
+                                <input type="text" class="form-control" id="import_price" name="import_price" value="{{ old('import_price') }}" tabindex="5" required>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">đ</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!--/.col-->
-                    <div class="col-sm-5">
                         <div class="form-group">
-                            <label for="last_name">{{ trans('user.lastName') }}<i class="text-danger">&nbsp;*</i></label>
-                            {{-- <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('last_name') }}" tabindex="2" required> --}}
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">{{ trans('user.phoneNumber') }}<i class="text-danger">&nbsp;*</i></label>
-                            {{-- <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone') }}" tabindex="4" required> --}}
-                        </div>
-                        <div class="form-group">
-                            <label for="confirm-password">{{ trans('user.confirmPassword') }}<i class="text-danger">&nbsp;*</i></label>
-                            {{-- <input type="password" class="form-control" id="confirm-password" name="confirm-password" tabindex="6" required> --}}
+                            <label for="quantity">Quantity<i class="text-danger">&nbsp;*</i></label>
+                            <input type="text" class="form-control" id="quantity" name="quantity" value="{{ old('quantity') }}" tabindex="7" required>
                         </div>
                     </div>
-                    <!--/.col-->
-                    <div style="width: 39%;">
-                        <div class="row">
-                            <div class="col">
-                            <button type="submit" id="save" class="btn btn-primary" aria-pressed="true" tabindex="9">Save</button>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select id="status" name="status[]" class="form-control" tabindex="2" required>
+                                <option value="1">Open</option>
+                                <option value="0">Close</option>
+                                <option value="2">Active</option>
+                                <option value="3">Unactive</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="categories">Category</label>
+                            <select id="categories" name="categories[]" class="form-control" tabindex="4" required>
+                                @foreach($categories as $value)
+                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="selling_price">Selling price<i class="text-danger">&nbsp;*</i></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">$</span>
+                                </div>
+                                <input type="text" class="form-control" id="selling_price" name="selling_price" value="{{ old('import_price') }}" tabindex="6" required>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">đ</span>
+                                </div>
                             </div>
-            
-                            <div class="col">
-                            <a class="btn btn-secondary" aria-pressed="true" href="{{ route('admin.products.index') }}" title="Cancel" tabindex="10">Cancel</a>
-                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="unit">Unit<i class="text-danger">&nbsp;*</i></label>
+                            <select id="unit" name="unit[]" class="form-control" tabindex="8" required>
+                                @foreach($unit as $value)
+                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
-                  </div>
+                </div>
                 <!--/.row-->
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="images">Images</label>
+                            <div class="needsclick dropzone" id="images" name="images" tabindex="9"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" id="description" name="description" tabindex="10"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col text-right">
+                        <button type="submit" id="save" class="btn btn-primary" aria-pressed="true" tabindex="11">Save</button>
+                        <a class="btn btn-secondary btn-submit-gallery" aria-pressed="true" tabindex="12" href="{{ route('admin.products.index') }}" title="Cancel" tabindex="10">Cancel</a>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
-            
 @endsection
 
 @section('custom-js')
+<script type="text/javascript" src="/admin/vendor/jquery-mask/dist/jquery.mask.min.js"></script>
 
+<script type="text/javascript">
+    var uploadedDocumentMap = {}
+    Dropzone.options.images = {
+        url: "{{ route('admin.product.uploadImages') }}",
+        maxFilesize: 16, // MB
+        dictFileTooBig: 'Image is larger than 16MB',
+        addRemoveLinks: true,
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        },
+        success: function (file, response) {
+            $('#product-form').append('<input type="hidden" name="fileUpload[]" value="' + response.name + '">')
+            uploadedDocumentMap[file.name] = response.name
+        },
+        removedfile: function (file) {
+            file.previewElement.remove()
+            var name = ''
+            if (typeof file.file_name !== 'undefined') {
+                name = file.file_name
+            } else {
+                name = uploadedDocumentMap[file.name]
+            }
+            $('#product-form').find('input[name="fileUpload[]"][value="' + name + '"]').remove()
+        },
+        init: function () {
+            @if(isset($project) && $project->document)
+                var files = {!! json_encode($project->document) !!}
+                for (var i in files) {
+                    var file = files[i]
+                    this.options.addedfile.call(this, file)
+                    file.previewElement.classList.add('dz-complete')
+                    $('#product-form').append('<input type="hidden" name="fileUpload[]" value="' + file.file_name + '">')
+                }
+            @endif
+        }
+    }
+
+    CKEDITOR.replace( 'description', {
+        filebrowserUploadUrl: "{{ route('admin.product.uploadImages', ['_token' => csrf_token() ])}}",
+        filebrowserUploadMethod: '#product-form'
+    });
+
+    $('#import_price').mask('#.##0', { reverse: true });
+    $('#selling_price').mask('#.##0', { reverse: true });
+    $('#quantity').mask('#.##0', { reverse: true });
+</script>
 @endsection
