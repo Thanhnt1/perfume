@@ -69,6 +69,9 @@ return [
 
     'timezone' => 'UTC',
 
+    'db_date_format' => 'Y-m-d',
+    'db_datetime_format' => 'H:i:s d-m-Y',
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

@@ -53,8 +53,8 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="categories_id">Category</label>
-                            <select id="categories_id" name="categories_id[]" class="form-control" tabindex="4" required>
+                            <label for="category_id">Category</label>
+                            <select id="category_id" name="category_id[]" class="form-control" tabindex="4" required>
                                 @foreach($categories as $value)
                                     <option value="{{ $value->id }}">{{ $value->name }}</option>
                                 @endforeach

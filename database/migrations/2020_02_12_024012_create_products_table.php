@@ -23,8 +23,8 @@ class CreateProductsTable extends Migration
             $table->string('name')->nullable()->default(null);
             $table->integer('status')->nullable()->default(null);
             $table->integer('quantity')->nullable()->default(null);
-            $table->decimal('import_price', 15, 2)->nullable()->default(null);
-            $table->decimal('selling_price', 15, 2)->nullable()->default(null);
+            $table->decimal('import_price', 15, 3)->nullable()->default(null);
+            $table->decimal('selling_price', 15, 3)->nullable()->default(null);
             $table->text('description')->nullable()->default(null);
             $table->text('note')->nullable()->default(null);
             $table->date('import_date')->nullable()->default(null);

@@ -20,7 +20,12 @@ class ProductService extends BaseService implements IProductService
      */
     public function fetchAllJSON()
     {
-        $templates = $this->repository->fetchData();
-        return datatables()->of($templates)->make(true);
+        $products = $this->repository->fetchData();
+
+        return datatables()->of($products)
+        ->editColumn('created_at', function ($product) {
+            return $product->created_at ? with(new Carbon($product->created_at))->format(config('app.db_datetime_format')) : '';
+        })
+        ->make(true);
     }
 }

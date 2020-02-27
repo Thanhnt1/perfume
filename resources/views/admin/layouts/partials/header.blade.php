@@ -28,4 +28,7 @@
     {{-- Select2 --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
 
+    <link rel="stylesheet" href="/admin/css/custom-css.css">
+
+    @yield('custom-css')
 </head>

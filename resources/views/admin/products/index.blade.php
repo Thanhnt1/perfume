@@ -9,36 +9,39 @@
             <a href="{{ route('admin.products.create') }}" class="btn btn-success"><i class="fa fa-plus"></i> Add</a>
         </div>
     </div>
-    
+
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
                 <table id="datatable" class="table table-striped table-no-bordered table-hover" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>
-                                <input type="checkbox" id="all-banner" name="all-banner">
-                            </th>
-                            <th>ID</th>
-                            <th>{{trans('admin.title')}}</th>
-                            <th>Banner</th>
-                            <th>{{trans('admin.priority')}}</th>
-                            <th>{{trans('admin.language')}}</th>
-                            <th>{{trans('admin.created_at')}}</th>
-                            <th></th>
+                            <th class="unsort"></th>
+                            <th>Name</th>
+                            <th>Image</th>
+                            <th>Category</th>
+                            <th>Supplier</th>
+                            <th>Import Price(đ)</th>
+                            <th>Selling Price(đ)</th>
+                            <th>Quantity</th>
+                            <th>Unit</th>
+                            <th>Rate</th>
+                            <th>Status</th>
+                            <th>Created Date</th>
                         </tr>
                     </thead>
                 </table>
             </div>
         </div>
     </div>
-            
+
 @endsection
 
 @section('custom-js')
 <script type="text/javascript">
     var table = $('#datatable').DataTable({
             ...optionDataTable,
+            order: [[1, 'desc']],
             ajax: {
                 type: "GET",
                 url: "{{ route('admin.products.index') }}",
@@ -46,20 +49,37 @@
             },
             columns: [{
                     data: 'id',
-                    name: 'id'
+                    orderable: false,
+                    className: 'text-center',
+                    render: function(data, type, row, meta){
+                        return '<input type="checkbox" name="remove[]" id="'+ row.id +'">';
+                    }
                 },
-                
-                {
-                    data: 'created_at',
-                    name: 'created_at'
+                { data: 'product_name', name: 'product_name'},
+                { 
+                    data: 'avatar',
+                    render: function(data, type, row, meta){
+                        return '<img src="' + '/storage/products/' + data + '" alt="' + data + '" class="img-fluid">';
+                    } 
                 },
-                // {
-                //     data: 'actions',
-                //     name: 'actions',
-                //     className: 'text-right',
-                //     orderable: false
-                // }
+                { data: 'category_name', name: 'category_name'},
+                { data: 'supplier_name', name: 'supplier_name'},
+                { data: 'import_price', name: 'import_price'},
+                { data: 'selling_price', name: 'selling_price'},
+                { data: 'quantity', name: 'quantity'},
+                { data: 'unit_name', name: 'unit_name'},
+                { data: 'rate', name: 'rate'},
+                { data: 'status', name: 'status'},
+                { data: 'created_at', name: 'created_at'},
             ],
         });
-</script>   
+</script>
+@endsection
+
+@section('custom-css')
+    <style>
+        .unsort {
+            background-image: unset !important;
+        }
+    </style>
 @endsection

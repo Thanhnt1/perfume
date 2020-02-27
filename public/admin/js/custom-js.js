@@ -1,9 +1,9 @@
 var optionDataTable = {
     pageLength: 10,
     lengthMenu: [[10, 20, 30], [10, 20, 30]],
-    order: [
-        [0, 'desc']
-    ],
+    // order: [
+    //     [1, 'desc']
+    // ],
     // language: {
     //     "zeroRecords": "No results found."
     // },
@@ -29,3 +29,11 @@ var optionDataTable = {
         }
     }
 };
+
+$('.alert').alert()
+
+setTimeout(function(){
+    $('.alert-custom').fadeOut('slow', function(){
+        $(this).remove()
+    });
+}, 5000);

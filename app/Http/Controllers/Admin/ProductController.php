@@ -29,9 +29,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($this->productService->fetchAllJSON($request));
         if ($request->ajax()) {
-            // dd(1);
             return $this->productService->fetchAllJSON($request);
         }
 
@@ -66,7 +64,7 @@ class ProductController extends Controller
         try {
             $params = $request->all();
             $params['supplier_id'] = $params['supplier_id'][0];
-            $params['categories_id'] = $params['categories_id'][0];
+            $params['category_id'] = $params['category_id'][0];
             $params['unit_id'] = $params['unit_id'][0];
             $params['avatar'] = $params['fileAvatar'][0];
             $params['status'] = $params['status'][0];
