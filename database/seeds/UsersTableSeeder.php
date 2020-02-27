@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
         $user->password = bcrypt('123456');
         $user->phone = '123456789';
         $user->sex = 'Male';
-        $user->avatar_url = '/Logo.png';
+        $user->avatar = '/Logo.png';
         $user->save();
         //
     }

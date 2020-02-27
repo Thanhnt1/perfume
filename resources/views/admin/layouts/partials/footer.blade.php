@@ -21,7 +21,10 @@
     
     {{-- Ckeditor --}}
     <script src="/admin/vendor/ckeditor/ckeditor.js"></script>
-
+    
+    <script>
+        $('.alert').alert()
+    </script>
     @yield('chart-dashboard')
     @yield('custom-js')
 </html>

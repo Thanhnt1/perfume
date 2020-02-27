@@ -2,7 +2,7 @@
 namespace App\Repositories\Product;
 
 use App\Repositories\BaseRepository;
-use App\Models\Role;
+use App\Models\Product;
 class ProductRepository extends BaseRepository implements IProductRepository
 {
     /**

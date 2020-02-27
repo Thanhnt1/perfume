@@ -25,7 +25,7 @@ class CreateAdminTable extends Migration
             $table->char('phone', 11)->nullable()->default(null);
             $table->string('sex')->nullable()->default(null);
             $table->rememberToken();
-            $table->string('avatar_url')->nullable()->default(null);
+            $table->string('avatar')->nullable()->default(null);
             $table->softDeletes();
             $table->timestamps();
             

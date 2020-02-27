@@ -21,7 +21,7 @@ Route::group(['middleware' => 'admin'], function(){
     Route::group(['prefix' => 'products'], function(){
         Route::get('/', 'ProductController@index')->name('admin.products.index');
         Route::get('/create', 'ProductController@create')->name('admin.products.create');
-        Route::get('/store', 'ProductController@store')->name('admin.products.store');
+        Route::post('/store', 'ProductController@store')->name('admin.products.store');
 
     });
     // Images

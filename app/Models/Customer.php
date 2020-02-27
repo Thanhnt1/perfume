@@ -39,7 +39,7 @@ class Customer extends Base implements AuditableContract
     /**
      * @var array
      */
-    protected $fillable = ['cart_id', 'name', 'email', 'email_verified_at', 'password', 'phone', 'sex', 'remember_token', 'avatar_url', 'deleted_at', 'created_at', 'updated_at'];
+    protected $fillable = ['cart_id', 'name', 'email', 'email_verified_at', 'password', 'phone', 'sex', 'remember_token', 'avatar', 'deleted_at', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

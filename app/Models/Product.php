@@ -49,7 +49,7 @@ class Product extends Base implements AuditableContract
     /**
      * @var array
      */
-    protected $fillable = ['category_id', 'supplier_id', 'unit_id', 'name', 'status', 'quantity', 'import_price', 'selling_price', 'description', 'note', 'import_date', 'rate', 'image', 'deleted_at', 'created_at', 'updated_at'];
+    protected $fillable = ['category_id', 'supplier_id', 'unit_id', 'name', 'status', 'quantity', 'import_price', 'selling_price', 'description', 'note', 'import_date', 'rate', 'avatar', 'deleted_at', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
