@@ -25,7 +25,8 @@ Route::group(['middleware' => 'admin'], function(){
 
     });
     // Images
-    Route::post('/images-product', 'HomeController@uploadImagesProduct')->name('admin.product.uploadImages');
+    Route::post('/images-product', 'HomeController@uploadImagesProduct')->name('admin.products.uploadImages');
+    Route::post('/images-ckeditor-product', 'HomeController@uploadImagesCkEditor')->name('admin.products.uploadImagesCkEditor');
 
     // Bills
     Route::get('/bills', 'BillController@index')->name('admin.bills.index');

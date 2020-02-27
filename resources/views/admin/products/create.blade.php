@@ -119,7 +119,7 @@
 <script type="text/javascript">
     var uploadedDocumentMap = {}
     Dropzone.options.images = {
-        url: "{{ route('admin.product.uploadImages') }}",
+        url: "{{ route('admin.products.uploadImages') }}",
         maxFilesize: 16, // MB
         dictFileTooBig: 'Image is larger than 16MB',
         addRemoveLinks: true,
@@ -129,6 +129,7 @@
         success: function (file, response) {
             $('#product-form').append('<input type="hidden" name="fileUpload[]" value="' + response.name + '">')
             uploadedDocumentMap[file.name] = response.name
+            console.log(file, response)
         },
         removedfile: function (file) {
             file.previewElement.remove()
@@ -139,6 +140,7 @@
                 name = uploadedDocumentMap[file.name]
             }
             $('#product-form').find('input[name="fileUpload[]"][value="' + name + '"]').remove()
+            $("#product-form").append("<input type='hidden' name='fileRemove[]' value='" + name + "'>");
         },
         init: function () {
             @if(isset($project) && $project->document)
@@ -150,16 +152,27 @@
                     $('#product-form').append('<input type="hidden" name="fileUpload[]" value="' + file.file_name + '">')
                 }
             @endif
+        },
+        error: function(file, response) {
+            return false;
         }
     }
 
+    // CKEDITOR.replace('description', {
+    //     filebrowserUploadUrl: "{{ route('admin.products.uploadImagesCkEditor', ['_token' => csrf_token() ])}}",
+    //     filebrowserUploadMethod: '#product-form'
+    // });
     CKEDITOR.replace( 'description', {
-        filebrowserUploadUrl: "{{ route('admin.product.uploadImages', ['_token' => csrf_token() ])}}",
-        filebrowserUploadMethod: '#product-form'
-    });
+        filebrowserBrowseUrl: '{{ route('ckfinder_browser') }}',
+    } );
+   
 
     $('#import_price').mask('#.##0', { reverse: true });
     $('#selling_price').mask('#.##0', { reverse: true });
     $('#quantity').mask('#.##0', { reverse: true });
 </script>
+@include('ckfinder::setup')
+{{-- <script type="text/javascript" src="/js/ckfinder/ckfinder.js"></script>
+<script>CKFinder.config( { connectorPath: '/ckfinder/connector' } );</script> --}}
+
 @endsection
