@@ -29,8 +29,8 @@ $config['authentication'] = '\App\Http\Middleware\CustomCKFinderAuth';
 
 // ** https://ckfinder.sanvu88.net/ Link generate base on domain
 
-$config['licenseName'] = 'https://perfume-sunflower.herokuapp.com/?fbclid=IwAR3YdUqk7iWEE7nDUX7P3LqH9oylk2pJ_gPlyN2C17H1onFUNg24nYVv-A8'; // Change Domain
-$config['licenseKey']  = 'L4DHDYJ5378E8L7SDUDD9PCFKGWQ226P';
+$config['licenseName'] = 'perfume-sunflower.herokuapp.com'; // Change Domain
+$config['licenseKey']  = 'RBGJ1Y3C66E6TUF17SUGE3LM58VSWHPY';
 
 /*============================ CKFinder Internal Directory ============================*/
 // http://docs.cksource.com/ckfinder3-php/configuration.html#configuration_options_privateDir
