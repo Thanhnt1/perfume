@@ -43,7 +43,7 @@ class Returns extends Base implements AuditableContract
      */
     public function admin()
     {
-        return $this->belongsTo('App\Admin');
+        return $this->belongsTo('App\Models\Admin');
     }
 
     /**
@@ -51,7 +51,7 @@ class Returns extends Base implements AuditableContract
      */
     public function shippingDeparment()
     {
-        return $this->belongsTo('App\ShippingDeparment');
+        return $this->belongsTo('App\Models\ShippingDeparment');
     }
 
     /**
@@ -59,7 +59,7 @@ class Returns extends Base implements AuditableContract
      */
     public function bill()
     {
-        return $this->belongsTo('App\Bill');
+        return $this->belongsTo('App\Models\Bill');
     }
 
     /**
@@ -67,6 +67,6 @@ class Returns extends Base implements AuditableContract
      */
     public function productReturns()
     {
-        return $this->hasMany('App\ProductReturn');
+        return $this->hasMany('App\Models\ProductReturn');
     }
 }

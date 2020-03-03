@@ -22,6 +22,8 @@ Route::group(['middleware' => 'admin'], function(){
         Route::get('/', 'ProductController@index')->name('admin.products.index');
         Route::get('/create', 'ProductController@create')->name('admin.products.create');
         Route::post('/store', 'ProductController@store')->name('admin.products.store');
+        Route::get('/{id}/edit', 'ProductController@edit')->name('admin.products.edit');
+        Route::get('/{id}/update', 'ProductController@update')->name('admin.products.update');
 
     });
     // Images

@@ -48,26 +48,37 @@
                 data : function ( d ) {}
             },
             columns: [{
-                    data: 'id',
+                    data: 'uuid',
                     orderable: false,
+                    searchable: false,
                     className: 'text-center',
                     render: function(data, type, row, meta){
-                        return '<input type="checkbox" name="remove[]" id="'+ row.id +'">';
+                        return '<input type="checkbox" name="remove[]" id="'+ row.uuid +'">';
                     }
                 },
-                { data: 'product_name', name: 'product_name'},
+                { 
+                    data: 'product_name',
+                    name: 'products.name',
+                    className: 'text-center text-nowrap',
+                    render: function(data, type, row, meta){
+                        var html = '<a href="{{ route('admin.products.edit', ['id' => '__ID__']) }}">'+ row.product_name +'</a>'
+                        return html.replace(/__ID__/g, row.uuid);
+                    }
+                },
                 { 
                     data: 'avatar',
                     render: function(data, type, row, meta){
-                        return '<img src="' + '/storage/products/' + data + '" alt="' + data + '" class="img-fluid">';
+                        var url = data ? '/storage/products/' + data : '/admin/img/no-image.jpg'
+
+                        return '<img src="' + url + '" alt="' + data + '" class="img-fluid">';
                     } 
                 },
-                { data: 'category_name', name: 'category_name'},
-                { data: 'supplier_name', name: 'supplier_name'},
+                { data: 'category_name', name: 'categories.name'},
+                { data: 'supplier_name', name: 'suppliers.name'},
                 { data: 'import_price', name: 'import_price'},
                 { data: 'selling_price', name: 'selling_price'},
                 { data: 'quantity', name: 'quantity'},
-                { data: 'unit_name', name: 'unit_name'},
+                { data: 'unit_name', name: 'units.name'},
                 { data: 'rate', name: 'rate'},
                 { data: 'status', name: 'status'},
                 { data: 'created_at', name: 'created_at'},

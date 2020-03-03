@@ -32,6 +32,6 @@ class Property extends Model
      */
     public function productProperties()
     {
-        return $this->hasMany('App\ProductProperty');
+        return $this->hasMany('App\Models\ProductProperty');
     }
 }

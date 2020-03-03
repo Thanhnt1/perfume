@@ -34,7 +34,7 @@ class ShippingDepartment extends Model
      */
     public function bills()
     {
-        return $this->hasMany('App\Bill');
+        return $this->hasMany('App\Models\Bill');
     }
 
     /**
@@ -42,6 +42,6 @@ class ShippingDepartment extends Model
      */
     public function returns()
     {
-        return $this->hasMany('App\Return');
+        return $this->hasMany('App\Models\Return');
     }
 }

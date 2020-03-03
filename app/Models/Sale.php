@@ -38,6 +38,6 @@ class Sale extends Model implements AuditableContract
      */
     public function productSales()
     {
-        return $this->hasMany('App\ProductSale');
+        return $this->hasMany('App\Models\ProductSale');
     }
 }

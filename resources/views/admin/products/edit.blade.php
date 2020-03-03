@@ -9,19 +9,20 @@
     
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.products.store') }}" method="post" id="product-form">
+            <form action="{{ route('admin.products.update',['id' => $product->id]) }}" method="post" id="product-form">
+                {{ method_field('PUT') }}
                 @csrf
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
                             <label for="name">Name<i class="text-danger">&nbsp;*</i></label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" tabindex="1" autofocus required>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $product->name) }}" tabindex="1" required>
                         </div>
                         <div class="form-group">
                             <label for="supplier_id">Supplier</label>
                             <select id="supplier_id" name="supplier_id" class="form-control" tabindex="3" required>
                                 @foreach($supplier as $value)
-                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                    <option value="{{ $value->id }}" {{ old('supplier_id', $product->supplier_id) == $value->id ? 'selected="selected"' : '' }}>{{ $value->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -31,7 +32,7 @@
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">$</span>
                                 </div>
-                                <input type="text" class="form-control" id="import_price" name="import_price" value="{{ old('import_price') }}" tabindex="5" required>
+                                <input type="text" class="form-control" id="import_price" name="import_price" value="{{ old('import_price', $product->import_price) }}" tabindex="5" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text">đ</span>
                                 </div>
@@ -39,7 +40,7 @@
                         </div>
                         <div class="form-group">
                             <label for="quantity">Quantity<i class="text-danger">&nbsp;*</i></label>
-                            <input type="text" class="form-control" id="quantity" name="quantity" value="{{ old('quantity') }}" tabindex="7" required>
+                            <input type="text" class="form-control" id="quantity" name="quantity" value="{{ old('quantity', $product->quantity) }}" tabindex="7" required>
                         </div>
                     </div>
                     <div class="col-6">
@@ -50,7 +51,7 @@
                                     $arrStatus = ["Close","Open","Active","Unactive"];
                                 @endphp
                                 @foreach ($arrStatus as $key => $item)
-                                    <option value="{{ $key }}" {{ old('status') == $key ? 'selected="selected"' : '' }}>{{ $item }}</option>
+                                    <option value="{{ $key }}" {{ old('status', $product->status) == $key ? 'selected="selected"' : '' }}>{{ $item }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -58,7 +59,7 @@
                             <label for="category_id">Category</label>
                             <select id="category_id" name="category_id" class="form-control" tabindex="4" required>
                                 @foreach($categories as $value)
-                                    <option value="{{ $value->id }}" {{ old('category_id') == $value->id ? 'selected="selected"' : '' }}>{{ $value->name }}</option>
+                                    <option value="{{ $value->id }}" {{ old('category_id', $product->category_id) == $value->id ? 'selected="selected"' : '' }}>{{ $value->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -68,7 +69,7 @@
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">$</span>
                                 </div>
-                                <input type="text" class="form-control" id="selling_price" name="selling_price" value="{{ old('import_price') }}" tabindex="6" required>
+                                <input type="text" class="form-control" id="selling_price" name="selling_price" value="{{ old('import_price', $product->selling_price) }}" tabindex="6" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text">đ</span>
                                 </div>
@@ -78,7 +79,7 @@
                             <label for="unit_id">Unit<i class="text-danger">&nbsp;*</i></label>
                             <select id="unit_id" name="unit_id" class="form-control" tabindex="8" required>
                                 @foreach($unit as $value)
-                                    <option value="{{ $value->id }}" {{ old('unit_id') == $value->id ? 'selected="selected"' : '' }}>{{ $value->name }}</option>
+                                    <option value="{{ $value->id }}" {{ old('unit_id', $product->unit_id) == $value->id ? 'selected="selected"' : '' }}>{{ $value->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -126,6 +127,7 @@
 
 <script type="text/javascript">
     var uploadedDocumentMap = {}
+    
     Dropzone.options.images = {
         url: "{{ route('admin.products.uploadImages') }}",
         maxFiles: 10,
@@ -152,13 +154,14 @@
             $("#product-form").append("<input type='hidden' name='fileRemove[]' value='" + name + "'>");
         },
         init: function () {
-            @if(isset($project) && $project->document)
-                var files = {!! json_encode($project->document) !!}
+            @if(isset($product) && $images)
+                var files = {!! json_encode($images) !!}
                 for (var i in files) {
                     var file = files[i]
                     this.options.addedfile.call(this, file)
+                    this.options.thumbnail.call(this, file, file.path);
                     file.previewElement.classList.add('dz-complete')
-                    $('#product-form').append('<input type="hidden" name="fileUpload[]" value="' + file.file_name + '">')
+                    $('#product-form').append('<input type="hidden" name="fileUpload[]" value="' + file.url + '">')
                 }
             @endif
         },
@@ -194,13 +197,13 @@
         },
         init: function () {
             // ?? 
-            @if(isset($project) && $project->document)
-                var files = {!! json_encode($project->document) !!}
+            @if(isset($project) && $product->avatar)
+                var files = {!! json_encode([$product->avatar]) !!}
                 for (var i in files) {
                     var file = files[i]
                     this.options.addedfile.call(this, file)
-                    file.previewElement.classList.add('dz-complete')
-                    $('#product-form').append('<input type="hidden" name="fileAvatar[]" value="' + file.file_name + '">')
+                    // file.previewElement.classList.add('dz-complete')
+                    $('#product-form').append('<input type="hidden" name="fileAvatar[]" value="' + file + '">')
                 }
             @endif
             this.on('addedfile', function(file) {

@@ -46,7 +46,7 @@ class Customer extends Base implements AuditableContract
      */
     public function cart()
     {
-        return $this->belongsTo('App\Models\Cart');
+        return $this->belongsTo('App\Models\Models\Cart');
     }
 
     /**
@@ -54,7 +54,7 @@ class Customer extends Base implements AuditableContract
      */
     public function bills()
     {
-        return $this->hasMany('App\Models\Bill');
+        return $this->hasMany('App\Models\Models\Bill');
     }
 
     /**
@@ -62,6 +62,6 @@ class Customer extends Base implements AuditableContract
      */
     public function carts()
     {
-        return $this->hasMany('App\Models\Cart');
+        return $this->hasMany('App\Models\Models\Cart');
     }
 }

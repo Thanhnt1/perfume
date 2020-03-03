@@ -54,7 +54,7 @@ class Bill extends Base implements AuditableContract
      */
     public function admin()
     {
-        return $this->belongsTo('App\Admin');
+        return $this->belongsTo('App\Models\Admin');
     }
 
     /**
@@ -62,7 +62,7 @@ class Bill extends Base implements AuditableContract
      */
     public function shippingDeparment()
     {
-        return $this->belongsTo('App\ShippingDeparment');
+        return $this->belongsTo('App\Models\ShippingDeparment');
     }
 
     /**
@@ -70,7 +70,7 @@ class Bill extends Base implements AuditableContract
      */
     public function typeShipping()
     {
-        return $this->belongsTo('App\TypeShipping');
+        return $this->belongsTo('App\Models\TypeShipping');
     }
 
     /**
@@ -78,7 +78,7 @@ class Bill extends Base implements AuditableContract
      */
     public function customer()
     {
-        return $this->belongsTo('App\Customer');
+        return $this->belongsTo('App\Models\Customer');
     }
 
     /**
@@ -86,7 +86,7 @@ class Bill extends Base implements AuditableContract
      */
     public function billProducts()
     {
-        return $this->hasMany('App\BillProduct');
+        return $this->hasMany('App\Models\BillProduct');
     }
 
     /**
@@ -94,6 +94,6 @@ class Bill extends Base implements AuditableContract
      */
     public function returns()
     {
-        return $this->hasMany('App\Return');
+        return $this->hasMany('App\Models\Return');
     }
 }

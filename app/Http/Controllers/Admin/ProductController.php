@@ -11,6 +11,7 @@ use App\Models\Supplier;
 use App\Models\Unit;
 use App\Models\Image;
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -63,17 +64,12 @@ class ProductController extends Controller
     {
         try {
             $params = $request->all();
-            $params['supplier_id'] = $params['supplier_id'][0];
-            $params['category_id'] = $params['category_id'][0];
-            $params['unit_id'] = $params['unit_id'][0];
-            $params['avatar'] = $params['fileAvatar'][0];
-            $params['status'] = $params['status'][0];
             $params['import_price'] = str_replace(",", "", $params['import_price']);
             $params['selling_price'] = str_replace(",", "", $params['selling_price']);
             $params['quantity'] = str_replace(",", "", $params['quantity']);
 
             // remove params file upload
-            $params = array_diff_key($params, array_flip(["fileAvatar", "fileUpload"]));
+            $params = array_diff_key($params, array_flip(["fileUpload"]));
 
             // insert data product
             $product = $this->productService->createData($params);
@@ -91,6 +87,68 @@ class ProductController extends Controller
             return redirect()->route('admin.products.index')->with('message', trans('product.createSuccessfull'));
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['msg' => trans($e->getMessage())])->withInput();
+        }
+    }
+
+    // Show the form for editing the specified resource.
+    public function edit($id)
+    {
+        $product = $this->productService->findByUuid($id);
+        if ($product instanceof Product) {
+            $categories = Category::all();
+            $supplier = Supplier::all();
+            $unit = Unit::all();
+            $images = [];
+            if($product->images) {
+                foreach($product->images as $item){
+                    $images[] = (object)[
+                        'name' => $item->url,
+                        'path' => Storage::url('products/'.$item->url),
+                        'size' => 1000
+                    ];
+                }
+            }
+
+            return view('admin.products.edit', [
+                    'product' => $product,
+                    'categories' => $categories,
+                    'supplier' => $supplier,
+                    'unit' => $unit,
+                    'images' => $images
+            ]);
+        } else {
+            abort(404);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     * @param string $id
+     * @param CampaignRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update($id, CampaignRequest $request)
+    {
+        $product = $this->productService->findByUuid($id);
+        if ($product instanceof Product) {
+            try {
+                // Open transaction
+                DB::beginTransaction();
+                //
+
+                // $product = $this->productService->updateData($request->all(), $product->id);
+                
+                // Commit transaction
+                DB::commit();
+                //
+                return redirect()->route('admin.products.index')->with('message', trans('product.updateSuccessfull'));
+            } catch (\Exception $e) {
+                // Rollback transaction
+                DB::rollBack();
+                return redirect()->back()->withErrors(['msg' => trans($e->getMessage())])->withInput();
+            }
+        } else {
+            abort(404);
         }
     }
 }

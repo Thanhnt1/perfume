@@ -45,7 +45,7 @@ class User extends Authenticatable implements AuditableContract
      */
     public function role()
     {
-        return $this->belongsTo('App\Models\Role');
+        return $this->belongsTo('App\Models\Models\Role');
     }
 
     /**
@@ -53,7 +53,7 @@ class User extends Authenticatable implements AuditableContract
      */
     public function bills()
     {
-        return $this->hasMany('App\Models\Bill');
+        return $this->hasMany('App\Models\Models\Bill');
     }
 
     /**
@@ -61,6 +61,6 @@ class User extends Authenticatable implements AuditableContract
      */
     public function returns()
     {
-        return $this->hasMany('App\Models\Return');
+        return $this->hasMany('App\Models\Models\Return');
     }
 }

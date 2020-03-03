@@ -56,7 +56,7 @@ class Product extends Base implements AuditableContract
      */
     public function category()
     {
-        return $this->belongsTo('App\Category');
+        return $this->belongsTo('App\Models\Category');
     }
 
     /**
@@ -64,7 +64,7 @@ class Product extends Base implements AuditableContract
      */
     public function unit()
     {
-        return $this->belongsTo('App\Unit');
+        return $this->belongsTo('App\Models\Unit');
     }
 
     /**
@@ -72,7 +72,7 @@ class Product extends Base implements AuditableContract
      */
     public function supplier()
     {
-        return $this->belongsTo('App\Supplier');
+        return $this->belongsTo('App\Models\Supplier');
     }
 
     /**
@@ -80,7 +80,7 @@ class Product extends Base implements AuditableContract
      */
     public function billProducts()
     {
-        return $this->hasMany('App\BillProduct');
+        return $this->hasMany('App\Models\BillProduct');
     }
 
     /**
@@ -88,7 +88,7 @@ class Product extends Base implements AuditableContract
      */
     public function cartProducts()
     {
-        return $this->hasMany('App\CartProduct');
+        return $this->hasMany('App\Models\CartProduct');
     }
 
     /**
@@ -96,7 +96,7 @@ class Product extends Base implements AuditableContract
      */
     public function images()
     {
-        return $this->hasMany('App\Image');
+        return $this->hasMany('App\Models\Image');
     }
 
     /**
@@ -104,7 +104,7 @@ class Product extends Base implements AuditableContract
      */
     public function productProperties()
     {
-        return $this->hasMany('App\ProductProperty');
+        return $this->hasMany('App\Models\ProductProperty');
     }
 
     /**
@@ -112,7 +112,7 @@ class Product extends Base implements AuditableContract
      */
     public function productReturns()
     {
-        return $this->hasMany('App\ProductReturn');
+        return $this->hasMany('App\Models\ProductReturn');
     }
 
     /**
@@ -120,6 +120,6 @@ class Product extends Base implements AuditableContract
      */
     public function productSales()
     {
-        return $this->hasMany('App\ProductSale');
+        return $this->hasMany('App\Models\ProductSale');
     }
 }
