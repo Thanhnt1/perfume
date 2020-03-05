@@ -9,7 +9,7 @@
     
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.products.update',['id' => $product->id]) }}" method="post" id="product-form">
+            <form action="{{ route('admin.products.update',['id' => $product->uuid]) }}" method="post" id="product-form">
                 {{ method_field('PUT') }}
                 @csrf
                 <div class="row">
@@ -176,12 +176,13 @@
         maxFilesize: 16, // MB
         dictFileTooBig: 'Image is larger than 16MB',
         addRemoveLinks: true,
+        autoProcessQueue: false,
         headers: {
             'X-CSRF-TOKEN': "{{ csrf_token() }}"
         },
         success: function (file, response) {
-            $('#product-form').append('<input type="hidden" name="avatar" value="' + response.name + '">')
-            uploadedDocumentMap[file.name] = response.name
+            $('#product-form').append('<input type="hidden" name="avatar" value="' + response.hash_name + '">')
+            uploadedDocumentMap[file.name] = response.hash_name
             console.log(file, response)
         },
         removedfile: function (file) {
@@ -196,15 +197,30 @@
             $("#product-form").append("<input type='hidden' name='avatar' value='" + name + "'>");
         },
         init: function () {
-            // ?? 
-            @if(isset($project) && $product->avatar)
-                var files = {!! json_encode([$product->avatar]) !!}
-                for (var i in files) {
-                    var file = files[i]
+            @if(isset($product) && $avatar)
+                var file = "{{ $avatar }}"
+                // var reader = new FileReader();
+                // reader.onload = function(event) {
+                //     base64 = event.target.result;
+                //     _this.processQueue()
+                // };
+                // for (var i in files) {
+                    // var file = files[i]
                     this.options.addedfile.call(this, file)
                     // file.previewElement.classList.add('dz-complete')
                     $('#product-form').append('<input type="hidden" name="fileAvatar[]" value="' + file + '">')
-                }
+                // }
+                // this.on("addedfile", function (file) {
+                //     var reader = new FileReader();
+                //     reader.onload = function(event) {
+                //         // event.target.result contains base64 encoded image
+                //         var base64String = event.target.result;
+                //         var fileName = file.name
+                //         handlePictureDropUpload(base64String ,fileName );
+                //     };
+                //     reader.readAsDataURL(file);
+
+                // });
             @endif
             this.on('addedfile', function(file) {
                 if (this.files.length > 1) {

@@ -89,7 +89,7 @@
                 <div class="row">
                     <div class="col-3">
                         <div class="form-group">
-                            <label for="avatar">Avatar</label>
+                            <label for="avatar">Avatar<i class="text-danger">&nbsp;*</i></label>
                             <div class="needsclick dropzone" id="fileAvatar" name="fileAvatar" tabindex="9"></div>
                         </div>
                     </div>
@@ -136,8 +136,8 @@
             'X-CSRF-TOKEN': "{{ csrf_token() }}"
         },
         success: function (file, response) {
-            $('#product-form').append('<input type="hidden" name="fileUpload[]" value="' + response.name + '">')
-            uploadedDocumentMap[file.name] = response.name
+            $('#product-form').append('<input type="hidden" name="fileUpload[]" value="' + response.hash_name + '">')
+            uploadedDocumentMap[file.name] = response.hash_name
             console.log(file, response)
         },
         removedfile: function (file) {
@@ -177,8 +177,8 @@
             'X-CSRF-TOKEN': "{{ csrf_token() }}"
         },
         success: function (file, response) {
-            $('#product-form').append('<input type="hidden" name="avatar" value="' + response.name + '">')
-            uploadedDocumentMap[file.name] = response.name
+            $('#product-form').append('<input type="hidden" name="avatar" value="' + response.hash_name + '">')
+            uploadedDocumentMap[file.name] = response.hash_name
             console.log(file, response)
         },
         removedfile: function (file) {

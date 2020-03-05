@@ -3,6 +3,7 @@ namespace App\Repositories\Product;
 
 use App\Repositories\BaseRepository;
 use App\Models\Product;
+
 class ProductRepository extends BaseRepository implements IProductRepository
 {
     /**
@@ -23,6 +24,7 @@ class ProductRepository extends BaseRepository implements IProductRepository
         ->selectRaw('units.name as unit_name')
         ->leftJoin('categories', 'categories.id', $this->model->getTable().'.category_id')
         ->leftJoin('suppliers', 'suppliers.id', $this->model->getTable().'.supplier_id')
-        ->leftJoin('units', 'units.id', $this->model->getTable().'.unit_id');
+        ->leftJoin('units', 'units.id', $this->model->getTable().'.unit_id')
+        ->whereNull($this->model->getTable().'.deleted_at');
     }
 }

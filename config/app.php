@@ -183,6 +183,10 @@ return [
 
         // Datatable
         Yajra\DataTables\DataTablesServiceProvider::class,
+
+        // Dropbox
+        // BC\Laravel\DropboxDriver\ServiceProvider::class,
+        App\Providers\DropboxServiceProvider::class,
     ],
 
     /*

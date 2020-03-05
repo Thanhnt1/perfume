@@ -12,6 +12,7 @@ use App\Models\Unit;
 use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -60,7 +61,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         try {
             $params = $request->all();
@@ -68,19 +69,28 @@ class ProductController extends Controller
             $params['selling_price'] = str_replace(",", "", $params['selling_price']);
             $params['quantity'] = str_replace(",", "", $params['quantity']);
 
-            // remove params file upload
-            $params = array_diff_key($params, array_flip(["fileUpload"]));
+            if($request->fileUpload) {
+                // remove params file upload
+                $params = array_diff_key($params, array_flip(["fileUpload"]));
+            }
 
             // insert data product
             $product = $this->productService->createData($params);
 
             if ($product instanceof Product) {
-                // insert images of product
-                foreach ($request->fileUpload as $value) {
-                    $this->imageService->createData([
-                        'product_id' => $product->id,
-                        'url' => $value
-                    ]);
+                if($request->fileUpload) {
+                    // insert images of product
+                    foreach ($request->fileUpload as $value) {
+                        $this->imageService->createData([
+                            'product_id' => $product->id,
+                            'url' => $value
+                        ]);
+                    }
+                }
+                if($request->fileRemove) {
+                    foreach ($request->fileRemove as $value) {
+                        Storage::disk('dropbox')->delete($value);
+                    }
                 }
             }
 
@@ -108,9 +118,11 @@ class ProductController extends Controller
                     ];
                 }
             }
-
+            $avatar = $product->avatar ? 'data:image/jpeg;base64, '.base64_encode(Storage::disk('dropbox')->get($product->avatar)) : null;
+            // dd($product);
             return view('admin.products.edit', [
                     'product' => $product,
+                    'avatar' => $avatar,
                     'categories' => $categories,
                     'supplier' => $supplier,
                     'unit' => $unit,

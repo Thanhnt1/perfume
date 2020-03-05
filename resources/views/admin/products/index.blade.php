@@ -41,7 +41,7 @@
 <script type="text/javascript">
     var table = $('#datatable').DataTable({
             ...optionDataTable,
-            order: [[1, 'desc']],
+            order: [[11, 'desc']],
             ajax: {
                 type: "GET",
                 url: "{{ route('admin.products.index') }}",
@@ -68,9 +68,13 @@
                 { 
                     data: 'avatar',
                     render: function(data, type, row, meta){
-                        var url = data ? '/storage/products/' + data : '/admin/img/no-image.jpg'
+                        // store in storage
+                        // var url = data ? '/storage/products/' + data : '/admin/img/no-image.jpg'
 
-                        return '<img src="' + url + '" alt="' + data + '" class="img-fluid">';
+                        // store in dropbox
+                        var url = data ? data : '/admin/img/no-image.jpg'
+
+                        return '<img src="' + url + '" alt="' + data + '" class="img-fluid" style="width:150px">';
                     } 
                 },
                 { data: 'category_name', name: 'categories.name'},
@@ -81,7 +85,7 @@
                 { data: 'unit_name', name: 'units.name'},
                 { data: 'rate', name: 'rate'},
                 { data: 'status', name: 'status'},
-                { data: 'created_at', name: 'created_at'},
+                { data: 'created_at', name: 'products.created_at'},
             ],
         });
 </script>
