@@ -18,7 +18,7 @@
                         <tr>
                             <th class="unsort"></th>
                             <th>Name</th>
-                            <th>Image</th>
+                            {{-- <th>Avatar</th> --}}
                             <th>Category</th>
                             <th>Supplier</th>
                             <th>Import Price(đ)</th>
@@ -41,7 +41,7 @@
 <script type="text/javascript">
     var table = $('#datatable').DataTable({
             ...optionDataTable,
-            order: [[11, 'desc']],
+            order: [[10, 'desc']],
             ajax: {
                 type: "GET",
                 url: "{{ route('admin.products.index') }}",
@@ -65,18 +65,15 @@
                         return html.replace(/__ID__/g, row.uuid);
                     }
                 },
-                { 
-                    data: 'avatar',
-                    render: function(data, type, row, meta){
-                        // store in storage
-                        // var url = data ? '/storage/products/' + data : '/admin/img/no-image.jpg'
+                // { 
+                //     data: 'avatar',
+                //     render: function(data, type, row, meta){
+                //         // store in storage
+                //         // var url = data ? '/storage/products/' + data : '/admin/img/no-image.jpg'
 
-                        // store in dropbox
-                        var url = data ? data : '/admin/img/no-image.jpg'
-
-                        return '<img src="' + url + '" alt="' + data + '" class="img-fluid" style="width:150px">';
-                    } 
-                },
+                //         return '<img src="' + data + '" data-src="' + data + '" alt="" class="img-fluid" style="width:150px">';
+                //     } 
+                // },
                 { data: 'category_name', name: 'categories.name'},
                 { data: 'supplier_name', name: 'suppliers.name'},
                 { data: 'import_price', name: 'import_price'},
@@ -88,6 +85,7 @@
                 { data: 'created_at', name: 'products.created_at'},
             ],
         });
+
 </script>
 @endsection
 

@@ -13,6 +13,7 @@ use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -58,7 +59,8 @@ class ProductController extends Controller
 
     /**
      * Show the application product.
-     *
+     * @param string $id
+     * @param ProductRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(ProductRequest $request)
@@ -111,15 +113,22 @@ class ProductController extends Controller
             $images = [];
             if($product->images) {
                 foreach($product->images as $item){
-                    $images[] = (object)[
-                        'name' => $item->url,
-                        'path' => Storage::url('products/'.$item->url),
-                        'size' => 1000
-                    ];
+                    if(Storage::disk('dropbox')->exists($item->url)) {
+                        $images[] = (object)[
+                            'name' => $item->url,
+                            'path' => Storage::disk('dropbox')->url($item->url),
+                            'size' => Storage::disk('dropbox')->size($item->url)
+                        ];
+                    }
                 }
             }
-            $avatar = $product->avatar ? 'data:image/jpeg;base64, '.base64_encode(Storage::disk('dropbox')->get($product->avatar)) : null;
-            // dd($product);
+            // $avatar = $product->avatar ? $this->productService->base64_to_jpeg(base64_encode(Storage::disk('dropbox')->get($product->avatar))) : null;
+            $avatar = $product->avatar && Storage::disk('dropbox')->exists($product->avatar) ? (object)[
+                'name' => $product->avatar,
+                'path' => Storage::disk('dropbox')->url($product->avatar),
+                'size' => Storage::disk('dropbox')->size($product->avatar)
+            ] : null;
+
             return view('admin.products.edit', [
                     'product' => $product,
                     'avatar' => $avatar,
@@ -136,20 +145,77 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      * @param string $id
-     * @param CampaignRequest $request
+     * @param ProductRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update($id, CampaignRequest $request)
+    public function update($id, ProductRequest $request)
     {
         $product = $this->productService->findByUuid($id);
         if ($product instanceof Product) {
             try {
+                $params = $request->all();
+                $params['import_price'] = str_replace(",", "", $params['import_price']);
+                $params['selling_price'] = str_replace(",", "", $params['selling_price']);
+                $params['quantity'] = str_replace(",", "", $params['quantity']);
+
+                if($request->fileUpload) {
+                    // remove params file upload
+                    $params = array_diff_key($params, array_flip(["fileUpload"]));
+                }
+
+                // get current avatar of product
+                $avatarRemove = $product->avatar;
+
                 // Open transaction
                 DB::beginTransaction();
                 //
 
-                // $product = $this->productService->updateData($request->all(), $product->id);
+                $product = $this->productService->updateData($params, $product->id);
+
+                $images = [];
+                foreach ($product->images as $image) {
+                    array_push($images, $image->url);
+                }
+
+                // insert images of product
+                if($request->fileUpload) {
+                    foreach ($request->fileUpload as $file) {
+                        if(in_array($file,$images)) {
+                            $image->touch(); // update updated_at
+                        }
+                        else {
+                            $this->imageService->createData([
+                                'product_id' => $product->id,
+                                'url' => $file
+                            ]);
+                        }
+                    }
+                }
+
+                // remove file in dropbox
+                if($request->avatarRemove && $avatarRemove && Storage::disk('dropbox')->exists($product->avatar)) {
+                    Storage::disk('dropbox')->delete($avatarRemove);
+                }
                 
+                // remove file images
+                if($request->fileRemove && $product->images) {
+                    foreach ($request->fileRemove as $image) {
+                        
+                        if(in_array($image,$images)) {
+                            // remove file in database
+                            foreach ($product->images as $value) {
+                                if($image == $value->url)
+                                    $value->delete();
+                            }
+
+                            // remove file in dropbox
+                            if(Storage::disk('dropbox')->exists($image)) {
+                                Storage::disk('dropbox')->delete($image);
+                            }
+                        }
+                    }
+                }
+
                 // Commit transaction
                 DB::commit();
                 //

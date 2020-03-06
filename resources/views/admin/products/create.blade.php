@@ -132,6 +132,7 @@
         maxFilesize: 16, // MB
         dictFileTooBig: 'Image is larger than 16MB',
         addRemoveLinks: true,
+        acceptedFiles: ".jpg,.png,.jpeg,.gif",
         headers: {
             'X-CSRF-TOKEN': "{{ csrf_token() }}"
         },
@@ -151,17 +152,6 @@
             $('#product-form').find('input[name="fileUpload[]"][value="' + name + '"]').remove()
             $("#product-form").append("<input type='hidden' name='fileRemove[]' value='" + name + "'>");
         },
-        init: function () {
-            @if(isset($project) && $project->document)
-                var files = {!! json_encode($project->document) !!}
-                for (var i in files) {
-                    var file = files[i]
-                    this.options.addedfile.call(this, file)
-                    file.previewElement.classList.add('dz-complete')
-                    $('#product-form').append('<input type="hidden" name="fileUpload[]" value="' + file.file_name + '">')
-                }
-            @endif
-        },
         error: function(file, response) {
             return false;
         }
@@ -173,6 +163,7 @@
         maxFilesize: 16, // MB
         dictFileTooBig: 'Image is larger than 16MB',
         addRemoveLinks: true,
+        acceptedFiles: ".jpg,.png,.jpeg,.gif",
         headers: {
             'X-CSRF-TOKEN': "{{ csrf_token() }}"
         },
@@ -181,7 +172,7 @@
             uploadedDocumentMap[file.name] = response.hash_name
             console.log(file, response)
         },
-        removedfile: function (file) {
+        removedfile: function (file, response) {
             file.previewElement.remove()
             var name = ''
             if (typeof file.file_name !== 'undefined') {
@@ -189,20 +180,9 @@
             } else {
                 name = uploadedDocumentMap[file.name]
             }
-            $('#product-form').find('input[name="avatar"][value="' + name + '"]').remove()
-            $("#product-form").append("<input type='hidden' name='avatar' value='" + name + "'>");
+            $('#product-form').find('input[name="avatar"]').remove()
         },
         init: function () {
-            // ?? 
-            @if(isset($project) && $project->document)
-                var files = {!! json_encode($project->document) !!}
-                for (var i in files) {
-                    var file = files[i]
-                    this.options.addedfile.call(this, file)
-                    file.previewElement.classList.add('dz-complete')
-                    $('#product-form').append('<input type="hidden" name="fileAvatar[]" value="' + file.file_name + '">')
-                }
-            @endif
             this.on('addedfile', function(file) {
                 if (this.files.length > 1) {
                     this.removeFile(this.files[0]);

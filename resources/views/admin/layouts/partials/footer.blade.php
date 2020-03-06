@@ -22,6 +22,9 @@
     {{-- Ckeditor --}}
     <script src="/admin/vendor/ckeditor/ckeditor.js"></script>
 
+    {{-- LazyLoad --}}
+    {{-- <script src="/admin/js/lazyload/lazyload.js"></script> --}}
+
     @yield('chart-dashboard')
     @yield('custom-js')
 </html>

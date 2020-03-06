@@ -90,7 +90,7 @@
                 <div class="row">
                     <div class="col-3">
                         <div class="form-group">
-                            <label for="avatar">Avatar</label>
+                            <label for="avatar">Avatar<i class="text-danger">&nbsp;*</i></label>
                             <div class="needsclick dropzone" id="fileAvatar" name="fileAvatar" tabindex="9"></div>
                         </div>
                     </div>
@@ -106,11 +106,12 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea class="form-control" id="description" name="description" tabindex="11"></textarea>
+                            <textarea class="form-control" id="description" name="description" tabindex="11">
+                                {!! old('description', $product->description) !!}
+                            </textarea>
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col text-right">
                         <button type="submit" id="save" class="btn btn-primary" aria-pressed="true" tabindex="12">Save</button>
@@ -127,19 +128,21 @@
 
 <script type="text/javascript">
     var uploadedDocumentMap = {}
-    
+    var countImage = {!! count($images) !!}
     Dropzone.options.images = {
         url: "{{ route('admin.products.uploadImages') }}",
         maxFiles: 10,
         maxFilesize: 16, // MB
         dictFileTooBig: 'Image is larger than 16MB',
+        acceptedFiles: ".jpg,.png,.jpeg,.gif",
         addRemoveLinks: true,
         headers: {
             'X-CSRF-TOKEN': "{{ csrf_token() }}"
         },
         success: function (file, response) {
-            $('#product-form').append('<input type="hidden" name="fileUpload[]" value="' + response.name + '">')
-            uploadedDocumentMap[file.name] = response.name
+            $('#product-form').append('<input type="hidden" name="fileUpload[]" value="' + response.hash_name + '">')
+            uploadedDocumentMap[file.name] = response.hash_name
+            countImage++;
             console.log(file, response)
         },
         removedfile: function (file) {
@@ -150,8 +153,19 @@
             } else {
                 name = uploadedDocumentMap[file.name]
             }
+            if(typeof name == "undefined") {
+                name = file.name
+            }
             $('#product-form').find('input[name="fileUpload[]"][value="' + name + '"]').remove()
             $("#product-form").append("<input type='hidden' name='fileRemove[]' value='" + name + "'>");
+           
+            countImage--;
+            if (countImage >= 1) {
+                $('#images .dz-message').hide();
+            }
+            else {
+                $('#images .dz-message').show();
+            }
         },
         init: function () {
             @if(isset($product) && $images)
@@ -161,7 +175,7 @@
                     this.options.addedfile.call(this, file)
                     this.options.thumbnail.call(this, file, file.path);
                     file.previewElement.classList.add('dz-complete')
-                    $('#product-form').append('<input type="hidden" name="fileUpload[]" value="' + file.url + '">')
+                    $('#product-form').append('<input type="hidden" name="fileUpload[]" value="' + file.name + '">')
                 }
             @endif
         },
@@ -176,7 +190,7 @@
         maxFilesize: 16, // MB
         dictFileTooBig: 'Image is larger than 16MB',
         addRemoveLinks: true,
-        autoProcessQueue: false,
+        acceptedFiles: ".jpg,.png,.jpeg,.gif",
         headers: {
             'X-CSRF-TOKEN': "{{ csrf_token() }}"
         },
@@ -193,34 +207,21 @@
             } else {
                 name = uploadedDocumentMap[file.name]
             }
-            $('#product-form').find('input[name="avatar"][value="' + name + '"]').remove()
-            $("#product-form").append("<input type='hidden' name='avatar' value='" + name + "'>");
+            if(typeof name == "undefined") {
+                name = file.name
+            }
+
+            $('#product-form').find('input[name="avatar"]').remove()
+            $("#product-form").append("<input type='hidden' name='avatarRemove[]' value='" + name + "'>");
         },
         init: function () {
             @if(isset($product) && $avatar)
-                var file = "{{ $avatar }}"
-                // var reader = new FileReader();
-                // reader.onload = function(event) {
-                //     base64 = event.target.result;
-                //     _this.processQueue()
-                // };
-                // for (var i in files) {
-                    // var file = files[i]
-                    this.options.addedfile.call(this, file)
-                    // file.previewElement.classList.add('dz-complete')
-                    $('#product-form').append('<input type="hidden" name="fileAvatar[]" value="' + file + '">')
-                // }
-                // this.on("addedfile", function (file) {
-                //     var reader = new FileReader();
-                //     reader.onload = function(event) {
-                //         // event.target.result contains base64 encoded image
-                //         var base64String = event.target.result;
-                //         var fileName = file.name
-                //         handlePictureDropUpload(base64String ,fileName );
-                //     };
-                //     reader.readAsDataURL(file);
-
-                // });
+                // binding data from server
+                var file = {!! json_encode($avatar) !!}
+                this.options.addedfile.call(this, file)
+                this.options.thumbnail.call(this, file, file.path);
+                file.previewElement.classList.add('dz-complete')
+                $('#product-form').append('<input type="hidden" name="avatar" value="'+ file.name +'">')
             @endif
             this.on('addedfile', function(file) {
                 if (this.files.length > 1) {
