@@ -25,6 +25,9 @@
     {{-- LazyLoad --}}
     {{-- <script src="/admin/js/lazyload/lazyload.js"></script> --}}
 
+    {{-- Bootstrap notify --}}
+    <script src="/admin/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
+
     @yield('chart-dashboard')
     @yield('custom-js')
 </html>

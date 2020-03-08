@@ -229,4 +229,27 @@ class ProductController extends Controller
             abort(404);
         }
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteMultiple(Request $request)
+    {
+        if($request->arraySelected) {
+            $params = array_map('intval', explode(',', $request->arraySelected));
+    
+            foreach ($params as $key => $value) {
+                $product = $this->productService->findByUuid($value);
+                if ($product instanceof Product) {
+                   $product->delete();
+                } else {
+                    return $this->responseJSON(false, trans('product.notFound'));
+                }
+            }
+        }
+        return redirect()->route('admin.products.index')->with('message', trans('product.removedSuccessfull'));
+    }
 }

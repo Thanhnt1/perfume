@@ -24,7 +24,7 @@ Route::group(['middleware' => 'admin'], function(){
         Route::post('/store', 'ProductController@store')->name('admin.products.store');
         Route::get('/{id}/edit', 'ProductController@edit')->name('admin.products.edit');
         Route::put('/{id}/update', 'ProductController@update')->name('admin.products.update');
-
+        Route::post('/delete-multiple', 'ProductController@deleteMultiple')->name('admin.products.deleteMultiple');
     });
     // Images
     Route::post('/images-product', 'HomeController@uploadImagesProduct')->name('admin.products.uploadImages');
