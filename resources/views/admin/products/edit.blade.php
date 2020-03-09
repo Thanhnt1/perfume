@@ -106,12 +106,13 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea class="form-control" id="description" name="description" tabindex="11">
+                            <textarea class="form-control" id="description" placeholder="Description..." name="description" tabindex="11">
                                 {!! old('description', $product->description) !!}
                             </textarea>
                         </div>
                     </div>
                 </div>
+                
                 <div class="row">
                     <div class="col text-right">
                         <button type="submit" id="save" class="btn btn-primary" aria-pressed="true" tabindex="12">Save</button>
@@ -234,15 +235,10 @@
         }
     }
 
-
-    CKEDITOR.replace( 'description', {
-        filebrowserBrowseUrl: '{{ route('ckfinder_browser') }}',
-    } );
-   
-
     $('#import_price').mask('#,##0', { reverse: true });
     $('#selling_price').mask('#,##0', { reverse: true });
     $('#quantity').mask('#,##0', { reverse: true });
+
+    $('#description').summernote({height: 250});
 </script>
-@include('ckfinder::setup')
 @endsection

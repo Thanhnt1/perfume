@@ -20,13 +20,16 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
     
     {{-- Ckeditor --}}
-    <script src="/admin/vendor/ckeditor/ckeditor.js"></script>
+    {{-- <script src="/admin/vendor/ckeditor/ckeditor.js"></script> --}}
 
     {{-- LazyLoad --}}
     {{-- <script src="/admin/js/lazyload/lazyload.js"></script> --}}
 
     {{-- Bootstrap notify --}}
     <script src="/admin/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
+
+    {{-- Summernote --}}
+    <script src="/admin/vendor/summernote/summernote.min.js"></script>
 
     @yield('chart-dashboard')
     @yield('custom-js')
