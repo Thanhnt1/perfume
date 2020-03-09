@@ -3,8 +3,10 @@
 @section('content')
 
     <!-- Page Heading -->
-    <div class="row row justify-content-between">
-        <div class="col-4"><h1 class="h3 mb-4 text-gray-800">Blank Page</h1></div>
+    <div class="row justify-content-between mb-4">
+        <div class="col-4">
+            <h1 class="h3 text-gray-800">Products</h1>
+        </div>
         <div class="col-6 text-right">
             <a href="{{ route('admin.products.create') }}" class="btn btn-success"><i class="fa fa-plus"></i> Add</a>
             <button type="button" id="btn-remove-all" data-url="{{url(route('admin.products.deleteMultiple'))}}" class="btn btn-danger"><i class="fa fa-trash" ></i> {{trans('product.delete_selected_item')}}</button>
@@ -36,12 +38,13 @@
         </div>
     </div>
 
-    
 @endsection
+
 @section('modal')
     <!-- The Modal Delete -->
     @include('admin.components.modals.delete')
 @endsection
+
 @section('custom-js')
 <script type="text/javascript">
     var table = $('#datatable').DataTable({

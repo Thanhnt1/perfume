@@ -25,7 +25,7 @@ class CreateProductsTable extends Migration
             $table->integer('quantity')->nullable()->default(null);
             $table->integer('import_price')->nullable()->default(null);
             $table->integer('selling_price')->nullable()->default(null);
-            $table->text('description')->nullable()->default(null);
+            $table->longText('description')->nullable()->default(null);
             $table->text('note')->nullable()->default(null);
             $table->date('import_date')->nullable()->default(null);
             $table->integer('rate')->nullable()->default(null);

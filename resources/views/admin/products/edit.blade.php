@@ -239,6 +239,14 @@
     $('#selling_price').mask('#,##0', { reverse: true });
     $('#quantity').mask('#,##0', { reverse: true });
 
-    $('#description').summernote({height: 250});
+    $('#description').summernote({
+        height: 250,
+        maximumImageFileSize: 1024*1024, // 1 MB
+        callbacks:{
+            onImageUploadError: function(msg){
+                alert(msg + ' (1 MB)')
+            }
+        }
+    });
 </script>
 @endsection
