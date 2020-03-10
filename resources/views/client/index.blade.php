@@ -21,7 +21,7 @@
 
                     <div class="tp-caption lfr rs-parallaxlevel-2 side-image" data-x="right" data-y="top" data-speed="2000" data-start="1000" data-easing="Power4.easeOut" data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="500" style="z-index: -1;">
                         <div class="rs-pulse" data-easing="Power4.easeInOut" data-speed="1" data-zoomstart="1" data-zoomend="1.1">
-                            <img src="{{ asset('client/images/resource/dummy.png')}}" data-lazyload="{{ asset('client/images/resource/img-slider-1.png')}}" alt="image">
+                            <img src="client/images/resource/dummy.png" data-lazyload="client/images/resource/img-slider-1.png" alt="image">
                         </div>
                     </div>
 
@@ -30,7 +30,7 @@
 
                 <li data-transition="boxslide,slotslide-horizontal,slotslide-vertical,curtain-1,cube,cube-horizontal,flyin" data-slotamount="7" data-masterspeed="300" data-saveperformance="off" class="slide1 slide3">
                     <!-- MAIN IMAGE -->
-                    <img src="{{ asset('client/images/resource/img-slider-2.png')}}" alt="slide3" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat">
+                    <img src="client/images/resource/img-slider-2.png" alt="slide3" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat">
                     <!-- LAYERS -->
 
                     <!-- LAYER NR. 1 -->
@@ -55,7 +55,7 @@
                 </li>
                 <li data-transition="random" data-slotamount="7" data-masterspeed="300" data-saveperformance="off">
                     <!-- MAIN IMAGE -->
-                    <img src="{{ asset('client/images/resource/img-slider-3.png')}}" alt="slide4" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat">
+                    <img src="client/images/resource/img-slider-3.png" alt="slide4" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat">
                     <!-- LAYERS -->
 
                     <!-- LAYER NR. 1 -->

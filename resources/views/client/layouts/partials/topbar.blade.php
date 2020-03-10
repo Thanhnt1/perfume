@@ -23,19 +23,14 @@
                     <!-- /box-section -->
                     <div class="box-section">
                         <h6>New Customer - Register Benifits</h6>
-                        <ul class="list-1">
-                            <li>I want access to VIP sales</li>
-                            <li>I do not want to fill in the form repeatedly</li>
-                            <li>I want an order summary</li>
-                        </ul>
-                        <form class="accounts-form clearfix">
+                        {{-- <form class="accounts-form clearfix">
                             <div class="form-left">
                                 <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Email" required="">
+                                    <input type="email" class="form-control" placeholder="Email" name="email" required="">
                                 </div>
                             </div>
                             <input type="submit" class="btn btn-default text-uppercase" value="Sign Up">
-                        </form>
+                        </form> --}}
                         <!-- /accounts-form -->
                     </div>
                     <!-- /box-section -->
@@ -151,13 +146,13 @@
     <div class="main-nav-bar">
         <nav class="navbar-collapse collapse">
             <ul class="main-nav">
-                <li><a href="index-1.html">Home</a></li>
+                <li><a href="/">Home</a></li>
                 <li>
                     <a href="#">Pages</a>
                     <ul>
-                        <li><a href="blog.html">Blog</a></li>
+                        {{-- <li><a href="blog.html">Blog</a></li>
                         <li><a href="blog-single.html">Blog Single</a></li>
-                        <li><a href="product-single.html">Product Single</a></li>
+                        <li><a href="product-single.html">Product Single</a></li> --}}
                         <li>
                             <a href="#">Shop Pages</a>
                             <ul>
@@ -167,7 +162,7 @@
                                 <li><a href="my-account.html">My Account</a></li>
                             </ul>
                         </li>
-                        <li><a href="services.html">Services</a></li>
+                        {{-- <li><a href="services.html">Services</a></li>
                         <li><a href="promotions.html">Promotions</a></li>
                         <li><a href="testimonials.html">Testimonials</a></li>
                         <li><a href="categories.html">Categories</a></li>
@@ -178,7 +173,7 @@
                         <li><a href="faq.html">FAQ</a></li>
                         <li><a href="register.html">Register</a></li>
                         <li><a href="coming-soon.html">Coming Soon</a></li>
-                        <li><a href="error.html">404 Page</a></li>
+                        <li><a href="error.html">404 Page</a></li> --}}
                     </ul>
                 </li>
                 <li><a href="#">Fragrances</a></li>
