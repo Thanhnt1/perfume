@@ -34,8 +34,9 @@ Route::group(['middleware' => 'admin'], function(){
     Route::get('/bills', 'BillController@index')->name('admin.bills.index');
 
     // Users
-    Route::get('/users', 'UserController@index')->name('admin.users.index');
-
+    Route::group(['prefix' => 'users'], function(){
+        Route::get('/', 'UserController@index')->name('admin.users.index');
+    });
     // Order proccessing
     Route::get('/order-proccessing', 'BillController@orderProccessingIndex')->name('admin.order-proccessing');
 

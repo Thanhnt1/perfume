@@ -20,6 +20,10 @@ class AppServiceProvider extends ServiceProvider
         // Image
         $this->app->singleton(\App\Repositories\Image\IImageRepository::class, \App\Repositories\Image\ImageRepository::class);
         $this->app->singleton(\App\Services\Image\IImageService::class, \App\Services\Image\ImageService::class);
+
+        // User
+        $this->app->singleton(\App\Repositories\User\IUserRepository::class, \App\Repositories\User\UserRepository::class);
+        $this->app->singleton(\App\Services\User\IUserService::class, \App\Services\User\UserService::class);
     }
 
     /**

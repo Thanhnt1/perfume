@@ -7,5 +7,5 @@ use Illuminate\Http\Request;
 
 interface IUserService extends IBaseService
 {
-    
+    public function fetchAllJSON();
 }

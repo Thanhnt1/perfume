@@ -14,5 +14,14 @@ class UserService extends BaseService implements IUserService
         return "App\\Repositories\\User\IUserRepository";
     }
 
-    
+    /**
+     * {@inheritDoc}
+     * @see \App\Services\Template\ITemplateService::fetchAllJSON()
+     */
+    public function fetchAllJSON()
+    {
+        $users = $this->repository->fetchData();
+        
+        return datatables()->of($users)->make(true);
+    }
 }

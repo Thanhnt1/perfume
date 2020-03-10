@@ -3,5 +3,5 @@ namespace App\Repositories\User;
 
 interface IUserRepository
 {
-    // public function fetchData();
+    public function fetchData();
 }

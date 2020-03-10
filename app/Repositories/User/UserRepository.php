@@ -11,7 +11,12 @@ class UserRepository extends BaseRepository implements IUserRepository
      */
     public function model()
     {
-        return "App\\Models\\User";
+        return "App\\Models\\Customer";
     }
 
+    public function fetchData()
+    {
+        return \DB::table($this->model->getTable())->select('*');
+        // ->whereNull($this->model->getTable().'.deleted_at');
+    }
 }
