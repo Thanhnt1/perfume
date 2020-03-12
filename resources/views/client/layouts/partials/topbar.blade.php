@@ -36,7 +36,7 @@
                                     </div>
                                     <input type="text" class="form-control" id="code" name="code" placeholder="Code">
                                     <span id="message"></span>
-                                    <span>{{ \Auth::user() }}</span>
+                                    <span>{{ \Auth::guard('customer')->user() }}</span>
                                 </div>
                                 <br>
                                 <div class="input-group password">

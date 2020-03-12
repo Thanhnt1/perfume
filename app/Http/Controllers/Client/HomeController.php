@@ -15,6 +15,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        dd(\Auth::guard('customer'));
         return view('client.index');
     }
 
