@@ -10,14 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/', 'HomeController@index')->name('client.index');
 
-Route::get('/sms/send/{to}', function(\Nexmo\Client $nexmo, $to){
-    $message = $nexmo->message()->send([
-        'to' => $to,
-        'from' => '0123456789',
-        'text' => 'Sending SMS from Laravel. Woohoo!'
-    ]);
-    
-    Log::info('sent message: ' . $message['message-id']);
-});
+Route::get('/sms/send/{phone}', 'HomeController@sendSms')->name('client.sendSms');
+
+Route::post('/user/store', 'UserController@store')->name('client.user.store');
+
+Route::post('/register', 'Auth\RegisterController@register')->name('client.register');

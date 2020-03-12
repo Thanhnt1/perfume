@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Traits\Uuids;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * @property int $id
@@ -25,7 +26,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property Bill[] $bills
  * @property Cart[] $carts
  */
-class Customer extends Base implements AuditableContract
+class Customer extends Authenticatable implements AuditableContract
 {
     use Uuids, Auditable;
 
@@ -63,5 +64,10 @@ class Customer extends Base implements AuditableContract
     public function carts()
     {
         return $this->hasMany('App\Models\Models\Cart');
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 }

@@ -8,7 +8,7 @@ use Log;
 
 class Nexmo
 {
-    public function send($phoneNumber, $content, $from = null)
+    public static function send($phoneNumber, $content, $from = null)
     {
         $basic = new Basic(env('NEXMO_API_KEY'), env('NEXMO_API_SECRET'));
         $client = new Client($basic);
@@ -27,8 +27,9 @@ class Nexmo
 
         throw new \Exception('Nexmo send sms code error', 200);
     }
-    public function generateRandomString($length = 6)
+    public static function generateRandomString()
     {
-        return substr(sha1(rand()), 0, $length);
+        return rand(100000,999999);
+        // return substr(sha1(rand()), 0, $length);
     }
 }

@@ -9,13 +9,13 @@
                         <form class="accounts-form clearfix">
                             <div class="form-left">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Email Address" required="">
+                                    <input type="text" class="form-control" placeholder="{{ trans('index.phone') }}" required="">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Password" required="">
+                                    <input type="password" class="form-control" placeholder="{{ trans('index.password') }}" required="">
                                 </div>
                             </div>
-                            <input type="submit" class="btn btn-default text-uppercase" value="Sign In">
+                            <button type="submit" class="btn btn-default text-uppercase">Sign Up</button>
                         </form>
                         <!-- /accounts-form -->
                         <p class="help-block"><a href="#">Forgot your password?</a></p>
@@ -23,15 +23,40 @@
                     <!-- /box-section -->
                     <div class="box-section">
                         <h6>New Customer - Register Benifits</h6>
-                        {{-- <form class="accounts-form clearfix">
+                        <div class="accounts-form clearfix">
                             <div class="form-left">
-                                <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Email" name="email" required="">
+                                <div class="input-group">
+                                    <span class="input-group-addon">(+84)</span>
+                                    <input type="text" class="form-control" id="phone" name="phone" autocomplete="off" placeholder="{{ trans('index.phone') }}" name="{{ trans('index.phone') }}">
+                                </div>
+                                <br>
+                                <div class="input-group check-code">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" style="padding-top: 6px; padding-bottom: 6px;" id="check-code">Check Code</button>
+                                    </div>
+                                    <input type="text" class="form-control" id="code" name="code" placeholder="Code">
+                                    <span id="message"></span>
+                                    <span>{{ \Auth::user() }}</span>
+                                </div>
+                                <br>
+                                <div class="input-group password">
+                                    <span class="input-group-addon">Password</span>
+                                    <input type="password" class="form-control" id="password-reg" name="password-reg" autocomplete="off" placeholder="{{ trans('index.password') }}">
                                 </div>
                             </div>
-                            <input type="submit" class="btn btn-default text-uppercase" value="Sign Up">
-                        </form> --}}
+                            <button class="btn btn-default text-uppercase" id="send-sms">Send SMS</button>
+                        </div>
+                        <br>
                         <!-- /accounts-form -->
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-default text-uppercase ml-3" id="sign-up">Sign Up</button>
+                    </div>
+                    <hr>
+                    <div class="box-section text-center">
+                        <button class="btn btn-default">facebook</button>
+                        <button class="btn btn-default">facebook</button>
+                        <button class="btn btn-default">facebook</button>
                     </div>
                     <!-- /box-section -->
                 </div>
@@ -187,3 +212,82 @@
     <!-- /main-nav-bar -->
 </div>
 <!-- /main-bar -->
+
+@section('custom-js')
+    <script>
+        var code = '123123';
+        $('#phone').mask('0000000000');
+        $('#sign-up').hide();
+        $('.password').hide();
+        $('#send-sms').on('click', function(){
+            var phone = $('#phone').val();
+            var phoneTrim = 84 + phone.replace(/^0+/, '');
+            var baseUrl = "{{ route('client.sendSms', ['phone' => '__PHONE__']) }}";
+            var url = baseUrl.replace(/__PHONE__/g, phoneTrim);
+
+            $.ajax({
+                    url : url,
+                    method: "GET",
+                }).done(function(data){
+                    if(data.status) {
+                        $.notify({
+                            // options
+                            message: data.msg
+                        });
+                        code = data.data
+                    } else {
+                    }
+                }).fail(function(data){
+                    console.log(data);
+            });
+        });
+        $('#check-code').on('click', function(){
+            var inputCode = $('#code').val();
+            if(inputCode == code) {
+                // success
+                $('.check-code').removeClass('has-error').addClass('has-success has-feedback');
+                $('#message').removeClass('glyphicon-remove').addClass('glyphicon glyphicon-ok form-control-feedback');
+                $('.password').show();
+                $('#sign-up').show();
+            }
+            else {
+                // fail
+                $('.check-code').removeClass('has-success').addClass('has-error has-feedback');
+                $('#message').removeClass('glyphicon-ok').addClass('glyphicon glyphicon-remove form-control-feedback');
+                $('.password').hide();
+                $('#sign-up').hide();
+            }
+        });
+        $('#sign-up').on('click', function(){
+            var inputCode = $('#code').val();
+            var phone = $('#phone').val();
+            var phoneTrim = 0 + phone.replace(/^0+/, '');
+            var password = $('#password-reg').val();
+
+            if(inputCode == code) {
+                $.ajax({
+                    url : "{{ route('client.register') }}",
+                    method: "POST",
+                    data: {
+                        name: phoneTrim,
+                        email: phoneTrim,
+                        phone: phoneTrim,
+                        password: password
+                    }
+                }).done(function(data){
+                    // location.reload();
+                }).fail(function(data){
+                    console.log(data);
+                });
+            }
+            else {
+                $.notify({
+                    message: '{{ trans("Code not match") }}'
+                }, {
+                    type: 'danger'
+                });
+            }
+        });
+
+    </script>
+@endsection

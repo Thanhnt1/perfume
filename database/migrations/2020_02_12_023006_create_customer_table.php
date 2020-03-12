@@ -19,10 +19,10 @@ class CreateCustomerTable extends Migration
             $table->uuid('uuid');
             $table->unsignedInteger('cart_id')->nullable();
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->char('phone', 11)->nullable()->default(null);
+            $table->char('phone', 11)->nullable()->default(null)->unique();
             $table->string('sex')->nullable()->default(null);
             $table->rememberToken();
             $table->string('avatar')->nullable()->default(null);

@@ -18,28 +18,16 @@ class HomeController extends Controller
         return view('client.index');
     }
 
-    // public function validator(array $data)
-    // {
-    //     return Validator::make($data, [
-    //         'name' => 'required|string|max:255',
-    //         'email' => 'required|string|email|max:255|unique:users',
-    //         'password' => 'required|string|min:6|confirmed',
-    //         'phone_number' => 'required',
-    //     ]);
-    // }
-
-    public function send($to)
+    public function sendSms($phone)
     {
-        $activeCode = Nexmo::generateSmsCode();
-        $content = "Your activate code is: $activeCode";
-        Nexmo::send($data['phone_number'], $content);
+        try {
+            $activeCode = Nexmo::generateRandomString();
+            $content = "Your activate code is: $activeCode  .";
+            Nexmo::send($phone, $content, 'NgocDepGai');
+            return $this->response(true, trans('Send sms was successfully.'), $this->CODE_SUCCESSFUL, $activeCode);
 
-        // return User::create([
-        //     'name' => $data['name'],
-        //     'email' => $data['email'],
-        //     'password' => Hash::make($data['password']),
-        //     'phone_number' => $data['phone_number'],
-        //     'code' => $activeCode,
-        // ]);
+        } catch (\Throwable $th) {
+            return $this->response(false, trans('Phone number was error or Not register in Nexmo.'), $this->CODE_BAD_REQUEST);
+        }
     }
 }

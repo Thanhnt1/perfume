@@ -7,7 +7,8 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <title>@yield('title', config('app.name', 'Laravel'))</title>
-
+  <meta name="_token" content="{{ csrf_token() }}" />
+  
   <link href="/client/css/flaticon.css" rel="stylesheet">
   <link href="/client/css/bootstrap.css" rel="stylesheet">
   <link href="/client/css/style.css" rel="stylesheet">
