@@ -21,3 +21,7 @@ Route::post('/user/store', 'UserController@store')->name('client.user.store');
 Route::post('/register', 'Auth\RegisterController@register')->name('client.register');
 Route::get('/logout', 'Auth\LoginController@logout')->name('client.logout');
 Route::post('/login', 'Auth\LoginController@login')->name('client.login');
+
+// facebook
+Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
+Route::get('/callback/{provider}', 'SocialController@callback');
