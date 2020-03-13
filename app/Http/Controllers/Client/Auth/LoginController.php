@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Client\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -38,11 +40,30 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    // protected function credentials(Request $request)
-    // {
-    //     if(is_numeric($request->get('email'))){
-    //         return ['phone'=>$request->get('email'),'password'=>$request->get('password')];
-    //     }
-    //     return $request->only($this->username(), 'password');
-    // }
+    public function validateLogin(Request $request)
+    {
+        $username = $request->phone ? 'phone' : $this->username();
+        $request->validate([
+            $username => 'required|string',
+            'password' => 'required|string',
+        ]);
+    }
+
+    public function credentials(Request $request)
+    {
+        if(is_numeric($request->get('phone'))){
+            return ['phone'=>$request->get('phone'),'password'=>$request->get('password')];
+        }
+        return $request->only($this->username(), 'password');
+    }
+
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
+    public function guard()
+    {
+        return Auth::guard('customer');
+    }
 }

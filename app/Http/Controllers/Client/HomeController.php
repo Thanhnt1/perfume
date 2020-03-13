@@ -5,6 +5,7 @@ namespace App\Http\Controllers\CLient;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\Nexmo;
+use App\Models\Customer;
 
 class HomeController extends Controller
 {
@@ -15,7 +16,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        dd(\Auth::guard('customer'));
         return view('client.index');
     }
 

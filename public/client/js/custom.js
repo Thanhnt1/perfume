@@ -80,7 +80,7 @@ jQuery(document).ready(function() {
 	    error: function(request){
 	    	if(request.responseJSON && request.status != 401) {
 	    		$.notify({
-	    			message: request.responseJSON.msg
+	    			message: request.responseJSON.msg ? request.responseJSON.msg : request.responseJSON.message
 	    		}, {
 	    			type: 'danger'
 	    		});

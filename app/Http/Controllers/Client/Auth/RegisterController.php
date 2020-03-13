@@ -66,31 +66,26 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = Customer::create([
-            'name' => $data['name'],
-            // 'email' => $data['email'],
-            'phone' => $data['phone'],
-            'password' => Hash::make($data['password'])
-        ]);
-        return $user;
+        $find = Customer::where('phone', $data['phone'])->first();
+        if(!$find) {
+            $user = Customer::create([
+                'name' => $data['name'],
+                // 'email' => $data['email'],
+                'phone' => $data['phone'],
+                'password' => Hash::make($data['password'])
+            ]);
+            return $user;
+        }
+        throw new \Exception("Phone number was exist", $this->CODE_BAD_REQUEST);
     }
 
-        /**
-     * Handle a registration request for the application.
+    /**
+     * Get the guard to be used during registration.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
      */
-    public function register(Request $request)
+    protected function guard()
     {
-        $this->validator($request->all())->validate();
-
-        event(new Registered($user = $this->create($request->all())));
-
-        $this->guard()->login($user);
-        // \Auth::guard('customer')->user() = $user;
-
-        return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath());
+        return \Auth::guard('customer');
     }
 }

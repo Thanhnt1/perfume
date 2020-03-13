@@ -1,67 +1,85 @@
 <div class="tp-bar">
     <div class="container">
         <ul class="tp-links">
-            <li>
-                <span class="dropBox-btn">Account <i class="caret caret-cut"></i></span>
-                <div class="dropBox">
-                    <div class="box-section">
-                        <h6>Returning Customer - Sign In</h6>
-                        <form class="accounts-form clearfix">
-                            <div class="form-left">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="{{ trans('index.phone') }}" required="">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="{{ trans('index.password') }}" required="">
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-default text-uppercase">Sign Up</button>
-                        </form>
-                        <!-- /accounts-form -->
-                        <p class="help-block"><a href="#">Forgot your password?</a></p>
-                    </div>
-                    <!-- /box-section -->
-                    <div class="box-section">
-                        <h6>New Customer - Register Benifits</h6>
-                        <div class="accounts-form clearfix">
-                            <div class="form-left">
-                                <div class="input-group">
-                                    <span class="input-group-addon">(+84)</span>
-                                    <input type="text" class="form-control" id="phone" name="phone" autocomplete="off" placeholder="{{ trans('index.phone') }}" name="{{ trans('index.phone') }}">
-                                </div>
-                                <br>
-                                <div class="input-group check-code">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-default" style="padding-top: 6px; padding-bottom: 6px;" id="check-code">Check Code</button>
-                                    </div>
-                                    <input type="text" class="form-control" id="code" name="code" placeholder="Code">
-                                    <span id="message"></span>
-                                    <span>{{ \Auth::guard('customer')->user() }}</span>
-                                </div>
-                                <br>
-                                <div class="input-group password">
-                                    <span class="input-group-addon">Password</span>
-                                    <input type="password" class="form-control" id="password-reg" name="password-reg" autocomplete="off" placeholder="{{ trans('index.password') }}">
-                                </div>
-                            </div>
-                            <button class="btn btn-default text-uppercase" id="send-sms">Send SMS</button>
+            @if(Auth::guard('customer')->check())
+                <li>
+                    <span class="dropBox-btn">{{ Auth::guard('customer')->user()->name }} <i class="caret caret-cut"></i></span>
+                    <div class="dropBox dropBox-condensed">
+                        <div class="box-section">
+                            <ul class="langList">
+                                <li><a href="#">My Account</a></li>
+                                <li><a href="#">My Order</a></li>
+                                <li><a href="{{ route('client.logout') }}">Logout</a></li>
+                            </ul>
                         </div>
-                        <br>
-                        <!-- /accounts-form -->
+                        <!-- /box-section -->
                     </div>
-                    <div class="text-center">
-                        <button class="btn btn-default text-uppercase ml-3" id="sign-up">Sign Up</button>
+                    <!-- /dropBox -->
+                </li>
+            @else
+                <li>
+                    <span class="dropBox-btn">Account <i class="caret caret-cut"></i></span>
+                    <div class="dropBox">
+                        <div class="box-section">
+                            <h6>Returning Customer - Sign In</h6>
+                            <form action="{{ route('client.login') }}" method="POST" class="accounts-form clearfix">
+                                @csrf
+                                <div class="form-left">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="phone" placeholder="{{ trans('index.phone') }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" name="password" placeholder="{{ trans('index.password') }}" required>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-default text-uppercase" style="position: static;">Sign In</button>
+                            </form>
+                            <!-- /accounts-form -->
+                            <p class="help-block"><a href="#">Forgot your password?</a></p>
+                        </div>
+                        <!-- /box-section -->
+                        <div class="box-section">
+                            <h6>New Customer - Register Benifits</h6>
+                            <div class="accounts-form clearfix">
+                                <div class="form-left">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">(+84)</span>
+                                        <input type="text" class="form-control" id="phone" name="phone" autocomplete="off" placeholder="{{ trans('index.phone') }}" name="{{ trans('index.phone') }}">
+                                    </div>
+                                    <br>
+                                    <div class="input-group check-code">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" style="padding-top: 6px; padding-bottom: 6px;" id="check-code">Check Code</button>
+                                        </div>
+                                        <input type="text" class="form-control" id="code" name="code" placeholder="Code">
+                                        <span id="message"></span>
+                                    </div>
+                                    <br>
+                                    <div class="input-group password">
+                                        <span class="input-group-addon">Password</span>
+                                        <input type="password" class="form-control" id="password-reg" name="password-reg" autocomplete="off" placeholder="{{ trans('index.password') }}">
+                                    </div>
+                                </div>
+                                <button class="btn btn-default text-uppercase" id="send-sms">Send SMS</button>
+                            </div>
+                            <br>
+                            <!-- /accounts-form -->
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-default text-uppercase ml-3" id="sign-up">Sign Up</button>
+                        </div>
+                        <hr>
+                        <div class="box-section text-center">
+                            <button class="btn btn-default">facebook</button>
+                            <button class="btn btn-default">facebook</button>
+                            <button class="btn btn-default">facebook</button>
+                        </div>
+                        <!-- /box-section -->
                     </div>
-                    <hr>
-                    <div class="box-section text-center">
-                        <button class="btn btn-default">facebook</button>
-                        <button class="btn btn-default">facebook</button>
-                        <button class="btn btn-default">facebook</button>
-                    </div>
-                    <!-- /box-section -->
-                </div>
-                <!-- /dropBox -->
-            </li>
+                    <!-- /dropBox -->
+                </li>
+            @endif
+
             <li>
                 <span class="dropBox-btn">English <i class="caret caret-cut"></i></span>
                 <div class="dropBox dropBox-condensed">
@@ -215,7 +233,7 @@
 
 @section('custom-js')
     <script>
-        var code = '123123';
+        var code = '';
         $('#phone').mask('0000000000');
         $('#sign-up').hide();
         $('.password').hide();
@@ -239,7 +257,7 @@
                     }
                 }).fail(function(data){
                     console.log(data);
-            });
+                });
         });
         $('#check-code').on('click', function(){
             var inputCode = $('#code').val();
@@ -275,9 +293,7 @@
                         password: password
                     }
                 }).done(function(data){
-                    // location.reload();
-                }).fail(function(data){
-                    console.log(data);
+                    location.reload();
                 });
             }
             else {

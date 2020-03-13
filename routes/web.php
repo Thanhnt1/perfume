@@ -17,4 +17,7 @@ Route::get('/sms/send/{phone}', 'HomeController@sendSms')->name('client.sendSms'
 
 Route::post('/user/store', 'UserController@store')->name('client.user.store');
 
+// Auth
 Route::post('/register', 'Auth\RegisterController@register')->name('client.register');
+Route::get('/logout', 'Auth\LoginController@logout')->name('client.logout');
+Route::post('/login', 'Auth\LoginController@login')->name('client.login');
