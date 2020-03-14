@@ -70,7 +70,7 @@
                         </div>
                         <hr>
                         <div class="box-section text-center">
-                            <button class="btn btn-default">facebook</button>
+                            <a href="{{ url('/auth/redirect/facebook') }}" class="btn btn-primary"><i class="fa fa-facebook"></i> Facebook</a>
                             <button class="btn btn-default">facebook</button>
                             <button class="btn btn-default">facebook</button>
                         </div>

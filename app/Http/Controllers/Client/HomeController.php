@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\Nexmo;
 use App\Models\Customer;
+use Socialite;
+use Validator,Redirect,Response,File;
 
 class HomeController extends Controller
 {
@@ -30,5 +32,31 @@ class HomeController extends Controller
         } catch (\Throwable $th) {
             return $this->response(false, trans('Phone number was error or Not register in Nexmo.'), $this->CODE_BAD_REQUEST);
         }
+    }
+
+    public function redirect($provider)
+    {
+        return Socialite::driver($provider)->redirect();
+    }
+
+    public function callback($provider)
+    {
+        $getInfo = Socialite::driver($provider)->user(); 
+        $user = $this->createUser($getInfo,$provider); 
+        \Auth::guard('customer')->login($user);
+        return redirect()->to('/');
+    }
+
+    public function createUser($getInfo,$provider){
+        $user = Customer::where('provider_id', $getInfo->id)->first();
+        if (!$user) {
+            $user = Customer::create([
+                'name'     => $getInfo->name,
+                'email'    => $getInfo->email,
+                'provider' => $provider,
+                'provider_id' => $getInfo->id
+            ]);
+        }
+        return $user;
     }
 }
