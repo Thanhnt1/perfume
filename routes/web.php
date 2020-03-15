@@ -24,4 +24,4 @@ Route::post('/login', 'Auth\LoginController@login')->name('client.login');
 
 // facebook
 Route::get('/auth/redirect/{provider}', 'HomeController@redirect')->name('client.redirect');
-Route::get('/callback/{provider}', 'HomeController@callback');
+Route::get('/callback/{provider}', 'HomeController@callback')->name('client.callback');

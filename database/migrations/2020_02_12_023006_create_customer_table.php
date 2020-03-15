@@ -23,7 +23,7 @@ class CreateCustomerTable extends Migration
             $table->string('provider_id')->nullable();
             $table->string('email')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->char('phone', 11)->nullable()->default(null)->unique();
             $table->string('sex')->nullable()->default(null);
             $table->rememberToken();
