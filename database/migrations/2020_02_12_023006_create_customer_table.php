@@ -27,7 +27,9 @@ class CreateCustomerTable extends Migration
             $table->char('phone', 11)->nullable()->default(null)->unique();
             $table->string('sex')->nullable()->default(null);
             $table->rememberToken();
-            $table->string('avatar')->nullable()->default(null);
+            $table->mediumText('avatar')->nullable()->default(null);
+            $table->mediumText('avatar_original')->nullable()->default(null);
+            $table->mediumText('token_provider')->nullable()->default(null);
             $table->softDeletes();
             $table->timestamps();
         });

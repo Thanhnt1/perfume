@@ -42,9 +42,9 @@ class HomeController extends Controller
     public function callback($provider)
     {
         $getInfo = Socialite::driver($provider)->user(); 
-        $user = $this->createUser($getInfo,$provider); 
+        // $user = $this->createUser($getInfo,$provider); 
         \Auth::guard('customer')->login($user);
-        dd($getInfo);
+        dd($getInfo->avatar_original);
         // return redirect()->route('client.index');
     }
 
@@ -55,7 +55,10 @@ class HomeController extends Controller
                 'name'     => $getInfo->name,
                 'email'    => $getInfo->email,
                 'provider' => $provider,
-                'provider_id' => $getInfo->id
+                'provider_id' => $getInfo->id,
+                'avatar' => $getInfo->avatar,
+                'avatar_original' => $getInfo->avatar_original,
+                'token_provider' => $getInfo->token
             ]);
         }
         return $user;
