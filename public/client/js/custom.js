@@ -107,4 +107,11 @@ jQuery(document).ready(function() {
 		z_index: 9999,
 	});
 
+    
 }); //ready
+
+setTimeout(function(){
+    $('.alert-custom').fadeOut('slow', function(){
+        $(this).remove()
+    });
+}, 5000);

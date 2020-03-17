@@ -11,8 +11,7 @@
 
     <script type="text/javascript" src="/client/js/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
     <script type="text/javascript" src="/client/js/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
-    <script src="/client/js/custom.js"></script>
-
+    
     {{-- Mask --}}
     <script type="text/javascript" src="/admin/vendor/jquery-mask/dist/jquery.mask.min.js"></script>
 
@@ -20,6 +19,8 @@
     <script src="/admin/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
     
     <script src="/client/vendor/fontawesome/js/all.js"></script>
+
+    <script src="/client/js/custom.js"></script>
     @yield('custom-js')
 </body>
 </html>

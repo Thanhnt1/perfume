@@ -19,30 +19,30 @@
                         <div class="col-sm-3">
                             <div class="shipping-info">
                                 <div class="section-inner">
-                                    <p>{{ Auth::guard('customer')->user()->name }}
+                                    <p>{{ $user->name }}
                                     <ul class="meta-list">
                                         <li><a href="#edit-password-box" class="text-primary" data-toggle="collapse">Change Password</a></li>
                                     </ul>
                                     <!-- /form-section-box -->
                                     <div id="edit-password-box" class="form-section-box collapse">
-                                        <form class="edit-password-form text-center" method="post" action="#">
-                                            <h5>Change Password</h5>
+                                        <form class="edit-password-form text-center" method="post" action="{{ route('client.user.update', ['id' => $user->uuid]) }}">
+                                            @csrf
                                             <div class="form-group row">
                                                 <div class="col">
-                                                    <input type="text" class="form-control" placeholder="Previous Password">
+                                                    <input type="password" class="form-control" name="pre_password" placeholder="Previous Password" required>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col">
-                                                    <input type="text" class="form-control" placeholder="New Password">
+                                                    <input type="password" id="new_password" class="form-control" name="new_password" placeholder="New Password" required>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col">
-                                                    <input type="text" class="form-control" placeholder="Repeat New Password">
+                                                    <input type="password" id="confirm_password" class="form-control" name="confirm_password"  placeholder="Repeat New Password" required>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-default">Save</button>
+                                            <button type="submit" class="btn btn-default" id="updatePassword">Save</button>
                                         </form>
                                         <!-- /edit-contact-form -->
                                     </div>
@@ -52,7 +52,7 @@
 
                                 <div class="section-inner">
                                     <ul class="meta-list">
-                                        <li><a href="{{ route('client.user.purchase') }}">Edit Information</a></li>
+                                        <li><a href="{{ route('client.user.purchase') }}">Đơn Mua</a></li>
                                     </ul>
                                     {{-- <ul class="meta-list">
                                         <li><a href="#">Edit Information</a></li>
@@ -64,7 +64,7 @@
                         </div>
                         <div class="col-sm-9">
                             <div class="form-section-box">
-                                <form action="{{ route('client.user.update', [ 'id' => $user->id ]) }}" method="post">
+                                <form action="{{ route('client.user.update', [ 'id' => $user->uuid ]) }}" method="post">
                                     @csrf
                                     <h3>Hồ Sơ Của Tôi</h3>
                                     <h5>Quản lý thông tin hồ sơ để bảo mật tài khoản</h5>
@@ -78,14 +78,14 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 label-md">Email</label>
                                         <div class="col-md-9">
-                                            <input type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email', $user->email) }}">
+                                            <input type="text" id="email" class="form-control" name="email" placeholder="Email" value="{{ old('email', $user->email) }}">
                                             <p class="help-block">We will send information about the status of your order to this address.</p>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-md-3 label-md">Phone Number</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" name="phone" placeholder="Phone Number" value="{{ old('phone', $user->phone) }}">
+                                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone Number" value="{{ old('phone', $user->phone) }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -111,7 +111,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <input type="submit" class="btn btn-default" value="Save">
+                                    <button type="submit" class="btn btn-default">Save</button>
                                 </form>
                             </div>
                             <!-- /form-section-box -->
@@ -327,4 +327,22 @@
     </div>
     <!-- /preloader-container -->
 
+@endsection
+
+@section('custom-js')
+    <script>
+        $('#phone').mask('00000000000');
+
+        $('#email').attr("pattern","^[-a-zA-Z0-9#$%^&'`?{}_=+\/}{\'?]+(\.[-a-zA-Z0-9#$%^&'`?{}_=+\/}{\'?]+)+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$");
+
+        $('#updatePassword').click(function(){
+            var confirmpassword = $('#confirm_password').val();
+            var password = $('#new_password').val()
+            $("#new_password").prop('required',true);
+            if(confirmpassword != password)
+                $('#confirm_password')[0].setCustomValidity('Passwords must match.');
+            else 
+                $('#confirm_password')[0].setCustomValidity('');
+        });
+    </script>
 @endsection

@@ -61,4 +61,9 @@ class HomeController extends Controller
         }
         return $user;
     }
+
+    public function loginView()
+    {
+        return view('client.login');
+    }
 }
