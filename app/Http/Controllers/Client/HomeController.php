@@ -43,7 +43,7 @@ class HomeController extends Controller
     {
         $getInfo = Socialite::driver($provider)->user(); 
         // $user = $this->createUser($getInfo,$provider); 
-        \Auth::guard('customer')->login($user);
+        // \Auth::guard('customer')->login($user);
         dd($getInfo->avatar_original);
         // return redirect()->route('client.index');
     }
