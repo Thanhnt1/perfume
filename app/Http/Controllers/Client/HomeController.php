@@ -44,7 +44,8 @@ class HomeController extends Controller
         $getInfo = Socialite::driver($provider)->user(); 
         $user = $this->createUser($getInfo,$provider); 
         \Auth::guard('customer')->login($user);
-        return redirect()->to('/');
+        dd($getInfo);
+        // return redirect()->route('client.index');
     }
 
     public function createUser($getInfo,$provider){
