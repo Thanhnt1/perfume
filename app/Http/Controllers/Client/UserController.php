@@ -16,15 +16,29 @@ class UserController extends Controller
         $this->userService = $IUserService;
     }
 
-    // /**
-    //  * Show the application user.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function index(Request $request)
-    // {
-    //     return view('admin.users.index');
-    // }
+    /**
+     * Show the application user.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function profile(Request $request)
+    {
+        $userCurrent = \Auth::guard('customer')->user();
+
+        return view('client.profile', [
+            'user' => $userCurrent
+        ]);
+    }
+
+    /**
+     * Show the application user.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function purchase(Request $request)
+    {
+        return view('client.purchase');
+    }
 
     /**
      * Store the application user.
@@ -34,7 +48,6 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $params = $request->all();
-        dd($params);
         $customer = Customer::create([
             'name' => $params['name'],
             'password' => \Hash::make($params['password']),
@@ -42,6 +55,22 @@ class UserController extends Controller
         ]);
         
         return $this->response(true, trans('Create user was successfully.'), $this->CODE_SUCCESSFUL, $customer);
+    }
 
+    /**
+     * Store the application user.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request)
+    {
+        // $params = $request->all();
+        // $customer = Customer::create([
+        //     'name' => $params['name'],
+        //     'password' => \Hash::make($params['password']),
+        //     'phone' => $params['phone'],
+        // ]);
+        
+        return $this->response(true, trans('Create user was successfully.'), $this->CODE_SUCCESSFUL, $customer);
     }
 }

@@ -19,6 +19,7 @@
     {{-- Bootstrap notify --}}
     <script src="/admin/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
     
+    <script src="/client/vendor/fontawesome/js/all.js"></script>
     @yield('custom-js')
 </body>
 </html>

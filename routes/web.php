@@ -15,7 +15,11 @@ Route::get('/', 'HomeController@index')->name('client.index');
 
 Route::get('/sms/send/{phone}', 'HomeController@sendSms')->name('client.sendSms');
 
+// user
 Route::post('/user/store', 'UserController@store')->name('client.user.store');
+Route::get('/user/profile', 'UserController@profile')->name('client.user.profile');
+Route::get('/user/purchase', 'UserController@purchase')->name('client.user.purchase');
+Route::post('/user/{id}/update', 'UserController@update')->name('client.user.update');
 
 // Auth
 Route::post('/register', 'Auth\RegisterController@register')->name('client.register');

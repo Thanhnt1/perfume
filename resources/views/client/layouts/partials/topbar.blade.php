@@ -7,8 +7,8 @@
                     <div class="dropBox dropBox-condensed">
                         <div class="box-section">
                             <ul class="langList">
-                                <li><a href="#">My Account</a></li>
-                                <li><a href="#">My Order</a></li>
+                                <li><a href="{{ route('client.user.profile') }}">My Account</a></li>
+                                <li><a href="{{ route('client.user.purchase') }}">My Order</a></li>
                                 <li><a href="{{ route('client.logout') }}">Logout</a></li>
                             </ul>
                         </div>
@@ -68,10 +68,10 @@
                         <div class="text-center">
                             <button class="btn btn-default text-uppercase ml-3" id="sign-up">Sign Up</button>
                         </div>
-                        <hr>
+                        <hr class="hr-text" data-content="OR">
                         <div class="box-section text-center">
-                            <a href="{{ url('/auth/redirect/facebook') }}" class="btn btn-primary"><i class="fa fa-facebook"></i> Facebook</a>
-                            <a href="{{ url('/auth/redirect/google') }}" class="btn btn-primary"><i class="fa fa-facebook"></i> Google</a>
+                            <a href="{{ url('/auth/redirect/facebook') }}" class="btn btn-primary" style="background-color: #337ab7; border-color: #2e6da4;"><i class="fab fa-facebook"></i> Facebook</a>
+                            <a href="{{ url('/auth/redirect/google') }}" class="btn btn-danger"><i class="fab fa-google"></i> Google</a>
                         </div>
                         <!-- /box-section -->
                     </div>
