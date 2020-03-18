@@ -28,8 +28,13 @@ Route::group(['middleware' => ['customer']], function(){
 Route::post('/register', 'Auth\RegisterController@register')->name('client.register');
 Route::get('/logout', 'Auth\LoginController@logout')->name('client.logout');
 Route::post('/login', 'Auth\LoginController@login')->name('client.login');
-Route::get('/auth/login', 'HomeController@loginView')->name('client.loginView');
+Route::group(['middleware' => ['customerAuthenticated']], function(){
+    Route::get('/auth/login', 'HomeController@loginView')->name('client.loginView');
+});
 
 // facebook
 Route::get('/auth/redirect/{provider}', 'HomeController@redirect')->name('client.redirect');
 Route::get('/callback/{provider}', 'HomeController@callback')->name('client.callback');
+
+// Products
+Route::get('/products', 'ProductController@index')->name('client.products');

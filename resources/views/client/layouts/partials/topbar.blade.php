@@ -196,7 +196,7 @@
                         <li><a href="blog-single.html">Blog Single</a></li>
                         <li><a href="product-single.html">Product Single</a></li> --}}
                         <li>
-                            <a href="#">Shop Pages</a>
+                            <a href="{{ route('client.products') }}">Shop Pages</a>
                             <ul>
                                 <li><a href="cart.html">Cart</a></li>
                                 <li><a href="checkout-shipping-address.html">Checkout Shipping Address</a></li>
