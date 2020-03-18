@@ -232,7 +232,7 @@
 
 @section('custom-js')
     <script>
-        var code = '';
+        var code = null;
         $('#phone').mask('0000000000');
         $('#sign-up').hide();
         $('.password').hide();
@@ -286,6 +286,7 @@
                     url : "{{ route('client.register') }}",
                     method: "POST",
                     data: {
+                        _token: "{{ csrf_token() }}",
                         name: phoneTrim,
                         email: phoneTrim,
                         phone: phoneTrim,
