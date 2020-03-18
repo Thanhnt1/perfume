@@ -88,7 +88,7 @@
                                             <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone Number" value="{{ old('phone', $user->phone) }}">
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    {{-- <div class="form-group row">
                                         <label class="col-md-3 label-md">Street and house number</label>
                                         <div class="col-md-9">
                                             <input type="text" class="form-control" placeholder="Street and house number">
@@ -110,12 +110,12 @@
                                                 <option value="three">option three</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <button type="submit" class="btn btn-default">Save</button>
                                 </form>
                             </div>
                             <!-- /form-section-box -->
-                            <div class="special-offer-text">
+                            {{-- <div class="special-offer-text">
                                 <p>I keep myself updated about special offers, discounts, and new arrivals via email.</p>
                                 <a href="#edit-description-box" class="text-primary" data-toggle="collapse">Edit Information</a>
 
@@ -144,7 +144,7 @@
                                 </div>
                                 <!-- /form-section-box -->
 
-                            </div>
+                            </div> --}}
                             <!-- /special-offer-text -->
 
                         </div>
