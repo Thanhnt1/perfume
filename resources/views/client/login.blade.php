@@ -281,6 +281,7 @@
                     url : "{{ route('client.register') }}",
                     method: "POST",
                     data: {
+                        _token: "{{ csrf_token() }}",
                         name: phoneTrim,
                         email: phoneTrim,
                         phone: phoneTrim,
