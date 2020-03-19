@@ -11,7 +11,7 @@
 */
 use Illuminate\Http\Request;
 
-// Auth::routes();
+Auth::routes();
 
 Route::group(['middleware' => 'admin'], function(){
     // Dashboard

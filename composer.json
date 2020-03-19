@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.0",
         "nexmo/client": "^2.0",
         "nexmo/laravel": "^2.2",
+        "orangehill/iseed": "^2.6",
         "owen-it/laravel-auditing": "^9.3",
         "prettus/l5-repository": "^2.6",
         "spatie/flysystem-dropbox": "^1.2",

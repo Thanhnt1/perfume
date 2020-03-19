@@ -38,37 +38,18 @@
                         <h4>
                             <span class="caret"></span>
                             By Fragrance
-                            <em>193821</em>
+                            <em>{{ $products->count() }}</em>
                         </h4>
                     </header>
                     <ul class="list-align">
-                        <li><a href="#">Attars <span class="right">453</span></a></li>
-                        <li><a href="#">Men’s Perfumes <span class="right">1293</span></a></li>
-                        <li><a href="#">Women’s Perfumes <span class="right">1398</span></a></li>
-                        <li><a href="#">Gift Sets <span class="right">65</span></a></li>
-                        <li><a href="#">Deodorants <span class="right">123</span></a></li>
-                        <li><a href="#">Body Mists <span class="right">32</span></a></li>
-                        <li><a href="#">Air Freshners <span class="right">67</span></a></li>
-                        <li><a href="#">Teens Perfume <span class="right">123</span></a></li>
+                        @foreach ($categories as $item)
+                            <li><a href="#">{{ $item->name }} <span class="right">{{ $item->products->count() }}</span></a></li>
+                        @endforeach
                     </ul>
-                    <div class="widget-bottom">
+                    {{-- <div class="widget-bottom">
                         <strong class="refine-filters">Refine</strong>
                         <span class="clear-filters"><i class="flaticon-close9"></i>Clear all filters</span>
-                    </div>
-                    <div class="widget-filters">>
-                        <div class="widget-filter-head">
-                            <span class="refine-filters">Offers</span>
-                            <span class="clear-filters"><i class="flaticon-close9"></i>Clear</span>
-                        </div>
-                        <ul>
-                            <li>
-                                <div class="checkbox"><label><input type="checkbox">Fragrances at 25 % Off</label></div>
-                            </li>
-                            <li>
-                                <div class="checkbox"><label><input type="checkbox">Snapdeal Plus</label></div>
-                            </li>
-                        </ul>
-                    </div>
+                    </div> --}}
                 </div><!-- /widget-prod-categrories -->
 
                 <div class="widget widget-prod-filter">
@@ -83,55 +64,11 @@
                         <input type="search" class="form-control" name="SearchProdList" placeholder="Search by Brand">
                     </div><!-- /filter-bar -->
                     <ul class="brands-filter-brands">
-                        <li>
-                            <div class="checkbox"><label><input type="checkbox">Davidoff</label> <span class="right">21</span></div>
-                        </li>
-                        <li>
-                            <div class="checkbox"><label><input type="checkbox">Calvin Klein</label> <span class="right">56</span></div>
-                        </li>
-                        <li>
-                            <div class="checkbox"><label><input type="checkbox">Jaguar</label> <span class="right">12</span></div>
-                        </li>
-                        <li>
-                            <div class="checkbox"><label><input type="checkbox">Hugo Boss</label> <span class="right">59</span></div>
-                        </li>
-                        <li>
-                            <div class="checkbox"><label><input type="checkbox">Bvlgari</label> <span class="right">34</span></div>
-                        </li>
-                        <li>
-                            <div class="checkbox"><label><input type="checkbox">Azzaro</label> <span class="right">10</span></div>
-                        </li>
-                        <li>
-                            <div class="checkbox"><label><input type="checkbox">Mont Blanc</label> <span class="right">14</span></div>
-                        </li>
-                        <li>
-                            <div class="checkbox"><label><input type="checkbox">Ferrari</label> <span class="right">9</span></div>
-                        </li>
-
-                        <li>
-                            <div class="checkbox"><label><input type="checkbox">Davidoff</label> <span class="right">21</span></div>
-                        </li>
-                        <li>
-                            <div class="checkbox"><label><input type="checkbox">Calvin Klein</label> <span class="right">56</span></div>
-                        </li>
-                        <li>
-                            <div class="checkbox"><label><input type="checkbox">Jaguar</label> <span class="right">12</span></div>
-                        </li>
-                        <li>
-                            <div class="checkbox"><label><input type="checkbox">Hugo Boss</label> <span class="right">59</span></div>
-                        </li>
-                        <li>
-                            <div class="checkbox"><label><input type="checkbox">Bvlgari</label> <span class="right">34</span></div>
-                        </li>
-                        <li>
-                            <div class="checkbox"><label><input type="checkbox">Azzaro</label> <span class="right">10</span></div>
-                        </li>
-                        <li>
-                            <div class="checkbox"><label><input type="checkbox">Mont Blanc</label> <span class="right">14</span></div>
-                        </li>
-                        <li>
-                            <div class="checkbox"><label><input type="checkbox">Ferrari</label> <span class="right">9</span></div>
-                        </li>
+                        @foreach ($suppliers as $item)
+                            <li>
+                                <div class="checkbox"><label><input type="checkbox">{{ $item->name }}</label> <span class="right">{{ $item->products->count() }}</span></div>
+                            </li>
+                        @endforeach
                     </ul>
                 </div><!-- /widget-prod-filter -->
 
@@ -154,7 +91,7 @@
 
                 </div><!-- /widget-prod-filter-price -->
 
-                <div class="widget widget-prod-filter">
+                {{-- <div class="widget widget-prod-filter">
                     <header class="widget-heading-3">
                         <h4>
                             <span class="caret"></span>
@@ -213,9 +150,9 @@
                             <div class="checkbox"><label><input type="checkbox">80-90</label> <span class="right">16</span></div>
                         </li>
                     </ul>
-                </div><!-- /widget-prod-filter -->
+                </div> --}}
 
-                <div class="widget widget-prod-filter">
+                {{-- <div class="widget widget-prod-filter">
                     <header class="widget-heading-3">
                         <h4>
                             <span class="caret"></span>
@@ -238,9 +175,9 @@
                         </li>
 
                     </ul>
-                </div><!-- /widget-prod-filter -->
+                </div> --}}
 
-                <div class="widget widget-prod-filter">
+                {{-- <div class="widget widget-prod-filter">
                     <header class="widget-heading-3">
                         <h4>
                             <span class="caret"></span>
@@ -263,9 +200,9 @@
                         </li>
 
                     </ul>
-                </div><!-- /widget-prod-filter -->
+                </div> --}}
 
-                <div class="widget widget-prod-filter">
+                {{-- <div class="widget widget-prod-filter">
                     <header class="widget-heading-3">
                         <h4>
                             <span class="caret"></span>
@@ -285,7 +222,7 @@
                         </li>
 
                     </ul>
-                </div><!-- /widget-prod-filter -->
+                </div> --}}
 
 
             </div>
@@ -303,223 +240,46 @@
                         <li class="layout-grid active" data-role="button"><i class="flaticon-nine15"></i></li>
                     </ul>
                 </div><!-- /filter-head -->
+                {{-- sortby: bestsellers, pricefresh, arrivals, rating, popularity --}}
                 <ul class="filter-list">
-                    <li class="mix rating pricefresh">
-                        <div class="thumbnail thumbnail-product">
-                          <figure class="image-zoom">
-                            <img src="images\resource\img-5.jpeg" alt="image">
-                          </figure>
-                            <div class="caption">
-                                <div class="text-wrap">
-                                    <h5><a href="#">Guess Seductive eau de toilette for women</a></h5>
-                                    <div class="rating-star">
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7"></i>
-                                        <i class="flaticon-favourites7"></i>
-                                    </div><!-- /rating-star -->
-                                    <p class="prod-price text-primary">from $17.13</p>
-                                    <div class="filter-list-disp">
-                                        <p class="dispatch-info"><i class="flaticon-shipping"></i> Dispatched in 2 business days</p>
+                    @foreach ($productList as $item)
+                        <li class="mix">
+                            <div class="thumbnail thumbnail-product">
+                                <figure class="image-zoom" style="height: 200px;">
+                                    <img src="{{ $item->avatar && Storage::disk('dropbox')->exists($item->avatar) ? Storage::disk('dropbox')->url($item->avatar) : '/admin/img/no-image.jpg' }}" alt="image" style="width: 100%;height: auto;margin-top: 25%;">
+                                </figure>
+                                <div class="caption">
+                                    <div class="text-wrap">
+                                        <h5><a href="#">{{ $item->name }}</a></h5>
+                                        <div class="rating-star">
+                                            <i class="flaticon-favourites7 selected"></i>
+                                            <i class="flaticon-favourites7 selected"></i>
+                                            <i class="flaticon-favourites7 selected"></i>
+                                            <i class="flaticon-favourites7"></i>
+                                            <i class="flaticon-favourites7"></i>
+                                        </div><!-- /rating-star -->
+                                        <p class="prod-price text-primary">${{ $item->selling_price }}</p>
+                                        <div class="filter-list-disp">
+                                            <p class="dispatch-info"><i class="flaticon-shipping"></i> Dispatched in 2 business days</p>
+                                            <a href="#" class="btn btn-default view-detail">View Details</a>
+                                        </div>
+                                    </div><!-- /text-wrap -->
+                                    <div class="list-wrap">
+                                        <h5>Highlights:</h5>
+                                        <ul class="list-6">
+                                            <li>100% Genuine Product</li>
+                                            <li>Brand: Guess</li>
+                                            <li>Size: 30 ml - 200 ml</li>
+                                            <li>Gender: Women</li>
+                                            <li>Type: EDT</li>
+                                            <li>Fragrance Notes: Orchid</li>
+                                        </ul>
                                         <a href="#" class="btn btn-default view-detail">View Details</a>
-                                    </div>
-                                </div><!-- /text-wrap -->
-                                <div class="list-wrap">
-                                    <h5>Highlights:</h5>
-                                    <ul class="list-6">
-                                        <li>100% Genuine Product</li>
-                                        <li>Brand: Guess</li>
-                                        <li>Size: 30 ml - 200 ml</li>
-                                        <li>Gender: Women</li>
-                                        <li>Type: EDT</li>
-                                        <li>Fragrance Notes: Orchid</li>
-                                    </ul>
-                                    <a href="#" class="btn btn-default view-detail">View Details</a>
-                                </div><!-- /list-wrap -->
-                            </div>
-                        </div><!-- /thumbail -->
-                    </li>
-                    <li class="mix bestsellers arrivals">
-                        <div class="thumbnail thumbnail-product">
-                          <figure class="image-zoom">
-                            <img src="images\resource\img-6.jpeg" alt="image">
-                          </figure>
-                            <div class="caption">
-                                <div class="text-wrap">
-                                    <h5><a href="#">Bvlgari Noir eau de toilette for women</a></h5>
-                                    <div class="rating-star">
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7"></i>
-                                        <i class="flaticon-favourites7"></i>
-                                    </div><!-- /rating-star -->
-                                    <p class="prod-price text-primary">from $32.45</p>
-                                    <div class="filter-list-disp">
-                                        <p class="dispatch-info"><i class="flaticon-shipping"></i> Dispatched in 2 business days</p>
-                                        <a href="#" class="btn btn-default view-detail">View Details</a>
-                                    </div>
-                                </div><!-- /text-wrap -->
-                                <div class="list-wrap">
-                                    <h5>Highlights:</h5>
-                                    <ul class="list-6">
-                                        <li>100% Genuine Product</li>
-                                        <li>Brand: Bvlgari</li>
-                                        <li>Size: 30 ml - 200 ml</li>
-                                        <li>Gender: Women</li>
-                                        <li>Type: EDT</li>
-                                        <li>Fragrance Notes: Pear</li>
-                                    </ul>
-                                    <a href="#" class="btn btn-default view-detail">View Details</a>
-                                </div><!-- /list-wrap -->
-                            </div>
-                        </div><!-- /thumbail -->
-                    </li>
-                    <li class="mix arrivals pricefresh">
-                        <div class="thumbnail thumbnail-product">
-                          <figure class="image-zoom">
-                            <img src="images\resource\img-7.jpeg" alt="image">
-                          </figure>
-                            <div class="caption">
-                                <div class="text-wrap">
-                                    <h5><a href="#">Gucci Premiere eau de parfum for women</a></h5>
-                                    <div class="rating-star">
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7"></i>
-                                        <i class="flaticon-favourites7"></i>
-                                    </div><!-- /rating-star -->
-                                    <p class="prod-price text-primary">from $17.13</p>
-                                    <div class="filter-list-disp">
-                                        <p class="dispatch-info"><i class="flaticon-shipping"></i> Dispatched in 2 business days</p>
-                                        <a href="#" class="btn btn-default view-detail">View Details</a>
-                                    </div>
-                                </div><!-- /text-wrap -->
-                                <div class="list-wrap">
-                                    <h5>Highlights:</h5>
-                                    <ul class="list-6">
-                                        <li>100% Genuine Product</li>
-                                        <li>Brand: Gucci</li>
-                                        <li>Size: 30 ml - 200 ml</li>
-                                        <li>Gender: Women</li>
-                                        <li>Type: EDT</li>
-                                        <li>Fragrance Notes: Yuzu</li>
-                                    </ul>
-                                    <a href="#" class="btn btn-default view-detail">View Details</a>
-                                </div><!-- /list-wrap -->
-                            </div>
-                        </div><!-- /thumbail -->
-                    </li>
-                    <li class="mix rating pricefresh">
-                        <div class="thumbnail thumbnail-product">
-                          <figure class="image-zoom">
-                            <img src="images\resource\img-23.jpeg" alt="image">
-                          </figure>
-                            <div class="caption">
-                                <div class="text-wrap">
-                                    <h5><a href="#">Giorgio Armani SI Body Cream</a></h5>
-                                    <div class="rating-star">
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7"></i>
-                                        <i class="flaticon-favourites7"></i>
-                                    </div><!-- /rating-star -->
-                                    <p class="prod-price text-primary">from $79.00</p>
-                                    <div class="filter-list-disp">
-                                        <p class="dispatch-info"><i class="flaticon-shipping"></i> Dispatched in 2 business days</p>
-                                        <a href="#" class="btn btn-default view-detail">View Details</a>
-                                    </div>
-                                </div><!-- /text-wrap -->
-                                <div class="list-wrap">
-                                    <h5>Highlights:</h5>
-                                    <ul class="list-6">
-                                        <li>100% Genuine Product</li>
-                                        <li>Brand: Armani</li>
-                                        <li>Size: 30 ml - 200 ml</li>
-                                        <li>Gender: Women</li>
-                                        <li>Type: EDT</li>
-                                        <li>Fragrance Notes: Citrus</li>
-                                    </ul>
-                                    <a href="#" class="btn btn-default view-detail">View Details</a>
-                                </div><!-- /list-wrap -->
-                            </div>
-                        </div><!-- /thumbail -->
-                    </li>
-                    <li class="mix bestsellers popularity arrivals">
-                        <div class="thumbnail thumbnail-product">
-                          <figure class="image-zoom">
-                            <img src="images\resource\img-24.jpeg" alt="image">
-                          </figure>
-                            <div class="caption">
-                                <div class="text-wrap">
-                                    <h5><a href="#">Alien Eau de Parfum Spray</a></h5>
-                                    <div class="rating-star">
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7"></i>
-                                        <i class="flaticon-favourites7"></i>
-                                    </div><!-- /rating-star -->
-                                    <p class="prod-price text-primary">from $17.13</p>
-                                    <div class="filter-list-disp">
-                                        <p class="dispatch-info"><i class="flaticon-shipping"></i> Dispatched in 2 business days</p>
-                                        <a href="#" class="btn btn-default view-detail">View Details</a>
-                                    </div>
-                                </div><!-- /text-wrap -->
-                                <div class="list-wrap">
-                                    <h5>Highlights:</h5>
-                                    <ul class="list-6">
-                                        <li>100% Genuine Product</li>
-                                        <li>Brand: Thierry Mugler</li>
-                                        <li>Size: 30 ml - 200 ml</li>
-                                        <li>Gender: Women</li>
-                                        <li>Type: EDT</li>
-                                        <li>Fragrance Notes: Iris</li>
-                                    </ul>
-                                    <a href="#" class="btn btn-default view-detail">View Details</a>
-                                </div><!-- /list-wrap -->
-                            </div>
-                        </div><!-- /thumbail -->
-                    </li>
-                    <li class="mix rating popularity">
-                        <div class="thumbnail thumbnail-product">
-                          <figure class="image-zoom">
-                            <img src="images\resource\img-25.jpeg" alt="image">
-                          </figure>
-                            <div class="caption">
-                                <div class="text-wrap">
-                                    <h5><a href="#">Guerlain Shalimar Parfum Initial</a></h5>
-                                    <div class="rating-star">
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7 selected"></i>
-                                        <i class="flaticon-favourites7"></i>
-                                        <i class="flaticon-favourites7"></i>
-                                    </div><!-- /rating-star -->
-                                    <p class="prod-price text-primary">from $17.13</p>
-                                    <div class="filter-list-disp">
-                                        <p class="dispatch-info"><i class="flaticon-shipping"></i> Dispatched in 2 business days</p>
-                                        <a href="#" class="btn btn-default view-detail">View Details</a>
-                                    </div>
-                                </div><!-- /text-wrap -->
-                                <div class="list-wrap">
-                                    <h5>Highlights:</h5>
-                                    <ul class="list-6">
-                                        <li>100% Genuine Product</li>
-                                        <li>Brand: Guerlain</li>
-                                        <li>Size: 30 ml - 200 ml</li>
-                                        <li>Gender: Women</li>
-                                        <li>Type: EDT</li>
-                                        <li>Fragrance Notes: Limas</li>
-                                    </ul>
-                                    <a href="#" class="btn btn-default view-detail">View Details</a>
-                                </div><!-- /list-wrap -->
-                            </div>
-                        </div><!-- /thumbail -->
-                    </li>
+                                    </div><!-- /list-wrap -->
+                                </div>
+                            </div><!-- /thumbail -->
+                        </li>
+                    @endforeach
                 </ul><!-- filter-list -->
                 
                 <div class="pagination-right">

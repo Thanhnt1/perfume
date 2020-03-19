@@ -56,3 +56,8 @@ Check result:
 > php artisan storage:link
 
 > php artisan dev
+
+## Dropbox
+
+- Generate token dropbox : https://www.dropbox.com/developers/apps/info/meqc1c76lpn3hkb
+
