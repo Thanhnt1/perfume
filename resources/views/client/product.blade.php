@@ -252,13 +252,16 @@
                                     <div class="text-wrap">
                                         <h5><a href="#">{{ $item->name }}</a></h5>
                                         <div class="rating-star">
-                                            <i class="flaticon-favourites7 selected"></i>
-                                            <i class="flaticon-favourites7 selected"></i>
-                                            <i class="flaticon-favourites7 selected"></i>
-                                            <i class="flaticon-favourites7"></i>
-                                            <i class="flaticon-favourites7"></i>
+                                            @for ($i = 0; $i < 5; $i++)
+                                                <i class="flaticon-favourites7 {{ $item->rate > $i ? 'selected' : null }}"></i>
+                                            @endfor
                                         </div><!-- /rating-star -->
-                                        <p class="prod-price text-primary">${{ $item->selling_price }}</p>
+                                        <div class="prod-price text-primary">
+                                            @if ($item->import_price)
+                                                <span class="mark-price text-muted" style="text-decoration-line: line-through;">{{ $item->import_price }}</span> - 
+                                            @endif
+                                            <span class="mark-price">{{ $item->selling_price }}</span>
+                                        </div>
                                         <div class="filter-list-disp">
                                             <p class="dispatch-info"><i class="flaticon-shipping"></i> Dispatched in 2 business days</p>
                                             <a href="#" class="btn btn-default view-detail">View Details</a>
@@ -284,13 +287,11 @@
                 
                 <div class="pagination-right">
                     <ul class="pagination pagination-lg">
-                        <li class="prev disabled"><a href="#"><i class="flaticon-arrowhead7"></i></a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li><li class="prev"><a href="#"><i class="flaticon-arrow487"></i></a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li class="next"><a href="#"><i class="flaticon-arrow487"></i></a></li>
+                        <li class="prev disabled"><a href="{{ $arrProduct['prev_page_url'] }}"><i class="flaticon-arrowhead7"></i></a></li>
+                        @for ($i = 1; $i <= $arrProduct['last_page']; $i++)
+                            <li class="{{ $arrProduct['current_page'] == $i ? 'active' : null }}"><a href="">{{$i}}</a></li>
+                        @endfor
+                        <li class="next disabled"><a href="{{ $arrProduct['next_page_url'] }}"><i class="flaticon-arrow487"></i></a></li>
                     </ul>
                 </div><!-- /pagination-right -->
 
@@ -437,15 +438,22 @@
                         <h4><i class="flaticon-creditcard21"></i>Payments</h4>
                     </header>
                     <ul class="list-cards">
-                        <li><a href="#"><img src="images\logo-visa.png" alt=""></a></li>
-                        <li><a href="#"><img src="images\logo-americanexpress.png" alt=""></a></li>
-                        <li><a href="#"><img src="images\logo-mastercard.png" alt=""></a></li>
-                        <li><a href="#"><img src="images\logo-amazon.png" alt=""></a></li>
-                        <li><a href="#"><img src="images\logo-paypal.png" alt=""></a></li>
+                        <li><a href="#"><img src="/client/images/logo-visa.png" alt=""></a></li>
+                        <li><a href="#"><img src="/client/images/logo-americanexpress.png" alt=""></a></li>
+                        <li><a href="#"><img src="/client/images/logo-mastercard.png" alt=""></a></li>
+                        <li><a href="#"><img src="/client/images/logo-amazon.png" alt=""></a></li>
+                        <li><a href="#"><img src="/client/images/logo-paypal.png" alt=""></a></li>
                     </ul>
                 </div>					
             </div>
         </div>
     </div>
 </section>
+@endsection
+
+@section('custom-js')
+    <script>
+        $('.mark-price').mask('#.##0', { reverse: true });
+        $('.mark-price').append(' đ');
+    </script>
 @endsection

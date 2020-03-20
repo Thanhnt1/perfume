@@ -237,12 +237,12 @@ a.read-more:hover {
 	background-repeat: repeat;
 }
 
-.help-block .glyphicon:first-child,
+/* .help-block .glyphicon:first-child,
 .help-block [class^="flaticon-"]:first-child,
 [class^="flaticon-"]:first-child,
 .glyphicon:first-child {
 	margin-right: 5px;
-}
+} */
 .help-block .glyphicon:last-child,
 .help-block [class^="flaticon-"]:last-child,
 [class^="flaticon-"]:last-child,

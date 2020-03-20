@@ -37,12 +37,14 @@ class ProductController extends Controller
         }])->get();
         
         $productList = Product::paginate(12);
-        // dd($productList);
+        $arrProduct = $productList->toArray();
+        // dd($productList->toArray());
         return view('client.product', [
             'products' => $products,
             'categories' => $categories,
             'suppliers' => $suppliers,
-            'productList' => $productList
+            'productList' => $productList,
+            'arrProduct' => $arrProduct
         ]);
     }
 }
