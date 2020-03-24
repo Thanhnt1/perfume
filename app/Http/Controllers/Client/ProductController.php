@@ -36,15 +36,52 @@ class ProductController extends Controller
             $query->where('products.status', 1);
         }])->get();
         
-        $productList = Product::paginate(12);
-        $arrProduct = $productList->toArray();
-        // dd($productList->toArray());
+        $productList = Product::paginate(12)->toArray();
+        // dd($productList);
         return view('client.product', [
             'products' => $products,
             'categories' => $categories,
             'suppliers' => $suppliers,
             'productList' => $productList,
-            'arrProduct' => $arrProduct
+        ]);
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        // dd($request->all());
+
+        $products = Product::where('status', 1);
+
+        $categories = Category::with(['products' => function($query) {
+            // Query the name field in status table
+            $query->where('products.status', 1);
+        }])->get();
+
+        $suppliers = Supplier::with(['products' => function($query) {
+            // Query the name field in status table
+            $query->where('products.status', 1);
+        }])->get();
+        
+        $productList = new Product;
+        if($request->category) {
+            $productList = $products->where('category_id', $request->category);
+        }
+        if($request->brand) {
+            $productList = $products->whereIn('supplier_id', $request->brand);
+        }
+
+        // dd($productList->paginate(12)->toArray());
+        return view('client.product', [
+            'products' => $products->get(),
+            'categories' => $categories,
+            'suppliers' => $suppliers,
+            'productList' => $productList->paginate(12)->toArray(),
+            'request' => $request
         ]);
     }
 }

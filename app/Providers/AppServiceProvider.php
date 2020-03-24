@@ -24,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
         // User
         $this->app->singleton(\App\Repositories\User\IUserRepository::class, \App\Repositories\User\UserRepository::class);
         $this->app->singleton(\App\Services\User\IUserService::class, \App\Services\User\UserService::class);
+
+        // Category
+        $this->app->singleton(\App\Repositories\Category\ICategoryRepository::class, \App\Repositories\Category\CategoryRepository::class);
+        $this->app->singleton(\App\Services\Category\ICategoryService::class, \App\Services\Category\CategoryService::class);
     }
 
     /**

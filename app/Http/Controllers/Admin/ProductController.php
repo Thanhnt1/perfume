@@ -240,7 +240,7 @@ class ProductController extends Controller
     {
         if($request->arraySelected) {
             $params = array_map('intval', explode(',', $request->arraySelected));
-    
+
             foreach ($params as $key => $value) {
                 $product = $this->productService->findByUuid($value);
                 if ($product instanceof Product) {

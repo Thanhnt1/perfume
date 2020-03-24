@@ -26,9 +26,18 @@ Route::group(['middleware' => 'admin'], function(){
         Route::put('/{id}/update', 'ProductController@update')->name('admin.products.update');
         Route::post('/delete-multiple', 'ProductController@deleteMultiple')->name('admin.products.deleteMultiple');
     });
+
     // Images
     Route::post('/images-product', 'HomeController@uploadImagesProduct')->name('admin.products.uploadImages');
     Route::post('/images-ckeditor-product', 'HomeController@uploadImagesCkEditor')->name('admin.products.uploadImagesCkEditor');
+
+    // Category
+    Route::group(['prefix' => 'categories'], function(){
+        Route::get('/', 'CategoryController@index')->name('admin.categories.index');
+        Route::post('/store', 'CategoryController@store')->name('admin.categories.store');
+        Route::post('/delete-multiple', 'CategoryController@deleteMultiple')->name('admin.categories.deleteMultiple');
+
+    });
 
     // Bills
     Route::get('/bills', 'BillController@index')->name('admin.bills.index');
@@ -37,6 +46,7 @@ Route::group(['middleware' => 'admin'], function(){
     Route::group(['prefix' => 'users'], function(){
         Route::get('/', 'UserController@index')->name('admin.users.index');
     });
+    
     // Order proccessing
     Route::get('/order-proccessing', 'BillController@orderProccessingIndex')->name('admin.order-proccessing');
 

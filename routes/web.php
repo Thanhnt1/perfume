@@ -38,3 +38,4 @@ Route::get('/callback/{provider}', 'HomeController@callback')->name('client.call
 
 // Products
 Route::get('/products', 'ProductController@index')->name('client.products');
+Route::get('/products/search', 'ProductController@search')->name('client.products.search');

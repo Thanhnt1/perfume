@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at
  * @property Product[] $products
  */
-class Category extends Model
+class Category extends Base
 {
     /**
      * The table associated with the model.

@@ -22,13 +22,19 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
   
-        {{-- <!-- Heading -->
+        <!-- Heading -->
         <div class="sidebar-heading">
-          Interface
+          Products
         </div>
   
-        <!-- Nav Item - Pages Collapse Menu -->
+        <!-- Nav Item - Products -->
         <li class="nav-item">
+          <a class="nav-link" href="{{ route('admin.products.index') }}">
+            <i class="fas fa-box-open"></i>
+            <span>Products</span></a>
+        </li>
+        <!-- Nav Item - Pages Collapse Menu -->
+        {{-- <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-cog"></i>
             <span>Components</span>
@@ -43,7 +49,7 @@
         </li> --}}
   
         <!-- Nav Item - Utilities Collapse Menu -->
-        {{-- <li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-fw fa-wrench"></i>
             <span>Utilities</span>
@@ -51,16 +57,16 @@
           <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Custom Utilities:</h6>
-              <a class="collapse-item" href="utilities-color.html">Colors</a>
-              <a class="collapse-item" href="utilities-border.html">Borders</a>
-              <a class="collapse-item" href="utilities-animation.html">Animations</a>
-              <a class="collapse-item" href="utilities-other.html">Other</a>
+              <a class="collapse-item" href="{{ route('admin.categories.index') }}">Categories</a>
+              <a class="collapse-item" href="utilities-border.html">Properties</a>
+              <a class="collapse-item" href="utilities-animation.html">Units</a>
+              <a class="collapse-item" href="#">Other</a>
             </div>
           </div>
-        </li> --}}
+        </li>
   
         <!-- Divider -->
-        {{-- <hr class="sidebar-divider"> --}}
+        <hr class="sidebar-divider">
   
         <!-- Heading -->
         <div class="sidebar-heading">
@@ -87,38 +93,31 @@
           </div>
         </li> --}}
   
-        <!-- Nav Item - Products -->
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('admin.products.index') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Products</span></a>
-        </li>
-  
         <!-- Nav Item - Bills -->
         <li class="nav-item">
           <a class="nav-link" href="{{ route('admin.bills.index') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Bills</span></a>
         </li>
+        
+        <!-- Nav Item - Order proccessing -->
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('admin.order-proccessing') }}">
+            <i class="fas fa-truck-loading"></i>
+            <span>Order proccessing</span></a>
+        </li>
 
         <!-- Nav Item - Users -->
         <li class="nav-item">
           <a class="nav-link" href="{{ route('admin.users.index') }}">
-            <i class="fas fa-fw fa-table"></i>
+            <i class="fas fa-users"></i>
             <span>Users</span></a>
-        </li>
-
-        <!-- Nav Item - Order proccessing -->
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('admin.order-proccessing') }}">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Order proccessing</span></a>
         </li>
 
         <!-- Nav Item - Promotions -->
         <li class="nav-item">
           <a class="nav-link" href="{{ route('admin.promotions') }}">
-            <i class="fas fa-fw fa-table"></i>
+            <i class="fas fa-percent"></i>
             <span>Promotions</span></a>
         </li>
   

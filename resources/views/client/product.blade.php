@@ -43,7 +43,7 @@
                     </header>
                     <ul class="list-align">
                         @foreach ($categories as $item)
-                            <li><a href="#">{{ $item->name }} <span class="right">{{ $item->products->count() }}</span></a></li>
+                            <li><a href="{{ route('client.products.search', ['category' => $item->id ]) }}">{{ $item->name }} <span class="right">{{ $item->products->count() }}</span></a></li>
                         @endforeach
                     </ul>
                     {{-- <div class="widget-bottom">
@@ -57,7 +57,7 @@
                         <h4>
                             <span class="caret"></span>
                             By Brand
-                            <span class="clear-filters"><i class="flaticon-close9"></i>Clear</span>
+                            <span class="clear-filters clear-brand"><i class="flaticon-close9"></i>Clear</span>
                         </h4>
                     </header>
                     <div class="filter-bar">
@@ -66,13 +66,16 @@
                     <ul class="brands-filter-brands">
                         @foreach ($suppliers as $item)
                             <li>
-                                <div class="checkbox"><label><input type="checkbox">{{ $item->name }}</label> <span class="right">{{ $item->products->count() }}</span></div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" class="check-box-brand" name="brand[]" {{ $request->brand && in_array($item->id, $request->brand) ? 'checked' : null }} value="{{ $item->id }}">{{ $item->name }}</label> 
+                                    <span class="right">{{ $item->products->count() }}</span>
+                                </div>
                             </li>
                         @endforeach
                     </ul>
                 </div><!-- /widget-prod-filter -->
 
-                <div class="widget widget-prod-filter-price">
+                {{-- <div class="widget widget-prod-filter-price">
                     <header class="widget-heading-3">
                         <h4>
                             <span class="caret"></span>
@@ -81,15 +84,15 @@
                         </h4>
                     </header>
 
-        <div class="slider-contain">
-          <div class="slider-element"></div>
-          <div class="slide-values">
-            <span class="slide-min"></span>
-            <span class="slide-max"></span>
-          </div>
-        </div><!-- /slider-contain -->
+                    <div class="slider-contain">
+                    <div class="slider-element"></div>
+                    <div class="slide-values">
+                        <span class="slide-min"></span>
+                        <span class="slide-max"></span>
+                    </div>
+                    </div><!-- /slider-contain -->
 
-                </div><!-- /widget-prod-filter-price -->
+                </div><!-- /widget-prod-filter-price --> --}}
 
                 {{-- <div class="widget widget-prod-filter">
                     <header class="widget-heading-3">
@@ -242,56 +245,60 @@
                 </div><!-- /filter-head -->
                 {{-- sortby: bestsellers, pricefresh, arrivals, rating, popularity --}}
                 <ul class="filter-list">
-                    @foreach ($productList as $item)
-                        <li class="mix">
-                            <div class="thumbnail thumbnail-product">
-                                <figure class="image-zoom" style="height: 200px;">
-                                    <img src="{{ $item->avatar && Storage::disk('dropbox')->exists($item->avatar) ? Storage::disk('dropbox')->url($item->avatar) : '/admin/img/no-image.jpg' }}" alt="image" style="width: 100%;height: auto;margin-top: 25%;">
-                                </figure>
-                                <div class="caption">
-                                    <div class="text-wrap">
-                                        <h5><a href="#">{{ $item->name }}</a></h5>
-                                        <div class="rating-star">
-                                            @for ($i = 0; $i < 5; $i++)
-                                                <i class="flaticon-favourites7 {{ $item->rate > $i ? 'selected' : null }}"></i>
-                                            @endfor
-                                        </div><!-- /rating-star -->
-                                        <div class="prod-price text-primary">
-                                            @if ($item->import_price)
-                                                <span class="mark-price text-muted" style="text-decoration-line: line-through;">{{ $item->import_price }}</span> - 
-                                            @endif
-                                            <span class="mark-price">{{ $item->selling_price }}</span>
-                                        </div>
-                                        <div class="filter-list-disp">
-                                            <p class="dispatch-info"><i class="flaticon-shipping"></i> Dispatched in 2 business days</p>
+                    @if (!empty($productList['data']))
+                        @foreach ($productList['data'] as $item)
+                            <li class="mix">
+                                <div class="thumbnail thumbnail-product">
+                                    <figure class="image-zoom" style="height: 200px;">
+                                        <img src="{{ $item['avatar'] && Storage::disk('dropbox')->exists($item['avatar']) ? Storage::disk('dropbox')->url($item['avatar']) : '/admin/img/no-image.jpg' }}" alt="image" style="width: 100%;height: auto;margin-top: 25%;">
+                                    </figure>
+                                    <div class="caption">
+                                        <div class="text-wrap">
+                                            <h5><a href="#">{{ $item['name'] }}</a></h5>
+                                            <div class="rating-star">
+                                                @for ($i = 0; $i < 5; $i++)
+                                                    <i class="flaticon-favourites7 {{ $item['rate'] > $i ? 'selected' : null }}"></i>
+                                                @endfor
+                                            </div><!-- /rating-star -->
+                                            <div class="prod-price text-primary">
+                                                @if ($item['import_price'])
+                                                    <span class="mark-price text-muted" style="text-decoration-line: line-through;">{{ $item['import_price'] }}</span> - 
+                                                @endif
+                                                <span class="mark-price">{{ $item['selling_price'] }}</span>
+                                            </div>
+                                            <div class="filter-list-disp">
+                                                <p class="dispatch-info"><i class="flaticon-shipping"></i> Dispatched in 2 business days</p>
+                                                <a href="#" class="btn btn-default view-detail">View Details</a>
+                                            </div>
+                                        </div><!-- /text-wrap -->
+                                        <div class="list-wrap">
+                                            <h5>Highlights:</h5>
+                                            <ul class="list-6">
+                                                <li>100% Genuine Product</li>
+                                                <li>Brand: Guess</li>
+                                                <li>Size: 30 ml - 200 ml</li>
+                                                <li>Gender: Women</li>
+                                                <li>Type: EDT</li>
+                                                <li>Fragrance Notes: Orchid</li>
+                                            </ul>
                                             <a href="#" class="btn btn-default view-detail">View Details</a>
-                                        </div>
-                                    </div><!-- /text-wrap -->
-                                    <div class="list-wrap">
-                                        <h5>Highlights:</h5>
-                                        <ul class="list-6">
-                                            <li>100% Genuine Product</li>
-                                            <li>Brand: Guess</li>
-                                            <li>Size: 30 ml - 200 ml</li>
-                                            <li>Gender: Women</li>
-                                            <li>Type: EDT</li>
-                                            <li>Fragrance Notes: Orchid</li>
-                                        </ul>
-                                        <a href="#" class="btn btn-default view-detail">View Details</a>
-                                    </div><!-- /list-wrap -->
-                                </div>
-                            </div><!-- /thumbail -->
-                        </li>
-                    @endforeach
+                                        </div><!-- /list-wrap -->
+                                    </div>
+                                </div><!-- /thumbail -->
+                            </li>
+                        @endforeach
+                    @else
+                        <p class="text-center"><strong>No products available</strong></p>
+                    @endif
                 </ul><!-- filter-list -->
                 
                 <div class="pagination-right">
                     <ul class="pagination pagination-lg">
-                        <li class="prev disabled"><a href="{{ $arrProduct['prev_page_url'] }}"><i class="flaticon-arrowhead7"></i></a></li>
-                        @for ($i = 1; $i <= $arrProduct['last_page']; $i++)
-                            <li class="{{ $arrProduct['current_page'] == $i ? 'active' : null }}"><a href="">{{$i}}</a></li>
+                        <li class="prev disabled"><a href="{{ $productList['prev_page_url'] }}"><i class="flaticon-arrowhead7"></i></a></li>
+                        @for ($i = 1; $i <= $productList['last_page']; $i++)
+                            <li class="{{ $productList['current_page'] == $i ? 'active' : null }}"><a href="">{{$i}}</a></li>
                         @endfor
-                        <li class="next disabled"><a href="{{ $arrProduct['next_page_url'] }}"><i class="flaticon-arrow487"></i></a></li>
+                        <li class="next disabled"><a href="{{ $productList['next_page_url'] }}"><i class="flaticon-arrow487"></i></a></li>
                     </ul>
                 </div><!-- /pagination-right -->
 
@@ -455,5 +462,20 @@
     <script>
         $('.mark-price').mask('#.##0', { reverse: true });
         $('.mark-price').append(' đ');
+        $('.check-box-brand').on('click', function() {
+            var brand = $('input[name="brand[]"]:checked').serialize();
+            var category = '{{ $request && $request->category ? $request->category : null }}';
+            // var url = "/products/search";
+            // if(category.length || brand.length) {
+            //     url += "?category="+category+'&'+brand
+            // }
+            window.location.href = "/products/search?category="+category+'&'+brand;
+        });
+        $('.clear-brand').on('click', function() {
+            $('input[name="brand[]"]').prop("checked", false);
+            var category = '{{ $request && $request->category ? $request->category : null }}';
+            window.location.href = "/products/search?category="+category;
+
+        });
     </script>
 @endsection
