@@ -1,15 +1,15 @@
 @extends('admin.layouts.app')
-@section('title', 'Categories')
+@section('title', 'Units')
 @section('content')
 
     <!-- Page Heading -->
     <div class="row justify-content-between mb-4">
         <div class="col-4">
-            <h1 class="h3 text-gray-800">Categories</h1>
+            <h1 class="h3 text-gray-800">Units</h1>
         </div>
         <div class="col-6 text-right">
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addCategoryModal"><i class="fa fa-plus"></i> Add</button>
-            <button type="button" id="btn-remove-all" data-url="{{url(route('admin.categories.deleteMultiple'))}}" class="btn btn-danger"><i class="fa fa-trash" ></i> {{trans('product.delete_selected_item')}}</button>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addUnitModal"><i class="fa fa-plus"></i> Add</button>
+            <button type="button" id="btn-remove-all" data-url="{{url(route('admin.units.deleteMultiple'))}}" class="btn btn-danger"><i class="fa fa-trash" ></i> {{trans('product.delete_selected_item')}}</button>
         </div>
     </div>
 
@@ -36,60 +36,60 @@
     </div>
 
     {{-- Modal Add --}}
-    <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel">
+    <div class="modal fade" id="addUnitModal" tabindex="-1" role="dialog" aria-labelledby="addUnitModalLabel">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addCategoryModalLabel">Add new category</h5>
+                <h5 class="modal-title" id="addUnitModalLabel">Add new unit</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.categories.store') }}" method="POST" id="add-category">
+                <form action="{{ route('admin.units.store') }}" method="POST" id="add-unit">
                     @csrf
                     <div class="form-group">
                         <label for="name" class="control-label">Name:</label>
                         <input type="text" class="form-control" id="name" name="name">
                     </div>
-                    <div class="form-group">
-                        <label for="description" class="control-label">Description:</label>
-                        <textarea class="form-control" id="description" name="description"></textarea>
-                    </div>
+                    {{-- <div class="form-group">
+                        <label for="note" class="control-label">Note:</label>
+                        <textarea class="form-control" id="note" name="note"></textarea>
+                    </div> --}}
                 </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" form="add-category">Submit</button>
+              <button type="submit" class="btn btn-primary" form="add-unit">Submit</button>
             </div>
           </div>
         </div>
     </div>
 
     {{-- Modal Update --}}
-    <div class="modal fade" id="updateCategoryModal" tabindex="-2" role="dialog" aria-labelledby="updateCategoryModalLabel">
+    <div class="modal fade" id="updateUnitModal" tabindex="-2" role="dialog" aria-labelledby="updateUnitModalLabel">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="updateCategoryModalLabel">Update category</h5>
+                <h5 class="modal-title" id="updateUnitModalLabel">Update unit</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.categories.update') }}" method="POST" id="update-category">
+                <form action="{{ route('admin.units.update') }}" method="POST" id="update-unit">
                     {{ method_field('PUT') }}
                     @csrf
-                    <input type="hidden" id="idCategory" name="id" value="">
+                    <input type="hidden" id="idUnit" name="id" value="">
                     <div class="form-group">
                         <label for="name" class="control-label">Name:</label>
-                        <input type="text" class="form-control" id="nameCategory" name="name">
+                        <input type="text" class="form-control" id="nameUnit" name="name">
                     </div>
-                    <div class="form-group">
-                        <label for="descriptionCategory" class="control-label">Description:</label>
-                        <textarea class="form-control" id="descriptionCategory" name="description"></textarea>
-                    </div>
+                    {{-- <div class="form-group">
+                        <label for="noteProperty" class="control-label">Note:</label>
+                        <textarea class="form-control" id="noteProperty" name="noteProperty"></textarea>
+                    </div> --}}
                 </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" form="update-category">Submit</button>
+              <button type="submit" class="btn btn-primary" form="update-unit">Submit</button>
             </div>
           </div>
         </div>
@@ -108,7 +108,7 @@
             order: [[2, 'desc']],
             ajax: {
                 type: "GET",
-                url: "{{ route('admin.categories.index') }}",
+                url: "{{ route('admin.units.index') }}",
                 data : function ( d ) {}
             },
             columns: [
@@ -129,7 +129,7 @@
                     "sortable": false,
                     "className": "text-center",
                     "render": function(data, type, row, meta){
-                        return  '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateCategoryModal" data-name="'+ row.name +'" data-description="'+ row.description +'" data-id="'+ row.id +'" ><i class="fas fa-edit"></i> Edit</button>';
+                        return  '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateUnitModal" data-name="'+ row.name +'" data-id="'+ row.id +'" ><i class="fas fa-edit"></i> Edit</button>';
                     }
                 },
             ],
@@ -173,15 +173,15 @@
             $('#all-item').prop('checked', check);
         });
 
-        $('#updateCategoryModal').on('show.bs.modal', function (event) {
+        $('#updateUnitModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var id = button.data('id')
             var name = button.data('name')
-            var description = button.data('description')
+            // var note = button.data('note')
             var modal = $(this)
-            modal.find('#idCategory').val(id)
-            modal.find('#nameCategory').val(name)
-            modal.find('#descriptionCategory').append(description)
+            modal.find('#idUnit').val(id)
+            modal.find('#nameUnit').val(name)
+            // modal.find('#noteProperty').append(note)
         });
 </script>
 @endsection

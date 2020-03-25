@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\Category\ICategoryService;
-use App\Http\Requests\CategoryRequest;
-use App\Models\Category;
+use App\Services\Unit\IUnitService;
+use App\Http\Requests\UnitRequest;
+use App\Models\Unit;
 use Illuminate\Support\Facades\DB;
 
-class CategoryController extends Controller
+class UnitController extends Controller
 {
-    protected $categoryService;
+    protected $unitService;
 
-    public function __construct(ICategoryService $ICategoryService)
+    public function __construct(IUnitService $IUnitService)
     {
-        $this->categoryService = $ICategoryService;
+        $this->unitService = $IUnitService;
     }
     /**
      * Show the application user.
@@ -25,27 +25,27 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return $this->categoryService->fetchAllJSON($request);
+            return $this->unitService->fetchAllJSON($request);
         }
 
-        return view('admin.categories.index');
+        return view('admin.units.index');
     }
 
     /**
      * Show the application product.
      * @param string $id
-     * @param CategoryRequest $request
+     * @param UnitRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $request)
+    public function store(UnitRequest $request)
     {
         try {
             $params = $request->all();
 
-            // insert data category
-            $category = $this->categoryService->createData($params);
+            // insert data unit
+            $unit = $this->unitService->createData($params);
 
-            return redirect()->route('admin.categories.index')->with('message', trans('category.createSuccessfull'));
+            return redirect()->route('admin.units.index')->with('message', trans('unit.createSuccessfull'));
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['msg' => trans($e->getMessage())])->withInput();
         }
@@ -63,15 +63,15 @@ class CategoryController extends Controller
             $params = array_map('intval', explode(',', $request->arraySelected));
 
             foreach ($params as $key => $value) {
-                $category = $this->categoryService->findByID($value);
-                if ($category instanceof Category) {
-                   $category->delete();
+                $unit = $this->unitService->findByID($value);
+                if ($unit instanceof Unit) {
+                   $unit->delete();
                 } else {
-                    return $this->responseJSON(false, trans('category.notFound'));
+                    return $this->responseJSON(false, trans('unit.notFound'));
                 }
             }
         }
-        return redirect()->route('admin.categories.index')->with('message', trans('category.removedSuccessfull'));
+        return redirect()->route('admin.units.index')->with('message', trans('unit.removedSuccessfull'));
     }
 
     /**
@@ -82,8 +82,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request)
     {
-        $category = $this->categoryService->findByID($request->id);
-        if ($category instanceof Category) {
+        $unit = $this->unitService->findByID($request->id);
+        if ($unit instanceof Unit) {
             try {
                 $params = $request->all();
 
@@ -91,12 +91,12 @@ class CategoryController extends Controller
                 DB::beginTransaction();
                 //
 
-                $category = $this->categoryService->updateData($params, $category->id);
+                $unit = $this->unitService->updateData($params, $unit->id);
 
                 // Commit transaction
                 DB::commit();
                 //
-                return redirect()->route('admin.categories.index')->with('message', trans('category.updateSuccessfull'));
+                return redirect()->route('admin.units.index')->with('message', trans('unit.updateSuccessfull'));
             } catch (\Exception $e) {
                 // Rollback transaction
                 DB::rollBack();

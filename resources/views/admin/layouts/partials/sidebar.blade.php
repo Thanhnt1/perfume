@@ -58,8 +58,8 @@
             <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Custom Utilities:</h6>
               <a class="collapse-item" href="{{ route('admin.categories.index') }}">Categories</a>
-              <a class="collapse-item" href="utilities-border.html">Properties</a>
-              <a class="collapse-item" href="utilities-animation.html">Units</a>
+              <a class="collapse-item" href="{{ route('admin.properties.index') }}">Properties</a>
+              <a class="collapse-item" href="{{ route('admin.units.index') }}">Units</a>
               <a class="collapse-item" href="#">Other</a>
             </div>
           </div>

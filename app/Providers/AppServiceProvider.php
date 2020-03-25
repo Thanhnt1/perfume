@@ -28,6 +28,14 @@ class AppServiceProvider extends ServiceProvider
         // Category
         $this->app->singleton(\App\Repositories\Category\ICategoryRepository::class, \App\Repositories\Category\CategoryRepository::class);
         $this->app->singleton(\App\Services\Category\ICategoryService::class, \App\Services\Category\CategoryService::class);
+
+        // Property
+        $this->app->singleton(\App\Repositories\Property\IPropertyRepository::class, \App\Repositories\Property\PropertyRepository::class);
+        $this->app->singleton(\App\Services\Property\IPropertyService::class, \App\Services\Property\PropertyService::class);
+
+        // Unit
+        $this->app->singleton(\App\Repositories\Unit\IUnitRepository::class, \App\Repositories\Unit\UnitRepository::class);
+        $this->app->singleton(\App\Services\Unit\IUnitService::class, \App\Services\Unit\UnitService::class);
     }
 
     /**

@@ -37,7 +37,22 @@ Route::group(['middleware' => 'admin'], function(){
         Route::post('/store', 'CategoryController@store')->name('admin.categories.store');
         Route::post('/delete-multiple', 'CategoryController@deleteMultiple')->name('admin.categories.deleteMultiple');
         Route::put('/update', 'CategoryController@update')->name('admin.categories.update');
+    });
 
+    // Property
+    Route::group(['prefix' => 'properties'], function(){
+        Route::get('/', 'PropertyController@index')->name('admin.properties.index');
+        Route::post('/store', 'PropertyController@store')->name('admin.properties.store');
+        Route::post('/delete-multiple', 'PropertyController@deleteMultiple')->name('admin.properties.deleteMultiple');
+        Route::put('/update', 'PropertyController@update')->name('admin.properties.update');
+    });
+
+    // Unit
+    Route::group(['prefix' => 'units'], function(){
+        Route::get('/', 'UnitController@index')->name('admin.units.index');
+        Route::post('/store', 'UnitController@store')->name('admin.units.store');
+        Route::post('/delete-multiple', 'UnitController@deleteMultiple')->name('admin.units.deleteMultiple');
+        Route::put('/update', 'UnitController@update')->name('admin.units.update');
     });
 
     // Bills

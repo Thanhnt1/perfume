@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\Category\ICategoryService;
-use App\Http\Requests\CategoryRequest;
-use App\Models\Category;
+use App\Services\Property\IPropertyService;
+use App\Http\Requests\PropertyRequest;
+use App\Models\Property;
 use Illuminate\Support\Facades\DB;
 
-class CategoryController extends Controller
+class PropertyController extends Controller
 {
-    protected $categoryService;
+    protected $propertyService;
 
-    public function __construct(ICategoryService $ICategoryService)
+    public function __construct(IPropertyService $IPropertyService)
     {
-        $this->categoryService = $ICategoryService;
+        $this->propertyService = $IPropertyService;
     }
     /**
      * Show the application user.
@@ -25,27 +25,27 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return $this->categoryService->fetchAllJSON($request);
+            return $this->propertyService->fetchAllJSON($request);
         }
 
-        return view('admin.categories.index');
+        return view('admin.properties.index');
     }
 
     /**
      * Show the application product.
      * @param string $id
-     * @param CategoryRequest $request
+     * @param PropertyRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $request)
+    public function store(PropertyRequest $request)
     {
         try {
             $params = $request->all();
 
-            // insert data category
-            $category = $this->categoryService->createData($params);
+            // insert data property
+            $property = $this->propertyService->createData($params);
 
-            return redirect()->route('admin.categories.index')->with('message', trans('category.createSuccessfull'));
+            return redirect()->route('admin.properties.index')->with('message', trans('property.createSuccessfull'));
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['msg' => trans($e->getMessage())])->withInput();
         }
@@ -63,15 +63,15 @@ class CategoryController extends Controller
             $params = array_map('intval', explode(',', $request->arraySelected));
 
             foreach ($params as $key => $value) {
-                $category = $this->categoryService->findByID($value);
-                if ($category instanceof Category) {
-                   $category->delete();
+                $property = $this->propertyService->findByID($value);
+                if ($property instanceof Property) {
+                   $property->delete();
                 } else {
-                    return $this->responseJSON(false, trans('category.notFound'));
+                    return $this->responseJSON(false, trans('property.notFound'));
                 }
             }
         }
-        return redirect()->route('admin.categories.index')->with('message', trans('category.removedSuccessfull'));
+        return redirect()->route('admin.properties.index')->with('message', trans('property.removedSuccessfull'));
     }
 
     /**
@@ -82,8 +82,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request)
     {
-        $category = $this->categoryService->findByID($request->id);
-        if ($category instanceof Category) {
+        $property = $this->propertyService->findByID($request->id);
+        if ($property instanceof Property) {
             try {
                 $params = $request->all();
 
@@ -91,12 +91,12 @@ class CategoryController extends Controller
                 DB::beginTransaction();
                 //
 
-                $category = $this->categoryService->updateData($params, $category->id);
+                $property = $this->propertyService->updateData($params, $property->id);
 
                 // Commit transaction
                 DB::commit();
                 //
-                return redirect()->route('admin.categories.index')->with('message', trans('category.updateSuccessfull'));
+                return redirect()->route('admin.properties.index')->with('message', trans('property.updateSuccessfull'));
             } catch (\Exception $e) {
                 // Rollback transaction
                 DB::rollBack();
