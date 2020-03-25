@@ -36,6 +36,7 @@ Route::group(['middleware' => 'admin'], function(){
         Route::get('/', 'CategoryController@index')->name('admin.categories.index');
         Route::post('/store', 'CategoryController@store')->name('admin.categories.store');
         Route::post('/delete-multiple', 'CategoryController@deleteMultiple')->name('admin.categories.deleteMultiple');
+        Route::put('/update', 'CategoryController@update')->name('admin.categories.update');
 
     });
 

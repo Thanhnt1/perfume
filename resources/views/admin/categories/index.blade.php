@@ -44,7 +44,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.categories.store') }}" method="post" id="add-category">
+                <form action="{{ route('admin.categories.store') }}" method="POST" id="add-category">
                     @csrf
                     <div class="form-group">
                         <label for="name" class="control-label">Name:</label>
@@ -59,6 +59,37 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-primary" form="add-category">Submit</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    {{-- Modal Update --}}
+    <div class="modal fade" id="updateCategoryModal" tabindex="-2" role="dialog" aria-labelledby="updateCategoryModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateCategoryModalLabel">Update category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('admin.categories.update') }}" method="POST" id="update-category">
+                    {{ method_field('PUT') }}
+                    @csrf
+                    <input type="hidden" id="idCategory" name="idCategory" value="">
+                    <div class="form-group">
+                        <label for="name" class="control-label">Name:</label>
+                        <input type="text" class="form-control" id="nameCategory" name="nameCategory">
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="control-label">Description:</label>
+                        <textarea class="form-control" id="descriptionCategory" name="descriptionCategory"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" form="update-category">Submit</button>
             </div>
           </div>
         </div>
@@ -98,7 +129,7 @@
                     "sortable": false,
                     "className": "text-center",
                     "render": function(data, type, row, meta){
-                        return  '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCategoryModal" data-name="'+ row.name +'" data-description="'+ row.description +'"><i class="fas fa-edit"></i> Edit</button>';
+                        return  '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateCategoryModal" data-name="'+ row.name +'" data-description="'+ row.description +'" data-id="'+ row.id +'" ><i class="fas fa-edit"></i> Edit</button>';
                     }
                 },
             ],
@@ -142,13 +173,15 @@
             $('#all-item').prop('checked', check);
         });
 
-        $('#addCategoryModal').on('show.bs.modal', function (event) {
+        $('#updateCategoryModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
+            var id = button.data('id')
             var name = button.data('name')
             var description = button.data('description')
             var modal = $(this)
-            modal.find('#name').val(name)
-            modal.find('#description').append(description)
+            modal.find('#idCategory').val(id)
+            modal.find('#nameCategory').val(name)
+            modal.find('#descriptionCategory').append(description)
         });
 </script>
 @endsection

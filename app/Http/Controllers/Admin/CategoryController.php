@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Services\Category\ICategoryService;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -40,12 +41,11 @@ class CategoryController extends Controller
     {
         try {
             $params = $request->all();
-            // $find = $this->categoryService->find('name')
-            // if()
-            // insert data product
+
+            // insert data category
             $category = $this->categoryService->createData($params);
 
-            return redirect()->route('admin.categories.index')->with('message', trans('product.createSuccessfull'));
+            return redirect()->route('admin.categories.index')->with('message', trans('category.createSuccessfull'));
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['msg' => trans($e->getMessage())])->withInput();
         }
@@ -71,6 +71,41 @@ class CategoryController extends Controller
                 }
             }
         }
-        return redirect()->route('admin.products.index')->with('message', trans('product.removedSuccessfull'));
+        return redirect()->route('admin.products.index')->with('message', trans('category.removedSuccessfull'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     * @param string $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request)
+    {
+        $category = $this->categoryService->findByID($request->idCategory);
+        if ($category instanceof Category) {
+            try {
+                $params = $request->all();
+                $params['name'] = $params['nameCategory'];
+                $params['description'] = $params['descriptionCategory'];
+
+                // Open transaction
+                DB::beginTransaction();
+                //
+
+                $category = $this->categoryService->updateData($params, $category->id);
+
+                // Commit transaction
+                DB::commit();
+                //
+                return redirect()->route('admin.categories.index')->with('message', trans('category.updateSuccessfull'));
+            } catch (\Exception $e) {
+                // Rollback transaction
+                DB::rollBack();
+                return redirect()->back()->withErrors(['msg' => trans($e->getMessage())])->withInput();
+            }
+        } else {
+            abort(404);
+        }
     }
 }
