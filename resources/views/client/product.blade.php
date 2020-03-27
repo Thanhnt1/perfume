@@ -67,7 +67,7 @@
                         @foreach ($suppliers as $item)
                             <li>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" class="check-box-brand" name="brand[]" {{ $request->brand && in_array($item->id, $request->brand) ? 'checked' : null }} value="{{ $item->id }}">{{ $item->name }}</label> 
+                                    <label><input type="checkbox" class="check-box-brand" name="brand[]" {{ $params->brand && in_array($item->id, $params->brand) ? 'checked' : null }} value="{{ $item->id }}">{{ $item->name }}</label> 
                                     <span class="right">{{ $item->products->count() }}</span>
                                 </div>
                             </li>
@@ -234,11 +234,11 @@
                 <div class="filter-head">
                     <strong>Sort By</strong>
                     <ul class="filter-tabs">
-                        <li class="filter active" data-role="button" data-filter="popularity">Popularity</li>
-                        <li class="filter" data-role="button" data-filter="bestsellers">Bestsellers</li>
-                        <li class="filter" data-role="button" data-filter="pricefresh">Pricefresh</li>
-                        <li class="filter" data-role="button" data-filter="arrivals">Arrivals</li>
-                        <li class="filter" data-role="button" data-filter="rating">Customer Rating</li>
+                        <li class="sortBy {{ $params->sort_by == "concern" ? 'active' : null }}" data-role="button" data-filter="concern">Concern</li>
+                        <li class="sortBy {{ $params->sort_by == "bestseller" ? 'active' : null }}" data-role="button" data-filter="bestseller">Bestseller</li>
+                        <li class="sortBy {{ $params->sort_by == "pricehighest" ? 'active' : null }}" data-role="button" data-filter="pricehighest">Highest Price</li>
+                        <li class="sortBy {{ $params->sort_by == "pricelowest" ? 'active' : null }}" data-role="button" data-filter="pricelowest">Price Lowest</li>
+                        <li class="sortBy {{ $params->sort_by == "rate" ? 'active' : null }}" data-role="button" data-filter="rate">Rate</li>
                         <li class="layout-list" data-role="button"><i class="flaticon-menu10"></i></li>
                         <li class="layout-grid active" data-role="button"><i class="flaticon-nine15"></i></li>
                     </ul>
@@ -247,7 +247,7 @@
                 <ul class="filter-list">
                     @if (!empty($productList['data']))
                         @foreach ($productList['data'] as $item)
-                            <li class="mix">
+                            <li class="mix bestsellers">
                                 <div class="thumbnail thumbnail-product">
                                     <figure class="image-zoom" style="height: 200px;">
                                         <img src="{{ $item['avatar'] && Storage::disk('dropbox')->exists($item['avatar']) ? Storage::disk('dropbox')->url($item['avatar']) : '/admin/img/no-image.jpg' }}" alt="image" style="width: 100%;height: auto;margin-top: 25%;">
@@ -460,22 +460,51 @@
 
 @section('custom-js')
     <script>
+        var category = '{{ $params && $params->category ? $params->category : null }}';
+        var url = window.location.href;
+        var argument = url.split('?').pop();
+        var search = "/products/search?";
+        var sortByParams = '{{ $params && $params->sort_by ? $params->sort_by : null }}';
+
+        if(argument != '') {
+            if(category != '') {
+                category = '&' + category;
+            }
+            if(sortByParams != '') {
+                sortByParams = '&sort_by=' + sortByParams;
+            }
+        }
+        
+        
         $('.mark-price').mask('#.##0', { reverse: true });
         $('.mark-price').append(' đ');
         $('.check-box-brand').on('click', function() {
             var brand = $('input[name="brand[]"]:checked').serialize();
-            var category = '{{ $request && $request->category ? $request->category : null }}';
-            // var url = "/products/search";
-            // if(category.length || brand.length) {
-            //     url += "?category="+category+'&'+brand
-            // }
-            window.location.href = "/products/search?category="+category+'&'+brand;
+            if(argument != '') {
+                if(brand != '') {
+                    brand = '&' + brand;
+                }
+            }
+            window.location.href = search + "category=" + category + brand + sortByParams;
         });
         $('.clear-brand').on('click', function() {
             $('input[name="brand[]"]').prop("checked", false);
-            var category = '{{ $request && $request->category ? $request->category : null }}';
-            window.location.href = "/products/search?category="+category;
+            window.location.href = search + "category=" + category + sortByParams;
+        });
 
+        $('.sortBy').on('click', function() {
+            var sortby = $(this).data('filter');
+            var brand = $('input[name="brand[]"]:checked').serialize();
+            if(argument != '') {
+                if(brand != '') {
+                    brand = '&' + brand;
+                }
+            }
+            if(category != '' || brand != '') {
+                sortby = '&sort_by='+sortby;
+            }
+            else sortby = '?sort_by='+sortby;
+            window.location.href = search + "category=" + category + brand + sortby;
         });
     </script>
 @endsection

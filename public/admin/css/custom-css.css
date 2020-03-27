@@ -20,3 +20,8 @@
 .unsort {
     background-image: unset !important;
 }
+
+.alert-custom-login {
+    right: 50%;
+    top: 3rem;
+}

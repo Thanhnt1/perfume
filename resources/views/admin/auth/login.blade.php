@@ -2,9 +2,28 @@
 @section('title', 'Login')
 @section('content')
 <body class="bg-gradient-primary">
-
+  
   <div class="container">
-
+    @if(session()->has('message'))
+    <div class="alert alert-success alert-dismissible alert-custom">
+        {{ session()->get('message') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible alert-custom alert-custom-login">
+            <ul class="mb-0 list-unstyled">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <!-- Outer Row -->
     <div class="row justify-content-center">
 

@@ -22,7 +22,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $products = Product::where('status', 1)->get();
 
@@ -43,6 +43,7 @@ class ProductController extends Controller
             'categories' => $categories,
             'suppliers' => $suppliers,
             'productList' => $productList,
+            'params' => $request
         ]);
     }
 
@@ -56,6 +57,7 @@ class ProductController extends Controller
         // dd($request->all());
 
         $products = Product::where('status', 1);
+        $dataProducts = $products->get();
 
         $categories = Category::with(['products' => function($query) {
             // Query the name field in status table
@@ -75,13 +77,26 @@ class ProductController extends Controller
             $productList = $products->whereIn('supplier_id', $request->brand);
         }
 
-        // dd($productList->paginate(12)->toArray());
+        // sort by
+        if($request->sort_by == "bestseller") {
+            $productList = $products->orderBy('quantity_sold', 'desc');
+        }
+        if($request->sort_by == "pricehighest") {
+            $productList = $products->orderBy('selling_price', 'asc');
+        }
+        if($request->sort_by == "pricelowest") {
+            $productList = $products->orderBy('selling_price', 'desc');
+        }
+        if($request->sort_by == "rate") {
+            $productList = $products->orderBy('rate', 'desc');
+        }
+
         return view('client.product', [
-            'products' => $products->get(),
+            'products' => $dataProducts,
             'categories' => $categories,
             'suppliers' => $suppliers,
             'productList' => $productList->paginate(12)->toArray(),
-            'request' => $request
+            'params' => $request
         ]);
     }
 }

@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('unit_id')->nullable()->default(null);
             $table->string('name')->nullable()->default(null);
             $table->integer('status')->nullable()->default(null);
-            $table->integer('quantity')->nullable()->default(null);
+            $table->integer('quantity')->nullable()->default(0);
             $table->integer('import_price')->nullable()->default(null);
             $table->integer('selling_price')->nullable()->default(null);
             $table->longText('description')->nullable()->default(null);

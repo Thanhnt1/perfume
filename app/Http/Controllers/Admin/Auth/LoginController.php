@@ -68,6 +68,6 @@ class LoginController extends Controller
             return redirect()->intended('admin/dashboard');
         }
 
-        return Redirect::to("login")->withErrors(['error' => trans('auth.invalid_credentials')]);
+        return Redirect::to("admin/login-admin")->withErrors(['error' => trans('auth.invalid_credentials')]);
     }
 }
