@@ -18,7 +18,7 @@
                             <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" tabindex="1" autofocus required>
                         </div>
                         <div class="form-group">
-                            <label for="supplier_id">Supplier</label>
+                            <label for="supplier_id">Supplier<i class="text-danger">&nbsp;*</i></label>
                             <select id="supplier_id" name="supplier_id" class="form-control" tabindex="3" required>
                                 @foreach($supplier as $value)
                                     <option value="{{ $value->id }}">{{ $value->name }}</option>
@@ -41,6 +41,22 @@
                             <label for="quantity">Quantity<i class="text-danger">&nbsp;*</i></label>
                             <input type="text" class="form-control" id="quantity" name="quantity" value="{{ old('quantity') }}" tabindex="7" required>
                         </div>
+                        <div class="form-group">
+                            <label for="text-property">Property<i class="text-danger">&nbsp;*</i></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <select id="property_id" class="border rounded-left" tabindex="10" required>
+                                        @foreach($property as $value)
+                                            <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <input type="text" class="form-control" id="text-property" aria-label="Amount (to the nearest dollar)" placeholder="Text property...">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-success" id="btn-add-property">Add</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
@@ -55,7 +71,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="category_id">Category</label>
+                            <label for="category_id">Category<i class="text-danger">&nbsp;*</i></label>
                             <select id="category_id" name="category_id" class="form-control" tabindex="4" required>
                                 @foreach($categories as $value)
                                     <option value="{{ $value->id }}" {{ old('category_id') == $value->id ? 'selected="selected"' : '' }}>{{ $value->name }}</option>
@@ -82,25 +98,37 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="input-group">
+                            <label for="unit_id">List property <span id="name-property"></span></label>
+                            <table class="table" id="table-property">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <!--/.row-->
 
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-4">
                         <div class="form-group">
                             <label for="avatar">Avatar<i class="text-danger">&nbsp;*</i></label>
                             <div class="needsclick dropzone" id="fileAvatar" name="fileAvatar" tabindex="9"></div>
                         </div>
                     </div>
-                    <div class="col-9">
+                    <div class="col-8">
                         <div class="form-group">
                             <label for="images">Images</label>
                             <div class="needsclick dropzone" id="images" name="images" tabindex="10"></div>
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
@@ -206,6 +234,45 @@
                 alert(msg + ' (1 MB)')
             }
         }
+    });
+
+    var listProperty = {};
+    var listAddProperty = [];
+
+    $('#property_id').on('click', function(){
+        var name = $('#property_id option:selected').text().toLowerCase()
+        $('#name-property').text(name)
+
+    }).trigger('click');
+
+    $('#property_id').on('change', function(){
+        var property_id = $(this).val();
+        listAddProperty = listProperty[property_id] ? listProperty[property_id] : []; 
+        $("#table-property tbody").empty();
+        if(listProperty[property_id]) {
+            listProperty[property_id].forEach((element, key) => {
+                $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td></tr>');
+            });
+        }
+    }).trigger('change');
+
+    $('#btn-add-property').on('click', function(){
+        var property_id = $('#property_id').val();
+        var text_property = $('#text-property').val();
+        listAddProperty.push(text_property)
+        listProperty[property_id] = listAddProperty
+        if(listProperty[property_id]) {
+            $("#table-property tbody").empty();
+            listProperty[property_id].forEach((element, key) => {
+                $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td><td><button type="button" id="btn-remove-property" data-property-id="'+ property_id +'" data-property-value="'+ text_property +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></tr>');
+            });
+        }
+        $('#product-form').append('<input type="hidden" name="properties['+ property_id +']" value="' + text_property + '">')
+        console.log(listProperty)
+    });
+
+    $('#btn-remove-property').on('click', function(){
+        console.log(1)
     });
 </script>
 @endsection

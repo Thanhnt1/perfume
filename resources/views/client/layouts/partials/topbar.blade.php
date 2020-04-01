@@ -106,24 +106,13 @@
     <!-- /logo -->
     <div class="user-controls-bar">
         <ul class="user-controls">
-            <li>
-                <span class="site-search-btn dropBox-btn"><i class="flaticon-magnifier56"></i></span>
-                <div class="dropBox">
-                    <div class="box-section">
-                        <form class="accounts-form clearfix">
-                            <div class="form-left">
-                                <div class="form-group">
-                                    <input type="search" class="form-control" placeholder="Search Key">
-                                </div>
-                            </div>
-                            <input type="submit" class="btn btn-default text-uppercase" value="Search">
-                        </form>
-                        <!-- /accounts-form -->
-                    </div>
-                    <!-- /box-section -->
-                </div>
-                <!-- /dropBox -->
-
+            <li style="margin-top: 10px;margin-right: 10px;">
+                <div class="bar-form">
+                    <form method="GET" action="{{ route('client.products.search') }}">
+                        <input type="search" name="search" placeholder="Search name product, supplier">
+                        <input type="submit" value="">
+                    </form>
+                </div><!-- /bar-form -->
             </li>
             <li>
                 <span class="cart-btn dropBox-btn"><i class="flaticon-shopping191"></i><span class="badge">0</span></span>

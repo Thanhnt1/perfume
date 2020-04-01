@@ -55,6 +55,14 @@ Route::group(['middleware' => 'admin'], function(){
         Route::put('/update', 'UnitController@update')->name('admin.units.update');
     });
 
+    // Supplier
+    Route::group(['prefix' => 'suppliers'], function(){
+        Route::get('/', 'SupplierController@index')->name('admin.suppliers.index');
+        Route::post('/store', 'SupplierController@store')->name('admin.suppliers.store');
+        Route::post('/delete-multiple', 'SupplierController@deleteMultiple')->name('admin.suppliers.deleteMultiple');
+        Route::put('/update', 'SupplierController@update')->name('admin.suppliers.update');
+    });
+
     // Bills
     Route::get('/bills', 'BillController@index')->name('admin.bills.index');
 

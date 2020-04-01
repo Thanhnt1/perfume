@@ -60,6 +60,7 @@
               <a class="collapse-item" href="{{ route('admin.categories.index') }}">Categories</a>
               <a class="collapse-item" href="{{ route('admin.properties.index') }}">Properties</a>
               <a class="collapse-item" href="{{ route('admin.units.index') }}">Units</a>
+              <a class="collapse-item" href="{{ route('admin.suppliers.index') }}">Suppliers</a>
               <a class="collapse-item" href="#">Other</a>
             </div>
           </div>

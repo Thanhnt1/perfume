@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at
  * @property Product[] $products
  */
-class Supplier extends Model
+class Supplier extends Base
 {
     /**
      * The table associated with the model.

@@ -36,6 +36,10 @@ class AppServiceProvider extends ServiceProvider
         // Unit
         $this->app->singleton(\App\Repositories\Unit\IUnitRepository::class, \App\Repositories\Unit\UnitRepository::class);
         $this->app->singleton(\App\Services\Unit\IUnitService::class, \App\Services\Unit\UnitService::class);
+
+        // Supplier
+        $this->app->singleton(\App\Repositories\Supplier\ISupplierRepository::class, \App\Repositories\Supplier\SupplierRepository::class);
+        $this->app->singleton(\App\Services\Supplier\ISupplierService::class, \App\Services\Supplier\SupplierService::class);
     }
 
     /**

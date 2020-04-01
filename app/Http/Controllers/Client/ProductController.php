@@ -7,15 +7,17 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Supplier;
+use App\Services\Product\IProductService;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    // protected $imageService;
+    protected $productService;
 
-    // public function __construct(IProductService $IProductService)
-    // {
-    //     $this->productService = $IProductService;
-    // }
+    public function __construct(IProductService $IProductService)
+    {
+        $this->productService = $IProductService;
+    }
 
     /**
      * Show the application dashboard.
@@ -43,7 +45,6 @@ class ProductController extends Controller
             'categories' => $categories,
             'suppliers' => $suppliers,
             'productList' => $productList,
-            'params' => $request
         ]);
     }
 
@@ -70,6 +71,16 @@ class ProductController extends Controller
         }])->get();
         
         $productList = new Product;
+
+        // search
+        if($request->search) {
+            $productList = $products->select('products.*', 'suppliers.name as supplier_name')
+            ->where('products.name','like',"%{$request->search}%")
+            ->orWhere('suppliers.name','like',"%{$request->search}%")
+            ->leftJoin('suppliers', 'products.supplier_id', 'suppliers.id');
+        }
+
+        // category
         if($request->category) {
             $productList = $products->where('category_id', $request->category);
         }
@@ -90,13 +101,32 @@ class ProductController extends Controller
         if($request->sort_by == "rate") {
             $productList = $products->orderBy('rate', 'desc');
         }
-
+        // dd($productList->paginate(12)->toArray());
         return view('client.product', [
             'products' => $dataProducts,
             'categories' => $categories,
             'suppliers' => $suppliers,
             'productList' => $productList->paginate(12)->toArray(),
-            'params' => $request
         ]);
+    }
+
+    public function detail(Request $request, $id, $name)
+    {
+        // dd($request->all());
+        $product = $this->productService->findByUuid($id);
+
+        if ($product instanceof Product) {
+            $suppliers = Supplier::with(['products' => function($query) {
+                // Query the name field in status table
+                $query->where('products.status', 1);
+            }])->where('id', $product->category->id)->first();
+           
+            return view('client.product-detail', [
+                'product' => $product,
+                'suppliers' => $suppliers
+            ]);
+        } else {
+            abort(404);
+        }
     }
 }

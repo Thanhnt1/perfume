@@ -11,6 +11,7 @@ use App\Models\Supplier;
 use App\Models\Unit;
 use App\Models\Image;
 use App\Models\Product;
+use App\Models\Property;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\DB;
@@ -49,11 +50,13 @@ class ProductController extends Controller
         $categories = Category::all();
         $supplier = Supplier::all();
         $unit = Unit::all();
+        $property = Property::all();
 
         return view('admin.products.create', [
             'categories' => $categories,
             'supplier' => $supplier,
-            'unit' => $unit
+            'unit' => $unit,
+            'property' => $property
         ]);
     }
 

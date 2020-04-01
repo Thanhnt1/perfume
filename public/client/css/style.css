@@ -2171,14 +2171,14 @@ label.label-md {
 	font-family: "Flaticon";
 	content: "\e08a";	
 	color: #fff;
-	width: 40px;
+	width: 30px;
 	height: 33px;
 	line-height: 30px;
 	font-size: 22px;
 	display: inline-block;
 	position: absolute;
 	right: 0;
-	top: 0;
+	top: 2px;
 	pointer-events: none;
 }
 .bar-form input[type="search"] {
@@ -2485,7 +2485,7 @@ label.label-md {
 	text-transform: uppercase;
 }
 .filter-head > strong:after {
-	content: '-';
+	content: ':';
 	padding-left: 8px;
 	padding-right: 5px;
 }
