@@ -15,16 +15,19 @@ use App\Models\Property;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\DB;
+use App\Services\Property\IPropertyService;
 
 class ProductController extends Controller
 {
     protected $productService;
     protected $imageService;
+    protected $propertyService;
 
-    public function __construct(IProductService $IProductService, IImageService $IImageService)
+    public function __construct(IProductService $IProductService, IImageService $IImageService, IPropertyService $IPropertyService)
     {
         $this->productService = $IProductService;
         $this->imageService = $IImageService;
+        $this->propertyService = $IPropertyService;
     }
     /**
      * Show the application product.
@@ -69,6 +72,10 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         try {
+            // Open transaction
+            DB::beginTransaction();
+            //
+
             $params = $request->all();
             $params['import_price'] = str_replace(",", "", $params['import_price']);
             $params['selling_price'] = str_replace(",", "", $params['selling_price']);
@@ -97,10 +104,24 @@ class ProductController extends Controller
                         Storage::disk('dropbox')->delete($value);
                     }
                 }
+                if($request->properties) {
+                    foreach ($params['properties'] as $keyPro => $property) {
+                        foreach ($property as $keyList => $value) {
+                            $product->productProperties()->attach([
+                                $keyPro => ['value' => $value],
+                            ]);
+                        }
+                    }
+                }
             }
 
+            // Commit transaction
+            DB::commit();
+            //
             return redirect()->route('admin.products.index')->with('message', trans('product.createSuccessfull'));
         } catch (\Exception $e) {
+            // Rollback transaction
+            DB::rollBack();
             return redirect()->back()->withErrors(['msg' => trans($e->getMessage())])->withInput();
         }
     }

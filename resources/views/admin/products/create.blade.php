@@ -236,7 +236,7 @@
         }
     });
 
-    var listProperty = {};
+    var listProperty = [];
     var listAddProperty = [];
 
     $('#property_id').on('click', function(){
@@ -251,7 +251,7 @@
         $("#table-property tbody").empty();
         if(listProperty[property_id]) {
             listProperty[property_id].forEach((element, key) => {
-                $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td></tr>');
+                $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td><td><button type="button" data-property-key="'+ key +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></tr>');
             });
         }
     }).trigger('change');
@@ -261,18 +261,46 @@
         var text_property = $('#text-property').val();
         listAddProperty.push(text_property)
         listProperty[property_id] = listAddProperty
-        if(listProperty[property_id]) {
-            $("#table-property tbody").empty();
-            listProperty[property_id].forEach((element, key) => {
-                $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td><td><button type="button" id="btn-remove-property" data-property-id="'+ property_id +'" data-property-value="'+ text_property +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></tr>');
+
+        // remove input list properties
+        $('#product-form').find('input[name="properties[]"]').remove()
+        
+        // reload table
+        $("#table-property tbody").empty();
+        listProperty[property_id].forEach((element, key) => {
+            $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td><td><button type="button" data-property-key="'+ key +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></tr>');
+        });
+        $('#product-form').find('input[class="list-pro"]').remove()
+        listProperty.forEach((elementPro,keyPro) => {
+            elementPro.forEach((elementList,keyList) => {
+                $('#product-form').append('<input type="hidden" class="list-pro" name="properties['+ keyPro +']['+ keyList +']" data-property-key="'+ keyList +'" value="' + elementList + '">')
             });
-        }
-        $('#product-form').append('<input type="hidden" name="properties['+ property_id +']" value="' + text_property + '">')
+        });
+
         console.log(listProperty)
     });
 
-    $('#btn-remove-property').on('click', function(){
-        console.log(1)
+    // issue https://stackoverflow.com/questions/15420558/jquery-click-event-not-working-after-append-method
+    $('#table-property').on('click', '.btn-remove-property', function(){
+        var property_id = $('#property_id').val();
+        var property_key = $(this).data('property-key');
+
+        // remove in list array property current
+        listProperty[property_id].splice(property_key,1);
+
+        // reload table
+        $("#table-property tbody").empty();
+        listProperty[property_id].forEach((element, key) => {
+            $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td><td><button type="button" data-property-key="'+ key +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></tr>');
+        });
+        $('#product-form').find('input[class="list-pro"]').remove()
+        listProperty.forEach((elementPro,keyPro) => {
+            elementPro.forEach((elementList,keyList) => {
+                $('#product-form').append('<input type="hidden" class="list-pro" name="properties['+ keyPro +']['+ keyList +']" data-property-key="'+ keyList +'" value="' + elementList + '">')
+            });
+        });
+
+        console.log(listProperty)
     });
 </script>
 @endsection

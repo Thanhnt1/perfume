@@ -104,7 +104,7 @@ class Product extends Base implements AuditableContract
      */
     public function productProperties()
     {
-        return $this->hasMany('App\Models\ProductProperty');
+        return $this->belongsToMany('App\Models\Property')->withPivot('value')->withTimestamps();
     }
 
     /**

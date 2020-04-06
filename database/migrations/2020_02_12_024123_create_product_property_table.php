@@ -23,7 +23,6 @@ class CreateProductPropertyTable extends Migration
             
             $table->index(["property_id"], 'FK_PRODUCT_PROPERTY2');
 
-
             $table->foreign('product_id', 'product_property_product_id')
                 ->references('id')->on('products')
                 ->onDelete('restrict')
