@@ -134,6 +134,8 @@ class ProductController extends Controller
             $categories = Category::all();
             $supplier = Supplier::all();
             $unit = Unit::all();
+            $property = Property::all();
+            $productProperty = $product->productProperties()->get()->toArray();
             $images = [];
             if($product->images) {
                 foreach($product->images as $item){
@@ -154,12 +156,14 @@ class ProductController extends Controller
             ] : null;
 
             return view('admin.products.edit', [
-                    'product' => $product,
-                    'avatar' => $avatar,
-                    'categories' => $categories,
-                    'supplier' => $supplier,
-                    'unit' => $unit,
-                    'images' => $images
+                'product' => $product,
+                'avatar' => $avatar,
+                'categories' => $categories,
+                'supplier' => $supplier,
+                'unit' => $unit,
+                'images' => $images,
+                'property' => $property,
+                'productProperty' => $productProperty
             ]);
         } else {
             abort(404);
@@ -181,7 +185,7 @@ class ProductController extends Controller
                 $params['import_price'] = str_replace(",", "", $params['import_price']);
                 $params['selling_price'] = str_replace(",", "", $params['selling_price']);
                 $params['quantity'] = str_replace(",", "", $params['quantity']);
-
+                
                 if($request->fileUpload) {
                     // remove params file upload
                     $params = array_diff_key($params, array_flip(["fileUpload"]));
@@ -224,7 +228,6 @@ class ProductController extends Controller
                 // remove file images
                 if($request->fileRemove && $product->images) {
                     foreach ($request->fileRemove as $image) {
-                        
                         if(in_array($image,$images)) {
                             // remove file in database
                             foreach ($product->images as $value) {
@@ -237,6 +240,19 @@ class ProductController extends Controller
                                 Storage::disk('dropbox')->delete($image);
                             }
                         }
+                    }
+                }
+
+                if($request->properties) {
+                    $product->productProperties()->detach();
+                    foreach ($params['properties'] as $keyPro => $property) {
+                        $arrValue = [];
+                        foreach ($property as $keyList => $value) {
+                            $product->productProperties()->attach([
+                                $keyPro => ['value' => $value],
+                            ]);
+                        }
+                        
                     }
                 }
 

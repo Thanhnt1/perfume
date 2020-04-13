@@ -15,20 +15,20 @@ class CreateProductPropertyTable extends Migration
     {
         Schema::create('product_property', function (Blueprint $table) {
             $table->engine = 'InnoDB';
+            $table->increments('id');
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('property_id');
             $table->string('value', 100)->nullable()->default(null);
-            $table->softDeletes();
             $table->timestamps();
             
-            $table->index(["property_id"], 'FK_PRODUCT_PROPERTY2');
+            $table->index('value');
 
-            $table->foreign('product_id', 'product_property_product_id')
+            $table->foreign('product_id')
                 ->references('id')->on('products')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
 
-            $table->foreign('property_id', 'FK_PRODUCT_PROPERTY2')
+            $table->foreign('property_id')
                 ->references('id')->on('properties')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');

@@ -51,8 +51,9 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <input type="text" class="form-control" id="text-property" aria-label="Amount (to the nearest dollar)" placeholder="Text property...">
+                                <input type="text" class="form-control" name="asd" id="text-property" aria-label="Amount (to the nearest dollar)" placeholder="Text property..." required>
                                 <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-primary" id="btn-update-property" hidden>Update</button>
                                     <button type="button" class="btn btn-outline-success" id="btn-add-property">Add</button>
                                 </div>
                             </div>
@@ -238,6 +239,7 @@
 
     var listProperty = [];
     var listAddProperty = [];
+    var updateListPropertyKey = 0;
 
     $('#property_id').on('click', function(){
         var name = $('#property_id option:selected').text().toLowerCase()
@@ -251,7 +253,7 @@
         $("#table-property tbody").empty();
         if(listProperty[property_id]) {
             listProperty[property_id].forEach((element, key) => {
-                $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td><td><button type="button" data-property-key="'+ key +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></tr>');
+                $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td><td><button type="button" data-property-key="'+ key +'" data-property-value="'+ element +'" class="btn btn-info btn-sm btn-edit-property mr-1"><i class="fa fa-edit"></i> Edit</button><button type="button" data-property-key="'+ key +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></td></tr>');
             });
         }
     }).trigger('change');
@@ -259,6 +261,11 @@
     $('#btn-add-property').on('click', function(){
         var property_id = $('#property_id').val();
         var text_property = $('#text-property').val();
+        if(text_property == '') {
+            $('#text-property').addClass('border border-danger');
+            return;
+        }
+        $('#text-property').removeClass('border border-danger');
         listAddProperty.push(text_property)
         listProperty[property_id] = listAddProperty
 
@@ -268,7 +275,7 @@
         // reload table
         $("#table-property tbody").empty();
         listProperty[property_id].forEach((element, key) => {
-            $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td><td><button type="button" data-property-key="'+ key +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></tr>');
+            $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td><td><button type="button" data-property-key="'+ key +'" data-property-value="'+ element +'" class="btn btn-info btn-sm btn-edit-property mr-1"><i class="fa fa-edit"></i> Edit</button><button type="button" data-property-key="'+ key +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></td></tr>');
         });
         $('#product-form').find('input[class="list-pro"]').remove()
         listProperty.forEach((elementPro,keyPro) => {
@@ -276,7 +283,9 @@
                 $('#product-form').append('<input type="hidden" class="list-pro" name="properties['+ keyPro +']['+ keyList +']" data-property-key="'+ keyList +'" value="' + elementList + '">')
             });
         });
-
+        
+        // Clear input text property
+        $('#text-property').val('');
         console.log(listProperty)
     });
 
@@ -291,7 +300,7 @@
         // reload table
         $("#table-property tbody").empty();
         listProperty[property_id].forEach((element, key) => {
-            $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td><td><button type="button" data-property-key="'+ key +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></tr>');
+            $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td><td><button type="button" data-property-key="'+ key +'" data-property-value="'+ element +'" class="btn btn-info btn-sm btn-edit-property mr-1"><i class="fa fa-edit"></i> Edit</button><button type="button" data-property-key="'+ key +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></td></tr>');
         });
         $('#product-form').find('input[class="list-pro"]').remove()
         listProperty.forEach((elementPro,keyPro) => {
@@ -299,6 +308,47 @@
                 $('#product-form').append('<input type="hidden" class="list-pro" name="properties['+ keyPro +']['+ keyList +']" data-property-key="'+ keyList +'" value="' + elementList + '">')
             });
         });
+
+        console.log(listProperty)
+    });
+
+    $('#table-property').on('click', '.btn-edit-property', function(){
+        $('#text-property').val($(this).data('property-value'));
+        $('#btn-update-property').removeAttr('hidden');
+        $('#btn-update-property').show();
+        $('#text-property').focus();
+        updateListPropertyKey = $(this).data('property-key');
+        // console.log($(this).data('property-key'))
+    });
+
+    $('#btn-update-property').on('click', function(){
+        var text_property = $('#text-property').val();
+        var property_id = $('#property_id').val();
+        if(text_property == '') {
+            $('#text-property').addClass('border border-danger');
+            return;
+        }
+        $('#text-property').removeClass('border border-danger');
+
+        listProperty[property_id][updateListPropertyKey] = text_property;
+
+        // reload table
+        $("#table-property tbody").empty();
+        listProperty[property_id].forEach((element, key) => {
+            $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td><td><button type="button" data-property-key="'+ key +'" data-property-value="'+ element +'" class="btn btn-info btn-sm btn-edit-property mr-1"><i class="fa fa-edit"></i> Edit</button><button type="button" data-property-key="'+ key +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></td></tr>');
+        });
+        $('#product-form').find('input[class="list-pro"]').remove()
+        listProperty.forEach((elementPro,keyPro) => {
+            elementPro.forEach((elementList,keyList) => {
+                $('#product-form').append('<input type="hidden" class="list-pro" name="properties['+ keyPro +']['+ keyList +']" data-property-key="'+ keyList +'" value="' + elementList + '">')
+            });
+        });
+        
+        // Clear input text property
+        $('#text-property').val('');
+
+        // Hide button
+        $(this).hide();
 
         console.log(listProperty)
     });
