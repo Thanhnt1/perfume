@@ -43,3 +43,39 @@
 .alert-custom.alert-dismissible .close {
   padding: 0 0.3rem;
 }
+
+.btn-custom {
+  display: inline-block;
+  padding: 8px 30px;
+  margin-bottom: 0;
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 1.6;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background-image: none;
+  border: 2px solid transparent;
+  border-radius: 0px;
+}
+
+.btn-default {
+  color: #141414;
+  background-color: transparent;
+  border-color: #141414;
+}
+
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 100%;
+}

@@ -25,3 +25,7 @@
     right: 50%;
     top: 3rem;
 }
+
+.w-125 {
+    max-width: 125px;
+}

@@ -7,16 +7,19 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Supplier;
+use App\Models\Comment;
 use App\Services\Product\IProductService;
+use App\Services\Comment\ICommentService;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    protected $productService;
+    protected $productService, $commentService;
 
-    public function __construct(IProductService $IProductService)
+    public function __construct(IProductService $IProductService, ICommentService $ICommentService)
     {
         $this->productService = $IProductService;
+        $this->commentService = $ICommentService;
     }
 
     /**
@@ -39,7 +42,7 @@ class ProductController extends Controller
         }])->get();
         
         $productList = Product::paginate(12)->toArray();
-        // dd($productList);
+        // dd($products);
         return view('client.product', [
             'products' => $products,
             'categories' => $categories,
@@ -119,14 +122,67 @@ class ProductController extends Controller
             $suppliers = Supplier::with(['products' => function($query) {
                 // Query the name field in status table
                 $query->where('products.status', 1);
-            }])->where('id', $product->category->id)->first();
-           
+            }])->where('id', $product->supplier->id)->first();
+
+            $color = $product->productProperties()->where('name', 'Color')->get();
+            $volume = $product->productProperties()->where('name', 'Volume')->get();
+            
+            $otherProducts = Product::where('id', '!=', $product->id)
+            ->where(function($query) use($product) {
+                $query->where('supplier_id', $product->supplier->id)
+                ->orWhere('name','like',"%{$product->name}%");
+            })->get()->take(10);
+
+            $comments = $product->comments()->with(['customer'])->paginate(5);
+            // dd(\Auth::guard('customer')->check());
             return view('client.product-detail', [
                 'product' => $product,
-                'suppliers' => $suppliers
+                'suppliers' => $suppliers,
+                'color' => $color,
+                'volume' => $volume,
+                'otherProducts' => $otherProducts,
+                'comments' => $comments
             ]);
         } else {
             abort(404);
+        }
+    }
+
+    /**
+     * Store the application user.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updateComment(Request $request)
+    {
+        $comment = $this->commentService->findById($request->id);
+        $params = $request->all();
+        if ($comment instanceof Comment) {
+            try {
+                // Open transaction
+                DB::beginTransaction();
+                // dd($request->increase);
+                if($request->increase == 1) {
+                    $params['like'] = $comment->like ? $comment->like + 1 : 1;
+                }
+                if($request->increase == 0) {
+                    $params['like'] = $comment->like ? $comment->like - 1 : null;
+                }
+
+                // Update user
+                $comment = $this->commentService->updateData($params, $comment->id);
+
+                // Commit transaction
+                DB::commit();
+                //
+                return $this->responseJSON(true, trans('product.commentUpdateSuccessfull'), 200);
+            } catch (\Exception $e) {
+                // Rollback transaction
+                DB::rollBack();
+                return $this->responseJSON(false, trans($e->getMessage()));
+            }
+        } else {
+            return $this->responseJSON(false, trans('product.notFound'));
         }
     }
 }

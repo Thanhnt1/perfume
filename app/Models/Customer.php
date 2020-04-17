@@ -40,7 +40,7 @@ class Customer extends Authenticatable implements AuditableContract
     /**
      * @var array
      */
-    protected $fillable = ['cart_id', 'name', 'email','provider', 'provider_id', 'email_verified_at', 'password', 'phone', 'sex', 'remember_token', 'avatar', 'deleted_at', 'created_at', 'updated_at'];
+    protected $fillable = ['cart_id', 'name', 'email','provider', 'provider_id', 'email_verified_at', 'password', 'phone', 'sex', 'remember_token', 'avatar', 'location', 'deleted_at', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -69,5 +69,13 @@ class Customer extends Authenticatable implements AuditableContract
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comment');
     }
 }

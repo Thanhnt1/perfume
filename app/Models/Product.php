@@ -122,4 +122,12 @@ class Product extends Base implements AuditableContract
     {
         return $this->hasMany('App\Models\ProductSale');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comment');
+    }
 }

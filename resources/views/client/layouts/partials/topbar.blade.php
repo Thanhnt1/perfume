@@ -219,9 +219,9 @@
 </div>
 <!-- /main-bar -->
 
-@section('custom-js')
+@section('topbar-js')
     <script>
-        var code = null;
+        var code = 123;
         $('#phone').mask('0000000000');
         $('#sign-up').hide();
         $('.password').hide();
@@ -231,21 +231,21 @@
             var baseUrl = "{{ route('client.sendSms', ['phone' => '__PHONE__']) }}";
             var url = baseUrl.replace(/__PHONE__/g, phoneTrim);
 
-            $.ajax({
-                    url : url,
-                    method: "GET",
-                }).done(function(data){
-                    if(data.status) {
-                        $.notify({
-                            // options
-                            message: data.msg
-                        });
-                        code = data.data
-                    } else {
-                    }
-                }).fail(function(data){
-                    console.log(data);
-                });
+            // $.ajax({
+            //     url : url,
+            //     method: "GET",
+            // }).done(function(data){
+            //     if(data.status) {
+            //         $.notify({
+            //             // options
+            //             message: data.msg
+            //         });
+            //         code = data.data
+            //     } else {
+            //     }
+            // }).fail(function(data){
+            //     console.log(data);
+            // });
         });
         $('#check-code').on('click', function(){
             var inputCode = $('#code').val();

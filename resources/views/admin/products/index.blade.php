@@ -72,9 +72,9 @@
                 { 
                     data: 'product_name',
                     name: 'products.name',
-                    className: 'text-center text-nowrap',
+                    className: 'text-center text-truncate w-125',
                     render: function(data, type, row, meta){
-                        var html = '<a href="{{ route('admin.products.edit', ['id' => '__ID__']) }}">'+ row.product_name +'</a>'
+                        var html = '<a href="{{ route('admin.products.edit', ['id' => '__ID__']) }}" class="">'+ row.product_name +'</a>'
                         return html.replace(/__ID__/g, row.uuid);
                     }
                 },

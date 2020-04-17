@@ -40,3 +40,6 @@ Route::get('/callback/{provider}', 'HomeController@callback')->name('client.call
 Route::get('/products', 'ProductController@index')->name('client.products');
 Route::get('/products/search', 'ProductController@search')->name('client.products.search');
 Route::get('/products/{id}/{name}', 'ProductController@detail')->name('client.products.detail');
+
+// comments
+Route::post('/comments/update-comment', 'ProductController@updateComment')->name('client.comments.update');

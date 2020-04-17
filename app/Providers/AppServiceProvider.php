@@ -40,6 +40,10 @@ class AppServiceProvider extends ServiceProvider
         // Supplier
         $this->app->singleton(\App\Repositories\Supplier\ISupplierRepository::class, \App\Repositories\Supplier\SupplierRepository::class);
         $this->app->singleton(\App\Services\Supplier\ISupplierService::class, \App\Services\Supplier\SupplierService::class);
+
+        // Comment
+        $this->app->singleton(\App\Repositories\Comment\ICommentRepository::class, \App\Repositories\Comment\CommentRepository::class);
+        $this->app->singleton(\App\Services\Comment\ICommentService::class, \App\Services\Comment\CommentService::class);
     }
 
     /**

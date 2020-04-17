@@ -14,18 +14,14 @@ class AddCustomerCartRelationship extends Migration
     public function up()
     {
         Schema::table('customer', function(Blueprint $table) {
-            $table->index(["cart_id"], 'FK_RELATIONSHIP_51');
-
-            $table->foreign('cart_id', 'FK_RELATIONSHIP_51')
+            $table->foreign('cart_id')
                 ->references('id')->on('cart')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
         });
 
         Schema::table('cart', function(Blueprint $table) {
-            $table->index(["customer_id"], 'FK_RELATIONSHIP_60');
-
-            $table->foreign('customer_id', 'FK_RELATIONSHIP_60')
+            $table->foreign('customer_id')
                 ->references('id')->on('customer')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
@@ -39,6 +35,12 @@ class AddCustomerCartRelationship extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('customer', function(Blueprint $table) {
+            $table->dropForeign('customer_cart_id_foreign');
+        });
+
+        Schema::table('cart', function(Blueprint $table) {
+            $table->dropForeign('cart_customer_id_foreign');
+        });
     }
 }

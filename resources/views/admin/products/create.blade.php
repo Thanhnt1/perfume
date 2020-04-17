@@ -51,7 +51,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <input type="text" class="form-control" name="asd" id="text-property" aria-label="Amount (to the nearest dollar)" placeholder="Text property..." required>
+                                <input type="text" class="form-control" id="text-property" aria-label="Amount (to the nearest dollar)" placeholder="Text property...">
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-outline-primary" id="btn-update-property" hidden>Update</button>
                                     <button type="button" class="btn btn-outline-success" id="btn-add-property">Add</button>

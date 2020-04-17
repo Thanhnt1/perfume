@@ -15,5 +15,6 @@ return [
     'delete_selected_item' => 'Delete',
     'removedSuccessfull' => 'Products has been removed successfully.',
     'pls-choose-item' => 'Please choose product you want to delete!',
-    'notFound' => 'A Product in check list not found!'
+    'notFound' => 'A Product in check list not found!',
+    'commentUpdateSuccessfull' => 'The comment has been updated.',
 ];

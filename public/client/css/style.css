@@ -247,7 +247,7 @@ a.read-more:hover {
 .help-block [class^="flaticon-"]:last-child,
 [class^="flaticon-"]:last-child,
 .glyphicon:last-child {
-	margin-right: 5px;
+	/* margin-right: 5px;d */
 }
 
 
@@ -1959,8 +1959,8 @@ label.label-md {
 	font-style: normal;
 }
 .prod-price {
-	font-size: 24px;
-	font-weight: 300;
+	font-size: inherit;
+	font-weight: 400;
 }
 .prod-qty {
 	width: 110px;
