@@ -13,7 +13,7 @@ class UnitTableSeeder extends Seeder
     public function run()
     {
         $unit = new Unit;
-        $unit->name = 'pc';
+        $unit->name = 'pcs';
         $unit->save();
     }
 }

@@ -32,6 +32,6 @@ class Property extends Base
      */
     public function productProperties()
     {
-        return $this->belongsToMany('App\Models\Product')->withPivot('value')->withTimestamps();
+        return $this->belongsToMany('App\Models\Product')->withPivot('value', 'quantity')->withTimestamps();
     }
 }

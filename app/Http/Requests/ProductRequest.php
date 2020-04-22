@@ -30,11 +30,11 @@ class ProductRequest extends FormRequest
             'name' => "required",
             'supplier_id' => 'required',
             'import_price' =>'required',
-            'quantity' => 'required',
+            // 'quantity' => 'required',
             'status' => 'required',
             'category_id' => 'required',
             'selling_price' => 'required',
-            'unit_id' => 'required',
+            // 'unit_id' => 'required',
             'avatar' => 'required'
         ];
     }

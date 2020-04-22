@@ -134,7 +134,7 @@ class ProductController extends Controller
             })->get()->take(10);
 
             $comments = $product->comments()->with(['customer'])->paginate(5);
-            // dd(\Auth::guard('customer')->check());
+            // dd($comments->items());
             return view('client.product-detail', [
                 'product' => $product,
                 'suppliers' => $suppliers,

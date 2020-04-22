@@ -80,7 +80,7 @@ class ProductController extends Controller
             $params['import_price'] = str_replace(",", "", $params['import_price']);
             $params['selling_price'] = str_replace(",", "", $params['selling_price']);
             $params['quantity'] = str_replace(",", "", $params['quantity']);
-
+            // dd($params);
             if($request->fileUpload) {
                 // remove params file upload
                 $params = array_diff_key($params, array_flip(["fileUpload"]));
@@ -108,7 +108,7 @@ class ProductController extends Controller
                     foreach ($params['properties'] as $keyPro => $property) {
                         foreach ($property as $keyList => $value) {
                             $product->productProperties()->attach([
-                                $keyPro => ['value' => $value],
+                                $keyPro => ['value' => $value[0], 'quantity' => str_replace(",", "", $value[1]), 'unit_id' => $value[2]],
                             ]);
                         }
                     }
@@ -190,7 +190,7 @@ class ProductController extends Controller
                     // remove params file upload
                     $params = array_diff_key($params, array_flip(["fileUpload"]));
                 }
-
+                // dd($params);
                 // get current avatar of product
                 $avatarRemove = $product->avatar;
 
@@ -249,10 +249,9 @@ class ProductController extends Controller
                         $arrValue = [];
                         foreach ($property as $keyList => $value) {
                             $product->productProperties()->attach([
-                                $keyPro => ['value' => $value],
+                                $keyPro => ['value' => $value[0], 'quantity' => str_replace(",", "", $value[1]), 'unit_id' => $value[2]],
                             ]);
                         }
-                        
                     }
                 }
 

@@ -275,7 +275,7 @@
 													{!! $item->description !!}
 													<div class="review-remark" style="margin-top: 40px;">
 														<div class="like-icon">
-															<span class="icon-like" data-id="{{ $item->id }}" data-like="{{ $item->like }}" style="{{ $item->customer_id == \Auth::guard('customer')->user()->id && $item->choose  ? 'color: rgb(219, 68, 55);' : null }}">
+															<span class="icon-like" data-id="{{ $item->id }}" data-like="{{ $item->like }}" style="{{ \Auth::guard('customer')->check() && $item->customer_id == \Auth::guard('customer')->user()->id && $item->choose  ? 'color: rgb(219, 68, 55);' : null }}">
 																<i class="fas fa-thumbs-up" style="margin-right: 5px; cursor: pointer;"></i>
 															</span>
 															<span>{{ $item->like ? $item->like : 'Hữu ích?'}}</span>

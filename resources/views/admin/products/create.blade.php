@@ -37,11 +37,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="quantity">Quantity<i class="text-danger">&nbsp;*</i></label>
-                            <input type="text" class="form-control" id="quantity" name="quantity" value="{{ old('quantity') }}" tabindex="7" required>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                            <label class="custom-control-label" for="customSwitch1">Multiple Quantity</label>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group single-quantity">
+                            <label for="quantity-all">Quantity<i class="text-danger">&nbsp;*</i></label>
+                            <input type="text" class="form-control" id="quantity-all" name="quantity" value="{{ old('quantity') }}" tabindex="7">
+                        </div>
+                        
+                        <div class="form-group multiple-quantity">
                             <label for="text-property">Property<i class="text-danger">&nbsp;*</i></label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -51,10 +56,24 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <input type="text" class="form-control" id="text-property" aria-label="Amount (to the nearest dollar)" placeholder="Text property...">
+                                <input type="text" class="form-control" id="text-property" placeholder="Ex:'Red', 'Green',...">
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-outline-primary" id="btn-update-property" hidden>Update</button>
                                     <button type="button" class="btn btn-outline-success" id="btn-add-property">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group multiple-quantity">
+                            <label for="quantity">Quantity<i class="text-danger">&nbsp;*</i></label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="quantity" tabindex="7" placeholder="Ex:'10', '20',...">
+                                <div class="input-group-append">
+                                    <select id="unit_id" class="border rounded-right" tabindex="8">
+                                        @foreach($unit as $value)
+                                            <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -91,21 +110,24 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="unit_id">Unit<i class="text-danger">&nbsp;*</i></label>
-                            <select id="unit_id" name="unit_id" class="form-control" tabindex="8" required>
+                        <div class="custom-control custom-switch"></div>
+                        <div class="form-group single-quantity">
+                            <label for="unit_id_all">Unit<i class="text-danger">&nbsp;*</i></label>
+                            <select id="unit_id_all" name="unit_id" class="form-control" tabindex="8" required>
                                 @foreach($unit as $value)
                                     <option value="{{ $value->id }}" {{ old('unit_id') == $value->id ? 'selected="selected"' : '' }}>{{ $value->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="input-group">
-                            <label for="unit_id">List property <span id="name-property"></span></label>
+                        <div class="input-group multiple-quantity">
+                            <label for="table-property">List property <span id="name-property"></span></label>
                             <table class="table" id="table-property">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Name</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Unit</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -223,9 +245,7 @@
         }
     }
 
-    $('#import_price').mask('#,##0', { reverse: true });
-    $('#selling_price').mask('#,##0', { reverse: true });
-    $('#quantity').mask('#,##0', { reverse: true });
+    $('#quantity, #quantity-all, #selling_price, #import_price').mask('#,##0', { reverse: true });
 
     $('#description').summernote({
         height: 250,
@@ -240,6 +260,31 @@
     var listProperty = [];
     var listAddProperty = [];
     var updateListPropertyKey = 0;
+    var arrUnit = {!! json_encode($unit) !!};
+
+    function reloadData(property_id) {
+        // remove input list properties
+        // $('#product-form').find('input[name="properties[]"]').remove()
+        
+        // reload table
+        $("#table-property tbody").empty();
+        $('#product-form').find('input[class="list-pro"]').remove();
+        var sumQuantity = 0;
+        listProperty.forEach((elementPro,keyPro) => {
+            elementPro.forEach((elementList,keyList) => {
+                if(keyPro == property_id) { // add record to table
+                    $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (keyList+1) +'</th><td class="text-truncate" style="max-width: 125px;">'+ elementList[0] +'</td><td>'+ elementList[1] +'</td><td>'+ getNameUnit(elementList[2]) +'</td><td><button type="button" data-property-key="'+ keyList +'" data-property-value="'+ elementList[0] +'" data-property-quantity="'+ elementList[1] +'" data-property-unit="'+ elementList[2] +'" class="btn btn-info btn-sm btn-edit-property mr-1"><i class="fa fa-edit"></i> Edit</button><button type="button" data-property-key="'+ keyList +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></td></tr>');
+                }
+                elementList.forEach((elementAll,keyAll) => {
+                    $('#product-form').append('<input type="hidden" class="list-pro" name="properties['+ keyPro +']['+ keyList +']['+ keyAll +']" data-property-key="'+ keyList +'" value="' + (keyAll == 1 ? parseInt(elementAll.replace(/,/g, '')) : elementAll) + '">')
+                    sumQuantity = keyAll == 1 ? sumQuantity + parseInt(elementAll.replace(/,/g, ''))  : sumQuantity
+                });
+            });
+        });
+        // add sum quantity params
+        $('#product-form').find('input[name="quantity"][type="hidden"]').remove();
+        $('#product-form').append('<input type="hidden" name="quantity" value="' + sumQuantity + '">')
+    }
 
     $('#property_id').on('click', function(){
         var name = $('#property_id option:selected').text().toLowerCase()
@@ -250,70 +295,98 @@
     $('#property_id').on('change', function(){
         var property_id = $(this).val();
         listAddProperty = listProperty[property_id] ? listProperty[property_id] : []; 
-        $("#table-property tbody").empty();
-        if(listProperty[property_id]) {
-            listProperty[property_id].forEach((element, key) => {
-                $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td><td><button type="button" data-property-key="'+ key +'" data-property-value="'+ element +'" class="btn btn-info btn-sm btn-edit-property mr-1"><i class="fa fa-edit"></i> Edit</button><button type="button" data-property-key="'+ key +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></td></tr>');
-            });
+
+        // reload data
+        reloadData(property_id)
+    }).trigger('change');
+
+    $('#customSwitch1').on('change', function(){
+        // console.log()
+        if($(this).is(":checked")) {
+            // hide single quantity
+            $('.single-quantity').hide()
+            $('.multiple-quantity').show()
+            $('#quantity-all').val('')
+        }
+        else {
+            // show single quantity
+            $('.single-quantity').show()
+            $('.multiple-quantity').hide()
+            // reload multiple quantity
+            var property_id = $(this).val();
+            listProperty = []
+            listAddProperty = []
+            updateListPropertyKey = 0
+            reloadData(property_id)
+            $('#product-form').find('input[name="quantity"][type="hidden"]').remove();
+            $('#text-property').val('');
+            $('#quantity').val('');
         }
     }).trigger('change');
 
+    $('#text-property').on('change', function(){
+        $(this).removeClass('border border-danger');
+    });
+
+    $('#quantity').on('change', function(){
+        $(this).removeClass('border border-danger');
+    });
+
+    function getNameUnit(id){
+        let result = null;
+        arrUnit.forEach(element => {
+            if(element.id == id)
+                result = element.name
+        });
+        return result;
+    };
+
     $('#btn-add-property').on('click', function(){
-        var property_id = $('#property_id').val();
+        var property_id = parseInt($('#property_id').val());
         var text_property = $('#text-property').val();
-        if(text_property == '') {
-            $('#text-property').addClass('border border-danger');
+        var quantity = $('#quantity').val();
+        var unit_id = parseInt($('#unit_id option:selected').val());
+
+        if(text_property == '' || $('#quantity').val() == '') {
+            if(text_property == '') {
+                $('#text-property').addClass('border border-danger');
+            }
+            if($('#quantity').val() == '') {
+                $('#quantity').addClass('border border-danger');
+            }
             return;
         }
-        $('#text-property').removeClass('border border-danger');
-        listAddProperty.push(text_property)
+
+        listAddProperty.push([text_property,quantity,unit_id])
         listProperty[property_id] = listAddProperty
 
-        // remove input list properties
-        $('#product-form').find('input[name="properties[]"]').remove()
-        
-        // reload table
-        $("#table-property tbody").empty();
-        listProperty[property_id].forEach((element, key) => {
-            $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td><td><button type="button" data-property-key="'+ key +'" data-property-value="'+ element +'" class="btn btn-info btn-sm btn-edit-property mr-1"><i class="fa fa-edit"></i> Edit</button><button type="button" data-property-key="'+ key +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></td></tr>');
-        });
-        $('#product-form').find('input[class="list-pro"]').remove()
-        listProperty.forEach((elementPro,keyPro) => {
-            elementPro.forEach((elementList,keyList) => {
-                $('#product-form').append('<input type="hidden" class="list-pro" name="properties['+ keyPro +']['+ keyList +']" data-property-key="'+ keyList +'" value="' + elementList + '">')
-            });
-        });
-        
+        // reload data
+        reloadData(property_id)
+
         // Clear input text property
         $('#text-property').val('');
+        $('#quantity').val('');
         console.log(listProperty)
     });
 
     // issue https://stackoverflow.com/questions/15420558/jquery-click-event-not-working-after-append-method
     $('#table-property').on('click', '.btn-remove-property', function(){
-        var property_id = $('#property_id').val();
+        var property_id = parseInt($('#property_id').val());
         var property_key = $(this).data('property-key');
 
         // remove in list array property current
         listProperty[property_id].splice(property_key,1);
 
-        // reload table
-        $("#table-property tbody").empty();
-        listProperty[property_id].forEach((element, key) => {
-            $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td><td><button type="button" data-property-key="'+ key +'" data-property-value="'+ element +'" class="btn btn-info btn-sm btn-edit-property mr-1"><i class="fa fa-edit"></i> Edit</button><button type="button" data-property-key="'+ key +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></td></tr>');
-        });
-        $('#product-form').find('input[class="list-pro"]').remove()
-        listProperty.forEach((elementPro,keyPro) => {
-            elementPro.forEach((elementList,keyList) => {
-                $('#product-form').append('<input type="hidden" class="list-pro" name="properties['+ keyPro +']['+ keyList +']" data-property-key="'+ keyList +'" value="' + elementList + '">')
-            });
-        });
+        // reload data
+        reloadData(property_id)
 
         console.log(listProperty)
     });
 
     $('#table-property').on('click', '.btn-edit-property', function(){
         $('#text-property').val($(this).data('property-value'));
+        $('#quantity').val($(this).data('property-quantity'));
+        $('#unit_id').val($(this).data('property-unit'));
         $('#btn-update-property').removeAttr('hidden');
         $('#btn-update-property').show();
         $('#text-property').focus();
@@ -324,28 +397,28 @@
     $('#btn-update-property').on('click', function(){
         var text_property = $('#text-property').val();
         var property_id = $('#property_id').val();
-        if(text_property == '') {
-            $('#text-property').addClass('border border-danger');
+        var quantity = $('#quantity').val();
+        var unit_id = parseInt($('#unit_id option:selected').val());
+
+        if(text_property == '' || quantity == '') {
+            if(text_property == '') {
+                $('#text-property').addClass('border border-danger');
+            }
+            if(quantity == '') {
+                $('#quantity').addClass('border border-danger');
+            }
             return;
         }
         $('#text-property').removeClass('border border-danger');
 
-        listProperty[property_id][updateListPropertyKey] = text_property;
+        listProperty[property_id][updateListPropertyKey] = [text_property,quantity,unit_id];
 
-        // reload table
-        $("#table-property tbody").empty();
-        listProperty[property_id].forEach((element, key) => {
-            $('#table-property tbody:last-child').append('<tr><th scope="row">'+ (key+1) +'</th><td>'+ element +'</td><td><button type="button" data-property-key="'+ key +'" data-property-value="'+ element +'" class="btn btn-info btn-sm btn-edit-property mr-1"><i class="fa fa-edit"></i> Edit</button><button type="button" data-property-key="'+ key +'" class="btn btn-danger btn-sm btn-remove-property"><i class="fa fa-trash"></i> Remove</button></td></td></tr>');
-        });
-        $('#product-form').find('input[class="list-pro"]').remove()
-        listProperty.forEach((elementPro,keyPro) => {
-            elementPro.forEach((elementList,keyList) => {
-                $('#product-form').append('<input type="hidden" class="list-pro" name="properties['+ keyPro +']['+ keyList +']" data-property-key="'+ keyList +'" value="' + elementList + '">')
-            });
-        });
+        // reload data
+        reloadData(property_id)
         
         // Clear input text property
         $('#text-property').val('');
+        $('#quantity').val('');
 
         // Hide button
         $(this).hide();
