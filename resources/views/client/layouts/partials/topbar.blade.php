@@ -115,40 +115,19 @@
                 </div><!-- /bar-form -->
             </li>
             <li>
-                <span class="cart-btn dropBox-btn"><i class="flaticon-shopping191"></i><span class="badge">0</span></span>
+                <span class="cart-btn dropBox-btn"><i class="flaticon-shopping191"></i><span class="badge" id="count-cart">0</span></span>
                 <div class="dropBox">
                     <div class="box-section">
-                        <ul class="cart-info-list">
-                            <li class="cart-item">
-                                <div class="cart-item-bx">
-                                    <figure><img src="{{ asset('client/images/resource/img-1.jpeg')}}" alt="image"></figure>
-                                    <div class="text">
-                                        <h6><a href="#">Thierry Mugler Alien</a></h6>
-                                        <p>EDT 30ml</p>
-                                        <p>$45.99</p>
-                                        <p class="tot">$45.99</p>
-                                    </div>
-                                    <button type="button" class="close">&times;</button>
-                                </div>
-                                <!-- /cart-item-bx -->
-                            </li>
-                            <li class="cart-item">
-                                <div class="cart-item-bx">
-                                    <figure><img src="{{ asset('client/images/resource/img-2.jpeg')}}" alt="image"></figure>
-                                    <div class="text">
-                                        <h6><a href="#">Thierry Mugler Alien</a></h6>
-                                        <p>3.4 OZ spray</p>
-                                        <p>$72.00</p>
-                                        <p class="tot">$72.00</p>
-                                    </div>
-                                    <button type="button" class="close">&times;</button>
-                                </div>
-                                <!-- /cart-item-bx -->
-                            </li>
-                        </ul>
+                        <ul class="cart-info-list"></ul>
                         <!--/ cart-info-list -->
-                        <a href="#" class="btn btn-dark btn-block dismiss-button">Continue Shopping</a>
-                        <p>Enjoy complimentary shipping on all orders over $75 and also complimentary samples and returns with every order.</p>
+                        {{-- <div class="text-center">
+                            <span class="text-left"></span>
+                            <a href="#" class="btn btn-default text-right">Xem Giỏ Hàng</a>
+                        </div> --}}
+                        <div class="row">
+                            <div class="col-md-5"><span id="count-cart-in"></span></div>
+                            <div class="col-md-4 col-md-offset-3"><a href="{{ route('client.cart') }}" class="btn btn-default text-right">Xem Giỏ Hàng</a></div>
+                          </div>
                     </div>
                     <!-- /cart-info-box -->
 
@@ -294,5 +273,43 @@
             }
         });
 
+        function loadCart() {
+            if('{{ !\Auth::guard("customer")->check() }}') {
+				location.href = "{{ route('client.loginView') }}"
+			}
+			else {
+                var cart = [];
+
+                $.ajax({
+                    url : "{{ route('client.ajaxGetCart') }}",
+                    method: "GET",
+                }).done(function(data){
+                    cart = JSON.parse(data.data)
+                    $('#count-cart').text(cart.length)
+                    $('#count-cart-in').text(cart.length + ' sản phẩm đã thêm')
+                    $('.cart-info-list').empty()
+                    for (let index = 0; index < 5; index++) {
+                        const element = cart[index];
+                        var itemProduct = '<li class="cart-item"><div class="cart-item-bx"><figure><img src="'+(element.avatar_url ? element.avatar_url : '/admin/img/no-image.jpg')+'" alt="image"></figure><div class="text"><h6><a href="{{ route("client.products.detail", ["id" => '+element.uuid+', "name" => str_replace(" ", "-", strtolower('+element.name+'))]) }}">'+element.name+'</a></h6><p>x</p><p class="tot price-product">'+element.selling_price+'</p></div><button type="button" class="close remove-prod">&times;</button></div><!-- /cart-item-bx --></li>';
+                        $('.cart-info-list').append(itemProduct)
+                    }
+                    // cart.forEach(element => {
+                    //     var itemProduct = '<li class="cart-item"><div class="cart-item-bx"><figure><img src="'+(element.avatar_url ? element.avatar_url : '/admin/img/no-image.jpg')+'" alt="image"></figure><div class="text"><h6><a href="{{ route("client.products.detail", ["id" => '+element.uuid+', "name" => str_replace(" ", "-", strtolower('+element.name+'))]) }}">'+element.name+'</a></h6><p>x</p><p class="tot price-product">'+element.selling_price+'</p></div><button type="button" class="close remove-prod">&times;</button></div><!-- /cart-item-bx --></li>';
+                    //     $('.cart-info-list').append(itemProduct)
+                    // });
+
+                    $('.price-product').mask('#.##0', { reverse: true });
+                    $('.price-product').append(' đ');
+                });
+            }
+        }
+
+        $('.cart-btn').on('click', function() {
+            loadCart()
+        });
+        
+        if('{{\Auth::guard('customer')->check()}}') {
+            $('.cart-btn').trigger('click');
+        }
     </script>
 @endsection

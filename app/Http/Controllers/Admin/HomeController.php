@@ -67,11 +67,13 @@ class HomeController extends Controller
             $file_src = $request->file("file"); //file src
             $is_file_uploaded = Storage::disk('dropbox')->putFile('',$file_src); // if u want create small folder in dropbox, let change '' => 'xxx'
             $name = uniqid() . '_' . trim($file_src->getClientOriginalName());
+            $type = $file_src->extension();
 
             return response()->json([
                 'name'          => $name,
                 'original_name' => $file_src->getClientOriginalName(),
-                'hash_name'     => $file_src->hashName()
+                'hash_name'     => $file_src->hashName(),
+                'linkDropbox'   => 'data:image/' . $type . ';base64,' . base64_encode(file_get_contents($file_src))
             ]);
         }
         return response()->json([
@@ -82,7 +84,7 @@ class HomeController extends Controller
     }
 
     public function uploadToDropbox(){
-            return View::make('admin.dropbox');
+        return View::make('admin.dropbox');
     }
 
     // public function uploadToDropboxFile(Request $RequestInput){

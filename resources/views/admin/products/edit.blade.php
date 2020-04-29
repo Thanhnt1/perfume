@@ -4,7 +4,7 @@
 
     <!-- Page Heading -->
     <div class="row row justify-content-between">
-        <div class="col-4"><h1 class="h3 mb-4 text-gray-800">Create Page</h1></div>
+        <div class="col-4"><h1 class="h3 mb-4 text-gray-800">Edit Page</h1></div>
     </div>
     
     <div class="card">
@@ -248,6 +248,7 @@
         },
         success: function (file, response) {
             $('#product-form').append('<input type="hidden" name="avatar" value="' + response.hash_name + '">')
+            $('#product-form').append('<input type="hidden" name="avatar_url" value="' + response.linkDropbox + '">')
             uploadedDocumentMap[file.name] = response.hash_name
             console.log(file, response)
         },
@@ -264,6 +265,7 @@
             }
 
             $('#product-form').find('input[name="avatar"]').remove()
+            $('#product-form').find('input[name="avatar_url"]').remove()
             $("#product-form").append("<input type='hidden' name='avatarRemove[]' value='" + name + "'>");
         },
         init: function () {
@@ -274,6 +276,7 @@
                 this.options.thumbnail.call(this, file, file.path);
                 file.previewElement.classList.add('dz-complete')
                 $('#product-form').append('<input type="hidden" name="avatar" value="'+ file.name +'">')
+                $('#product-form').append('<input type="hidden" name="avatar_url" value="' + file.url + '">')
             @endif
             this.on('addedfile', function(file) {
                 if (this.files.length > 1) {

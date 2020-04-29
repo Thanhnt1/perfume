@@ -47,7 +47,7 @@ class Customer extends Authenticatable implements AuditableContract
      */
     public function cart()
     {
-        return $this->belongsTo('App\Models\Models\Cart');
+        return $this->hasOne('App\Models\Cart');
     }
 
     /**
@@ -55,15 +55,7 @@ class Customer extends Authenticatable implements AuditableContract
      */
     public function bills()
     {
-        return $this->hasMany('App\Models\Models\Bill');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function carts()
-    {
-        return $this->hasMany('App\Models\Models\Cart');
+        return $this->hasMany('App\Models\Bill');
     }
 
     public function getName()

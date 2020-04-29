@@ -46,7 +46,7 @@ class Cart extends Base implements AuditableContract
      */
     public function cartProducts()
     {
-        return $this->hasMany('App\Models\CartProduct');
+        return $this->belongsToMany('App\Models\Product')->withPivot('id', 'value', 'quantity', 'unit_id')->withTimestamps();
     }
 
     /**

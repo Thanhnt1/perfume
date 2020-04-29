@@ -15,9 +15,10 @@ class CreateCartProductTable extends Migration
     {
         Schema::create('cart_product', function (Blueprint $table) {
             $table->engine = 'InnoDB';
+            $table->increments('id');
             $table->unsignedInteger('cart_id');
             $table->unsignedInteger('product_id');
-            $table->integer('quantity')->nullable()->default(null);
+            $table->integer('quantity')->nullable(0)->default(null);
             $table->softDeletes();
             $table->timestamps();
             

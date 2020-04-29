@@ -11,7 +11,7 @@
 				    <div class="row">
 				      <div class="col-sm-5">
 				        <figure class="image text-center">
-				          <img src="{{ Storage::disk('dropbox')->exists($product->avatar) ? Storage::disk('dropbox')->url($product->avatar) : 'admin/img/no-image.jpg' }}" alt="image" width="250" style="height: auto; margin-left:auto;">
+				          <img src="{{ $product->avatar_url ? $product->avatar_url : '/admin/img/no-image.jpg' }}" alt="image" width="250" style="height: auto; margin-left:auto;">
 				          <figcaption>
 				            <a href="#product-more" data-toggle="collapse">More pictures and videos  <i class="flaticon-small63"></i></a>
 				          </figcaption>
@@ -51,7 +51,7 @@
 									<div class="col-sm-3">Màu Sắc</div>
 									<div class="col-sm-9">
 										@foreach ($color as $item)
-											<button class="btn btn-info">{{$item->pivot->value}}</button>
+											<button type="button" class="btn btn-info btn-color" style="pointer-events: unset;" {{ $item->pivot->quantity <= 0 ? 'disabled' : null}} data-id="{{ $item->pivot->id }}" >{{$item->pivot->value}}</button>
 										@endforeach
 									</div>
 								</div>
@@ -61,7 +61,7 @@
 									<div class="col-sm-3">Dung Tích</div>
 									<div class="col-sm-9">
 										@foreach ($volume as $item)
-											<button class="btn btn-info">{{$item->pivot->value}}</button>
+											<button type="button" class="btn btn-info btn-volume" style="pointer-events: unset;" {{ $item->pivot->quantity <= 0 ? 'disabled' : null}} data-id="{{ $item->id }}" >{{$item->pivot->value}}</button>
 										@endforeach
 									</div>
 								</div>
@@ -78,9 +78,8 @@
 								</div>
 								<div class="col-sm-4">{{ $product->quantity }} sản phẩm có sẵn</div>
 							</div>
-							<a href="#" class="btn-custom btn-default">Thêm Vào Giỏ Hàng</a>
-							<a href="#" class="btn-custom btn-default">Mua Ngay</a>
-
+							<button type="button" class="btn-custom btn-default" id="add-cart">Thêm Vào Giỏ Hàng</button>
+							<button type="button" class="btn-custom btn-default" id="buy-it">Mua Ngay</button>
 				        </div>
 				      </div>
 				    </div>
@@ -104,7 +103,7 @@
 						<div class="item">
 							<div class="thumbnail thumbnail-product">
 								<figure class="image-zoom">
-									<img src="{{ Storage::disk('dropbox')->exists($item->avatar) ? Storage::disk('dropbox')->url($item->avatar) : 'admin/img/no-image.jpg' }}" alt="image" width="150px" style="height: auto;">
+									<img src="{{ $item->avatar_url ?? '/admin/img/no-image.jpg' }}" alt="image" width="150px" style="height: auto;">
 								</figure>
 								<div class="caption text-center"  style="padding: unset;">
 									<h5 class="text-truncate" style="max-width: 200px;"><a href="{{ route('client.products.detail', ['id' => $item->uuid, 'name' => str_replace(' ', '-', strtolower($item->name)) ]) }}">{{ $item->name }}</a></h5>
@@ -422,6 +421,10 @@
 
 @section('custom-js')
     <script>
+		var color = null;
+		var volume = null;
+		// var quantity = null;
+		
 		$('#selling_price, #quantity').mask('#.##0', { reverse: true });
 		$('#up').on('click', function(){
 			if($('#quantity').val() < {!! $product->quantity !!}) {
@@ -443,7 +446,7 @@
 			var increase = null
 
 			if(user == '') {
-				window.location.href = "{{ route('client.loginView') }}"
+				// window.location.href = "{{ route('client.loginView') }}"
 			}
 			else {
 				if($(this).css('color') == 'rgb(219, 68, 55)') {
@@ -475,6 +478,72 @@
 				});
 			}
 		});
+		$('.btn-color').on('click', function() {
+			$('.btn-color').each(function(){
+				$(this).css('border-color', 'unset')
+			});
+			if($(this).css('border-color') != 'rgb(0, 0, 255)') {
+				$(this).css('border-color', 'rgb(0, 0, 255)')
+				color = $(this).data('id');
+			}
+			else color = null;
+		});
+		$('.btn-volume').on('click', function() {
+			$('.btn-volume').each(function(){
+				$(this).css('border-color', 'unset')
+			});
+			if($(this).css('border-color') != 'rgb(0, 0, 255)') {
+				$(this).css('border-color', 'rgb(0, 0, 255)')
+				volume = $(this).data('id');
+			}
+			else volume = null;
+		});
+		$('#add-cart').on('click', function() {
+			if({!! !$color->isEmpty() ? 'true' : 'false' !!} && color == null) {
+				console.log(1)
+				$.notify({ message: 'Vui lòng chọn phân loại hàng' },{ type: 'warning' });
+				return;
+			}
 
+			if({!! !$volume->isEmpty() ? 'true' : 'false' !!} && volume == null) {
+				console.log(2)
+				$.notify({ message: 'Vui lòng chọn phân loại hàng' },{ type: 'warning' });
+				return;
+			}
+
+			if('{{ !\Auth::guard("customer")->check() }}') {
+				location.href = "{{ route('client.loginView') }}"
+			}
+			
+			var arrValue = [];
+			if(color) arrValue.push(color);
+			if(volume) arrValue.push(volume);
+			console.log(arrValue)
+			$.ajax({
+				url : "{{ route('client.ajaxAddToCart') }}",
+				method: 'POST',
+				data: {
+					product_id: '{{ $product->id }}',
+					value: arrValue.toString(),
+					quantity: $('#quantity').val()
+				}
+			}).done(function(data){
+				$.notify({
+					// options
+					message: data.msg
+				});
+				
+				// location.reload();
+				console.log(data)
+			});
+
+			loadCart()
+		});
+
+		$('#buy-it').on('click', function() {
+			console.log('asd')
+		});
+
+		
     </script>
 @endsection

@@ -220,6 +220,7 @@
         },
         success: function (file, response) {
             $('#product-form').append('<input type="hidden" name="avatar" value="' + response.hash_name + '">')
+            $('#product-form').append('<input type="hidden" name="avatar_url" value="' + response.linkDropbox + '">')
             uploadedDocumentMap[file.name] = response.hash_name
             console.log(file, response)
         },
@@ -232,6 +233,7 @@
                 name = uploadedDocumentMap[file.name]
             }
             $('#product-form').find('input[name="avatar"]').remove()
+            $('#product-form').find('input[name="avatar_url"]').remove()
         },
         init: function () {
             this.on('addedfile', function(file) {

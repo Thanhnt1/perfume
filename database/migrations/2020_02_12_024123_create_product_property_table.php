@@ -20,8 +20,6 @@ class CreateProductPropertyTable extends Migration
             $table->unsignedInteger('property_id');
             $table->string('value', 100)->nullable()->default(null);
             $table->timestamps();
-            
-            $table->index('value');
 
             $table->foreign('product_id')
                 ->references('id')->on('products')

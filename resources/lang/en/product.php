@@ -17,4 +17,5 @@ return [
     'pls-choose-item' => 'Please choose product you want to delete!',
     'notFound' => 'A Product in check list not found!',
     'commentUpdateSuccessfull' => 'The comment has been updated.',
+    'addToCartSuccessfull' => 'Product has been added to your cart',
 ];

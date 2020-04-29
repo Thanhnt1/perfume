@@ -29,33 +29,6 @@ class PropertiesTableSeeder extends Seeder
             1 => 
             array (
                 'id' => 2,
-                'name' => 'Width',
-                'note' => NULL,
-                'deleted_at' => NULL,
-                'created_at' => '2020-04-13 04:26:44',
-                'updated_at' => '2020-04-13 04:26:44',
-            ),
-            2 => 
-            array (
-                'id' => 3,
-                'name' => 'Weight',
-                'note' => NULL,
-                'deleted_at' => NULL,
-                'created_at' => '2020-04-13 07:58:03',
-                'updated_at' => '2020-04-13 07:58:03',
-            ),
-            3 => 
-            array (
-                'id' => 4,
-                'name' => 'Height',
-                'note' => NULL,
-                'deleted_at' => NULL,
-                'created_at' => '2020-04-13 07:58:11',
-                'updated_at' => '2020-04-13 07:58:11',
-            ),
-            4 => 
-            array (
-                'id' => 5,
                 'name' => 'Volume',
                 'note' => NULL,
                 'deleted_at' => NULL,

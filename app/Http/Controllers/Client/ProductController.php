@@ -115,7 +115,7 @@ class ProductController extends Controller
 
     public function detail(Request $request, $id, $name)
     {
-        // dd($request->all());
+        // dd(\Auth::guard('customer')->check());
         $product = $this->productService->findByUuid($id);
 
         if ($product instanceof Product) {
@@ -134,7 +134,7 @@ class ProductController extends Controller
             })->get()->take(10);
 
             $comments = $product->comments()->with(['customer'])->paginate(5);
-            // dd($comments->items());
+            // dd($product->avatar);
             return view('client.product-detail', [
                 'product' => $product,
                 'suppliers' => $suppliers,

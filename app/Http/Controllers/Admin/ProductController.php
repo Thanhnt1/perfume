@@ -152,7 +152,8 @@ class ProductController extends Controller
             $avatar = $product->avatar && Storage::disk('dropbox')->exists($product->avatar) ? (object)[
                 'name' => $product->avatar,
                 'path' => Storage::disk('dropbox')->url($product->avatar),
-                'size' => Storage::disk('dropbox')->size($product->avatar)
+                'size' => Storage::disk('dropbox')->size($product->avatar),
+                'url' => $product->avatar_url
             ] : null;
 
             return view('admin.products.edit', [

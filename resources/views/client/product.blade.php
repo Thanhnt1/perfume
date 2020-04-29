@@ -236,7 +236,7 @@
                                 <li class="mix bestsellers">
                                     <div class="thumbnail thumbnail-product">
                                         <figure class="image-zoom" style="height: 200px;">
-                                            <img src="{{ $item['avatar'] && Storage::disk('dropbox')->exists($item['avatar']) ? Storage::disk('dropbox')->url($item['avatar']) : '/admin/img/no-image.jpg' }}" alt="image" style="width: 100%;height: auto;margin-top: 25%;">
+                                            <img src="{{ $item['avatar_url'] ? $item['avatar_url'] : '/admin/img/no-image.jpg' }}" alt="image" style="width: 100%;height: auto;margin-top: 25%;">
                                         </figure>
                                         <div class="caption" style="padding: unset;">
                                             <div class="text-wrap">

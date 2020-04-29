@@ -13,12 +13,12 @@ class AddCustomerCartRelationship extends Migration
      */
     public function up()
     {
-        Schema::table('customer', function(Blueprint $table) {
-            $table->foreign('cart_id')
-                ->references('id')->on('cart')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
-        });
+        // Schema::table('customer', function(Blueprint $table) {
+        //     $table->foreign('cart_id')
+        //         ->references('id')->on('cart')
+        //         ->onDelete('restrict')
+        //         ->onUpdate('restrict');
+        // });
 
         Schema::table('cart', function(Blueprint $table) {
             $table->foreign('customer_id')

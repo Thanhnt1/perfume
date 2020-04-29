@@ -49,7 +49,7 @@ class Product extends Base implements AuditableContract
     /**
      * @var array
      */
-    protected $fillable = ['category_id', 'supplier_id', 'unit_id', 'name', 'status', 'quantity', 'quantity_sold', 'import_price', 'selling_price', 'description', 'note', 'import_date', 'rate', 'avatar', 'deleted_at', 'created_at', 'updated_at'];
+    protected $fillable = ['category_id', 'supplier_id', 'unit_id', 'name', 'status', 'quantity', 'quantity_sold', 'import_price', 'selling_price', 'description', 'note', 'import_date', 'rate', 'avatar', 'avatar_url', 'deleted_at', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -88,7 +88,7 @@ class Product extends Base implements AuditableContract
      */
     public function cartProducts()
     {
-        return $this->hasMany('App\Models\CartProduct');
+        return $this->belongsToMany('App\Models\Cart')->withPivot('id', 'value', 'quantity', 'unit_id')->withTimestamps();
     }
 
     /**
@@ -104,7 +104,7 @@ class Product extends Base implements AuditableContract
      */
     public function productProperties()
     {
-        return $this->belongsToMany('App\Models\Property')->withPivot('value', 'quantity', 'unit_id')->withTimestamps();
+        return $this->belongsToMany('App\Models\Property')->withPivot('id', 'value', 'quantity', 'unit_id')->withTimestamps();
     }
 
     /**

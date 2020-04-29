@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\Customer;
+use App\Models\Cart;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -73,6 +74,9 @@ class RegisterController extends Controller
                 // 'email' => $data['email'],
                 'phone' => $data['phone'],
                 'password' => Hash::make($data['password'])
+            ]);
+            $cart = Cart::create([
+                'customer_id' => $user->id,
             ]);
             return $user;
         }
