@@ -22,8 +22,14 @@ Route::group(['middleware' => ['customer']], function(){
     Route::get('/user/profile', 'UserController@profile')->name('client.user.profile');
     Route::get('/user/purchase', 'UserController@purchase')->name('client.user.purchase');
     Route::post('/user/{id}/update', 'UserController@update')->name('client.user.update');
+    
+    // cart
+    Route::get('/cart', 'CartController@indexCart')->name('client.cart');
     Route::post('/ajax-add-to-cart', 'CartController@ajaxAddToCart')->name('client.ajaxAddToCart');
     Route::get('/ajax-get-cart', 'CartController@ajaxGetCart')->name('client.ajaxGetCart');
+    Route::get('/ajax-remove-in-cart', 'CartController@ajaxRemoveInCart')->name('client.ajaxRemoveInCart');
+    Route::get('/shipping-address', 'CartController@shippingAddress')->name('client.shippingAddress');
+    Route::get('/payment', 'CartController@payment')->name('client.payment');
 
 });
 
@@ -47,5 +53,8 @@ Route::get('/products/{id}/{name}', 'ProductController@detail')->name('client.pr
 // comments
 Route::post('/comments/update-comment', 'ProductController@updateComment')->name('client.comments.update');
 
-// cart
-Route::get('/cart', 'CartController@index')->name('client.cart');
+// promotion
+Route::get('/ajax-check-promotion', 'CartController@ajaxCheckPromotion')->name('client.ajaxCheckPromotion');
+
+
+

@@ -436,8 +436,7 @@
 				$('#quantity').val(function(i, val) { return +val-1 })
 			}
 		});
-		$('.mark-price').mask('#.##0', { reverse: true });
-        $('.mark-price').append(' đ');
+		$('.mark-price').mask('#.##0', { reverse: true }).append(' đ');
 
 		$('.like-icon .icon-like').on('click', function(){
 			var user = "{{ \Auth::guard('customer')->check() }}"

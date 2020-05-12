@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Bill[] $bills
  * @property Return[] $returns
  */
-class ShippingDepartment extends Model
+class ShippingDepartment extends Base
 {
     /**
      * The table associated with the model.

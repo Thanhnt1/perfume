@@ -54,7 +54,7 @@
 <script type="text/javascript">
     var table = $('#datatable').DataTable({
             ...optionDataTable,
-            order: [[10, 'desc']],
+            order: [[11, 'desc']],
             ajax: {
                 type: "GET",
                 url: "{{ route('admin.products.index') }}",
@@ -88,12 +88,32 @@
                 },
                 { data: 'category_name', name: 'categories.name'},
                 { data: 'supplier_name', name: 'suppliers.name'},
-                { data: 'import_price', name: 'import_price'},
-                { data: 'selling_price', name: 'selling_price'},
-                { data: 'quantity', name: 'quantity'},
+                { 
+                    data: 'import_price', 
+                    render: function(data, type, row, meta){
+                        return data.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+                    }
+                },
+                { 
+                    data: 'selling_price', 
+                    render: function(data, type, row, meta){
+                        return data.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+                    }
+                },
+                { 
+                    data: 'quantity', 
+                    render: function(data, type, row, meta){
+                        return data.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+                    }
+                },
                 { data: 'unit_name', name: 'units.name'},
                 { data: 'rate', name: 'rate'},
-                { data: 'status', name: 'status'},
+                { 
+                    data: 'status', 
+                    render: function(data, type, row, meta){
+                        return data == 1 ? 'Open' : 'Close';
+                    }
+                },
                 { data: 'created_at', name: 'products.created_at'},
             ],
         });

@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Auditable;
-use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use App\Traits\Uuids;
 
 /**
@@ -18,9 +16,9 @@ use App\Traits\Uuids;
  * @property string $updated_at
  * @property ProductSale[] $productSales
  */
-class Sale extends Model implements AuditableContract
+class Sale extends Base 
 {
-    use Uuids, Auditable;
+    use Uuids;
     /**
      * The table associated with the model.
      * 
@@ -31,7 +29,7 @@ class Sale extends Model implements AuditableContract
     /**
      * @var array
      */
-    protected $fillable = ['start_date', 'end_date', 'price', 'code', 'deleted_at', 'created_at', 'updated_at'];
+    protected $fillable = ['name', 'start_date', 'end_date', 'price', 'code', 'deleted_at', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

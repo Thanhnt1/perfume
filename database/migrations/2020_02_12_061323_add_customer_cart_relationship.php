@@ -35,9 +35,9 @@ class AddCustomerCartRelationship extends Migration
      */
     public function down()
     {
-        Schema::table('customer', function(Blueprint $table) {
-            $table->dropForeign('customer_cart_id_foreign');
-        });
+        // Schema::table('customer', function(Blueprint $table) {
+        //     $table->dropForeign('customer_cart_id_foreign');
+        // });
 
         Schema::table('cart', function(Blueprint $table) {
             $table->dropForeign('cart_customer_id_foreign');

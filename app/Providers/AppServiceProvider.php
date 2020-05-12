@@ -48,6 +48,18 @@ class AppServiceProvider extends ServiceProvider
         // Cart
         $this->app->singleton(\App\Repositories\Cart\ICartRepository::class, \App\Repositories\Cart\CartRepository::class);
         $this->app->singleton(\App\Services\Cart\ICartService::class, \App\Services\Cart\CartService::class);
+
+        // Sale
+        $this->app->singleton(\App\Repositories\Sale\ISaleRepository::class, \App\Repositories\Sale\SaleRepository::class);
+        $this->app->singleton(\App\Services\Sale\ISaleService::class, \App\Services\Sale\SaleService::class);
+
+        // Shipping Department 
+        $this->app->singleton(\App\Repositories\ShippingDepartment\IShippingDepartmentRepository::class, \App\Repositories\ShippingDepartment\ShippingDepartmentRepository::class);
+        $this->app->singleton(\App\Services\ShippingDepartment\IShippingDepartmentService::class, \App\Services\ShippingDepartment\ShippingDepartmentService::class);
+
+        // Type Shipping
+        $this->app->singleton(\App\Repositories\TypeShipping\ITypeShippingRepository::class, \App\Repositories\TypeShipping\TypeShippingRepository::class);
+        $this->app->singleton(\App\Services\TypeShipping\ITypeShippingService::class, \App\Services\TypeShipping\TypeShippingService::class);
     }
 
     /**

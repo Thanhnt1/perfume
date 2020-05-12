@@ -26,7 +26,7 @@ class TypeShipping extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'price', 'day_shipping_count', 'deleted_at', 'created_at', 'updated_at'];
+    protected $fillable = ['name' ,'shipping_department_id', 'price', 'day_shipping_count', 'deleted_at', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -34,5 +34,13 @@ class TypeShipping extends Model
     public function bills()
     {
         return $this->hasMany('App\Models\Bill');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function shipping_department()
+    {
+        return $this->belongsTo('App\Models\ShippingDepartment');
     }
 }

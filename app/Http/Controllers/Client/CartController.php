@@ -8,6 +8,9 @@ use App\Services\Product\IProductService;
 use App\Services\Cart\ICartService;
 use App\Models\Product;
 use App\Models\Cart;
+use App\Models\Property;
+use App\Models\Sale;
+use App\Models\TypeShipping;
 use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
@@ -72,7 +75,67 @@ class CartController extends Controller
         return $this->responseJSON(true, trans('Success'), 200, $cart);
     }
 
-    public function index(){
-        return \View::make('client.cart');
+    public function indexCart(){
+        $cart = \Auth::guard('customer')->check() ? \Auth::guard('customer')->user()->cart->cartProducts : null;
+        // dd($cart);
+        $totalPrice = 0;
+        $properties = Property::all();
+        foreach ($cart as $key => $value) {
+            $totalPrice += $value->selling_price * $value->pivot->quantity;
+        }
+        return view('client.cart', [
+            'cart' => $cart,
+            'totalPrice' => $totalPrice
+        ]);
+    }
+
+    public function ajaxRemoveInCart(Request $request)
+    {
+        $productInCart = DB::table('cart_product')->where('id', $request->id)->delete();
+        return $this->responseJSON(true, trans('Success'), 200);
+    }
+
+    public function ajaxCheckPromotion(Request $request)
+    {
+        $promotion = Sale::where('code', $request->voucher)->first();
+        if($promotion)
+            return $this->responseJSON(true, trans('Success'), 200, $promotion);
+        return $this->responseJSON(false, trans('sale.notFoundCheck'));
+    }
+
+    public function shippingAddress(Request $request){
+        $totalPrice = 0;
+        if(\Auth::guard('customer')->check()) {
+            $cart = \Auth::guard('customer')->user()->cart->cartProducts;
+            foreach ($cart as $key => $value) {
+                $totalPrice += $value->selling_price * $value->pivot->quantity;
+            }
+        }
+
+        $promotion = null;
+        if($request->voucher) {
+            $promotion = Sale::where('code', $request->voucher)->first();
+            if($promotion) {
+                $totalPrice -= $promotion->price;
+            }
+        }
+        if($totalPrice < 0) {
+            $totalPrice = 0;
+        }
+
+        $typeShipping = TypeShipping::with(['shipping_department'])->get();
+
+        return view('client.check-address', [
+            'totalPrice' => $totalPrice,
+            'voucher' => $promotion ? $promotion->price : $promotion,
+            'typeShipping' => $typeShipping
+        ]);
+    }
+
+    public function payment(Request $request){
+
+        return view('client.check-payment', [
+            
+        ]);
     }
 }

@@ -289,8 +289,9 @@
                     $('#count-cart-in').text(cart.length + ' sản phẩm đã thêm')
                     $('.cart-info-list').empty()
                     for (let index = 0; index < 5; index++) {
+                        if(!cart[index]) { break; }
                         const element = cart[index];
-                        var itemProduct = '<li class="cart-item"><div class="cart-item-bx"><figure><img src="'+(element.avatar_url ? element.avatar_url : '/admin/img/no-image.jpg')+'" alt="image"></figure><div class="text"><h6><a href="{{ route("client.products.detail", ["id" => '+element.uuid+', "name" => str_replace(" ", "-", strtolower('+element.name+'))]) }}">'+element.name+'</a></h6><p>x</p><p class="tot price-product">'+element.selling_price+'</p></div><button type="button" class="close remove-prod">&times;</button></div><!-- /cart-item-bx --></li>';
+                        var itemProduct = '<li class="cart-item"><div class="cart-item-bx"><figure><img src="'+(element.avatar_url ? element.avatar_url : '/admin/img/no-image.jpg')+'" alt="image"></figure><div class="text"><h6><a href="{{ route("client.products.detail", ["id" => '+element.uuid+', "name" => str_replace(" ", "-", strtolower('+element.name+'))]) }}">'+element.name+'</a></h6><p>x '+element.pivot.quantity+'</p><p class="tot price-product">'+element.selling_price+'</p></div><button type="button" class="close remove-prod" data-id="'+element.pivot.id+'">&times;</button></div><!-- /cart-item-bx --></li>';
                         $('.cart-info-list').append(itemProduct)
                     }
                     // cart.forEach(element => {
@@ -307,7 +308,29 @@
         $('.cart-btn').on('click', function() {
             loadCart()
         });
-        
+
+        function ajaxRemoveInCart(id) {
+            $.ajax({
+                url : "{{ route('client.ajaxRemoveInCart') }}",
+                method: "GET",
+                data: {
+                    id: id 
+                }
+            }).done(function(data){
+                loadCart()
+            });
+        }
+
+        $('.cart-info-list').on('click', '.remove-prod', function(){
+            ajaxRemoveInCart($(this).data('id'));
+        });
+
+        $('.remove-prod').on('click', function(){
+            var idProduct = $(this).data('id')
+            ajaxRemoveInCart(idProduct);
+            $('.prod-'+idProduct).remove();
+        });
+
         if('{{\Auth::guard('customer')->check()}}') {
             $('.cart-btn').trigger('click');
         }

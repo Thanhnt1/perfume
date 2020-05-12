@@ -104,7 +104,7 @@
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">$</span>
                                 </div>
-                                <input type="text" class="form-control" id="selling_price" name="selling_price" value="{{ old('import_price') }}" tabindex="6" required>
+                                <input type="text" class="form-control" id="selling_price" name="selling_price" value="{{ old('selling_price') }}" tabindex="6" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text">đ</span>
                                 </div>

@@ -75,7 +75,25 @@ Route::group(['middleware' => 'admin'], function(){
     Route::get('/order-proccessing', 'BillController@orderProccessingIndex')->name('admin.order-proccessing');
 
     // Promotions
-    Route::get('/promotions', 'PromotionController@index')->name('admin.promotions');
+    Route::group(['prefix' => 'promotions'], function(){
+        Route::get('/', 'SaleController@index')->name('admin.promotions.index');
+        Route::post('/store', 'SaleController@store')->name('admin.promotions.store');
+        Route::post('/delete-multiple', 'SaleController@deleteMultiple')->name('admin.promotions.deleteMultiple');
+        Route::put('/update', 'SaleController@update')->name('admin.promotions.update');
+    });
+
+    // Shipping Department
+    Route::group(['prefix' => 'shipping-department'], function(){
+        Route::get('/', 'ShippingDepartmentController@index')->name('admin.shipping-department.index');
+        Route::post('/store', 'ShippingDepartmentController@store')->name('admin.shipping-department.store');
+        Route::post('/delete-multiple', 'ShippingDepartmentController@deleteMultiple')->name('admin.shipping-department.deleteMultiple');
+        Route::put('/update', 'ShippingDepartmentController@update')->name('admin.shipping-department.update');
+
+        // Type Shipping
+        Route::get('/type-shipping', 'ShippingDepartmentController@typeShipping')->name('admin.shipping-department.typeShipping');
+        Route::post('/add-type-shipping', 'ShippingDepartmentController@addTypeShipping')->name('admin.shipping-department.addTypeShipping');
+
+    });
 
 });
 

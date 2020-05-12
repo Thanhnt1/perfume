@@ -19,6 +19,9 @@
     <!-- Custom styles for this template and Boostrap 4.0.7 -->
     <link href="/admin/css/sb-admin-2.css" rel="stylesheet">
 
+    {{-- Jquery UI --}}
+    <link rel="stylesheet" href="/admin/vendor/jquery-ui/jquery-ui.min.css">
+
     {{-- Datatable --}}
     <link rel="stylesheet" href="/admin/js/Datatables/datatables.min.css">
 
