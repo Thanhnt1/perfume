@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\User\IUserService;
 use App\Models\Customer;
+use App\Models\Bill;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -39,7 +40,11 @@ class UserController extends Controller
      */
     public function purchase(Request $request)
     {
-        return view('client.purchase');
+        $billProducts = Bill::with(['billProducts'])->get();
+        
+        return view('client.purchase', [
+            'billProducts' => $billProducts
+        ]);
     }
 
     /**

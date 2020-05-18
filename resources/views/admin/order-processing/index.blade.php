@@ -110,7 +110,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-" data-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
@@ -121,27 +121,31 @@
 <script type="text/javascript">
     var table = $('#datatable').DataTable({
             ...optionDataTable,
-            order: [[2, 'desc']],
+            order: [[0, 'desc']],
             ajax: {
                 type: "GET",
-                url: "{{ route('admin.bills.index') }}",
+                url: "{{ route('admin.order-processing.index') }}",
                 data : function ( d ) {}
             },
             columns: [
-                { 
-                    "data": 'id',
-                    "searchable": false,
-                    "sortable": false,
-                    "className": "text-center",
-                    "render": function(data, type, row, meta){
-                        var i = 1
-                        return  i++;
-                    }
-                },
+                { data: 'id_sprintf', className: "text-center", name: 'id' },
                 { data: 'customer_name', name: 'customer.name'},
                 { data: 'type_shipping_name', name: 'type_shipping.name'},
                 { data: 'total_price', name: 'total_price'},
-                { data: 'payment_methods', name: 'payment_methods'},
+                { 
+                    data: 'payment_methods',
+                    render: function(data, type, row, meta){
+                        // 0: waiting, 1: tranfer to shipping department, 2: in-progress-shipping, 3: done, 4: returned
+                        switch (data) {
+                            case '1':
+                                return 'Paypal';
+                            case '2':
+                                return 'Credit Card';
+                            default:
+                                return 'On delivery';
+                        }
+                    }
+                },
                 { data: 'total_discount', name: 'total_discount'},
                 { data: 'shipping_date', name: 'shipping_date'},
                 { data: 'receive_date', name: 'receive_date'},
@@ -162,7 +166,6 @@
                             default:
                                 return '<i class="fas fa-clock" style="color: rgb(153, 153, 0);" title="Waitting"></i>';
                         }
-                       
                     }
                 },
                 { data: 'created_at', name: 'created_at'},
@@ -173,19 +176,25 @@
                     "className": "text-center",
                     "render": function(data, type, row, meta){
                         var status;
+                        var icon;
                         switch (row.status) {
                             case '1':
-                                status = 'Open';
+                                status = 'Tranfer to shipping department';
+                                icon = '<i class="fas fa-shipping-fast" style="color: rgb(32, 32, 223);" title="In progress shipping"></i> ';
                             case '2':
-                                status = 'In-progress';
+                                status = 'In progress shipping';
+                                icon = '<i class="fas fa-check-circle fa-lg" style="color: green;" title="Done"></i> ';
                             case '3':
-                                status = 'Shipping';
-                            case '4':
                                 status = 'Done';
+                                icon = '<i class="fas fa-undo-alt" style="color: rgb(236, 128, 19);" title="Returned"></i>';
+                            case '4':
+                                status = 'Returned';
                             default:
-                                status = "Close";
+                                status = "Waitting";
+                                icon = '<i class="fas fa-boxes" style="color: rgb(0, 64, 255);"  title="Tranfer to shipping department"></i>';
                         }
-                        return  '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#showBillModal" data-customer="'+ row.customer_name +'" data-type-shipping="'+ row.type_shipping_name +'" data-total-price="'+ row.total_price +'" data-payment-methods="'+ row.payment_methods +'" data-status="'+ status +'" data-total-discount="'+ row.total_discount +'" data-shipping-date="'+ row.shipping_date +'" data-receive-date="'+ row.receive_date +'" data-recipient-name="'+ row.recipient_name +'" data-recipient-phone="'+ row.recipient_phone +'" data-recipient-address="'+ row.recipient_address +'" data-created-at="'+ row.created_at +'" data-note="'+ row.note +'"><i class="fas fa-eye"></i> Show</button>';
+                        var btnTranfer = '<button type="button" class="btn btn-success btn-tranfer" data-id="'+ row.id +'" data-status="'+ row.status +'">'+ icon +' Tranfer</button>';
+                        return  btnTranfer + ' <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#showBillModal" data-customer="'+ row.customer_name +'" data-type-shipping="'+ row.type_shipping_name +'" data-total-price="'+ row.total_price +'" data-payment-methods="'+ row.payment_methods +'" data-status="'+ status +'" data-total-discount="'+ row.total_discount +'" data-shipping-date="'+ row.shipping_date +'" data-receive-date="'+ row.receive_date +'" data-recipient-name="'+ row.recipient_name +'" data-recipient-phone="'+ row.recipient_phone +'" data-recipient-address="'+ row.recipient_address +'" data-created-at="'+ row.created_at +'" data-note="'+ row.note +'"><i class="fas fa-eye"></i> Show</button>';
                     }
                 },
             ],
@@ -221,6 +230,27 @@
             modal.find('#recipient_address').val(recipientAddress)
             modal.find('#created_at').val(createdAt)
             modal.find('#note').val(note)
+        });
+
+        $('#datatable').on('click', '.btn-tranfer', function(){
+            var id = $(this).data('id')
+            var status = parseInt($(this).data('status'))
+            if(status < 4) status++;
+            $.ajax({
+				url : "{{ route('admin.order-processing.update') }}",
+				method: 'POST',
+				data: {
+                    _token: '{{ csrf_token() }}',
+                    id: id,
+                    status: status,
+				}
+			}).done(function(data){
+				$.notify({
+					// options
+					message: data.msg
+				});
+                $('#datatable').DataTable().ajax.reload();
+			});
         });
 </script>
 @endsection

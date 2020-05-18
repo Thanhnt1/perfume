@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;
+use Validator,Redirect,Response;
 
 class LoginController extends Controller
 {
@@ -52,7 +53,10 @@ class LoginController extends Controller
     public function credentials(Request $request)
     {
         if(is_numeric($request->get('phone'))){
-            return ['phone'=>$request->get('phone'),'password'=>$request->get('password')];
+            return [
+                'phone' => $request->get('phone'),
+                'password' => $request->get('password')
+            ];
         }
         return $request->only($this->username(), 'password');
     }
@@ -66,4 +70,5 @@ class LoginController extends Controller
     {
         return Auth::guard('customer');
     }
+
 }

@@ -103,7 +103,7 @@
         
         <!-- Nav Item - Order proccessing -->
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('admin.order-proccessing') }}">
+          <a class="nav-link" href="{{ route('admin.order-processing.index') }}">
             <i class="fas fa-truck-loading"></i>
             <span>Order proccessing</span></a>
         </li>

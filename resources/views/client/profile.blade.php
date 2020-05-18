@@ -94,6 +94,16 @@
                                             <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone Number" value="{{ old('phone', $user->phone) }}">
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-md">Sex</label>
+                                        <div class="col-md-9">
+                                            <select id="sex" name="sex"  class="form-control">
+                                                <option value="2" {{ old('sex', $user->sex) == 2 ? 'selected' : '' }}>FeMale</option>
+                                                <option value="1" {{ old('sex', $user->sex) == 1 ? 'selected' : '' }}>Male</option>
+                                                <option value="0" {{ old('sex', $user->sex) == 0 ? 'selected' : '' }}>other</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     {{-- <div class="form-group row">
                                         <label class="col-md-3 label-md">Street and house number</label>
                                         <div class="col-md-9">

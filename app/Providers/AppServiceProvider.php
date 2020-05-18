@@ -60,6 +60,10 @@ class AppServiceProvider extends ServiceProvider
         // Type Shipping
         $this->app->singleton(\App\Repositories\TypeShipping\ITypeShippingRepository::class, \App\Repositories\TypeShipping\TypeShippingRepository::class);
         $this->app->singleton(\App\Services\TypeShipping\ITypeShippingService::class, \App\Services\TypeShipping\TypeShippingService::class);
+
+        // Bill
+        $this->app->singleton(\App\Repositories\Bill\IBillRepository::class, \App\Repositories\Bill\BillRepository::class);
+        $this->app->singleton(\App\Services\Bill\IBillService::class, \App\Services\Bill\BillService::class);
     }
 
     /**

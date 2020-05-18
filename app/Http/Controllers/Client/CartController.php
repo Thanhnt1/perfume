@@ -6,21 +6,24 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\Product\IProductService;
 use App\Services\Cart\ICartService;
+use App\Services\Bill\IBillService;
 use App\Models\Product;
 use App\Models\Cart;
 use App\Models\Property;
 use App\Models\Sale;
 use App\Models\TypeShipping;
+use App\Models\Bill;
 use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
-    protected $productService, $cartService;
+    protected $productService, $cartService, $billService;
 
-    public function __construct(IProductService $IProductService, ICartService $ICartService)
+    public function __construct(IProductService $IProductService, ICartService $ICartService, IBillService $IBillService)
     {
         $this->productService = $IProductService;
         $this->cartService = $ICartService;
+        $this->billService = $IBillService;
     }
 
     /**
@@ -133,9 +136,68 @@ class CartController extends Controller
     }
 
     public function payment(Request $request){
+        $totalPrice = 0;
+        if(\Auth::guard('customer')->check()) {
+            $cart = \Auth::guard('customer')->user()->cart->cartProducts;
+            foreach ($cart as $key => $value) {
+                $totalPrice += $value->selling_price * $value->pivot->quantity;
+            }
+        }
+
+        $promotion = null;
+        if($request->voucher) {
+            $promotion = Sale::where('code', $request->voucher)->first();
+            if($promotion) {
+                $totalPrice -= $promotion->price;
+            }
+        }
+        if($totalPrice < 0) {
+            $totalPrice = 0;
+        }
+
+        $typeShipping = TypeShipping::find($request->shipping_type);
 
         return view('client.check-payment', [
-            
+            'totalPrice' => $totalPrice,
+            'voucher' => $promotion ? $promotion->price : $promotion,
+            'typeShipping' => $typeShipping
         ]);
+    }
+
+    public function order(Request $request){
+        try {
+            $params = $request->all();
+            // dd($params);
+            // Open transaction
+            DB::beginTransaction();
+            //
+
+            // add bill
+            $bill = $this->billService->createData($params);
+
+            // add bill product
+            $cart = \Auth::guard('customer')->user()->cart->cartProducts;
+
+            foreach ($cart as $key => $value) {
+                $bill->billProducts()->attach([
+                    $value->id => ['quantity' => $value->pivot->quantity],
+                ]);
+
+            }
+
+            // remove cart
+            \Auth::guard('customer')->user()->cart->cartProducts()->detach();
+            
+            // Commit transaction
+            DB::commit();
+            //
+            return view('client.order', [
+                'bill' => $bill,
+            ]);
+        } catch (\Exception $e) {
+            // Rollback transaction
+            DB::rollBack();
+            return redirect()->back()->withErrors(['msg' => trans($e->getMessage())])->withInput();
+        }
     }
 }

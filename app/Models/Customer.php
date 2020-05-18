@@ -36,11 +36,21 @@ class Customer extends Authenticatable implements AuditableContract
      * @var string
      */
     protected $table = 'customer';
+    protected $guard = 'customer';
 
     /**
      * @var array
      */
     protected $fillable = ['cart_id', 'name', 'email','provider', 'provider_id', 'email_verified_at', 'password', 'phone', 'sex', 'remember_token', 'avatar', 'location', 'deleted_at', 'created_at', 'updated_at'];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

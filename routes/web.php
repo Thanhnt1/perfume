@@ -30,6 +30,7 @@ Route::group(['middleware' => ['customer']], function(){
     Route::get('/ajax-remove-in-cart', 'CartController@ajaxRemoveInCart')->name('client.ajaxRemoveInCart');
     Route::get('/shipping-address', 'CartController@shippingAddress')->name('client.shippingAddress');
     Route::get('/payment', 'CartController@payment')->name('client.payment');
+    Route::post('/order', 'CartController@order')->name('client.order');
 
 });
 

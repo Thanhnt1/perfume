@@ -72,7 +72,12 @@ Route::group(['middleware' => 'admin'], function(){
     });
     
     // Order proccessing
-    Route::get('/order-proccessing', 'BillController@orderProccessingIndex')->name('admin.order-proccessing');
+    Route::group(['prefix' => 'order-processing'], function(){
+        Route::get('/', 'BillController@orderProcessing')->name('admin.order-processing.index');
+        // Route::post('/store', 'SaleController@store')->name('admin.promotions.store');
+        // Route::post('/delete-multiple', 'SaleController@deleteMultiple')->name('admin.promotions.deleteMultiple');
+        Route::post('/update', 'BillController@update')->name('admin.order-processing.update');
+    });
 
     // Promotions
     Route::group(['prefix' => 'promotions'], function(){

@@ -86,7 +86,7 @@ class Bill extends Base implements AuditableContract
      */
     public function billProducts()
     {
-        return $this->hasMany('App\Models\BillProduct');
+        return $this->belongsToMany('App\Models\Product')->withPivot('quantity')->withTimestamps();
     }
 
     /**
