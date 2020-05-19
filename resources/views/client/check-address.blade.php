@@ -190,7 +190,7 @@
         var currentTotalPrice = $('.total-price-hid').text()
         $('.total-price').text(currentTotalPrice - shippingType)
         $('.total-price').mask('#.##0', { reverse: true }).append(' đ');
-    });
+    }).trigger('change');
     $('#form-location').submit(function() {
         var shippingType = $('input[name=shipping_type]:checked').data('price');
         if(!shippingType) {
