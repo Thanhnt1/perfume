@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\Nexmo;
 use App\Models\Customer;
+use App\Models\Cart;
 use Socialite;
 use Validator,Redirect,Response,File;
 
@@ -57,6 +58,9 @@ class HomeController extends Controller
                 'provider_id' => $getInfo->id,
                 'avatar' => $getInfo->avatar,
                 'token_provider' => $getInfo->token
+            ]);
+            $cart = Cart::create([
+                'customer_id' => $user->id,
             ]);
         }
         return $user;

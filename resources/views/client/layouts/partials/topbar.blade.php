@@ -79,7 +79,7 @@
                 </li>
             @endif
 
-            <li>
+            {{-- <li>
                 <span class="dropBox-btn">English <i class="caret caret-cut"></i></span>
                 <div class="dropBox dropBox-condensed">
                     <div class="box-section">
@@ -92,7 +92,7 @@
                     <!-- /box-section -->
                 </div>
                 <!-- /dropBox -->
-            </li>
+            </li> --}}
         </ul>
         <!-- /tp-links -->
     </div>
