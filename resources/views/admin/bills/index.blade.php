@@ -178,15 +178,15 @@
                     var status;
                     switch (row.status) {
                         case '1':
-                            status = 'Open';
+                            status = 'Tranfer to shipping department';
                         case '2':
-                            status = 'In-progress';
+                            status = 'In progress shipping';
                         case '3':
-                            status = 'Shipping';
-                        case '4':
                             status = 'Done';
+                        case '4':
+                            status = 'Returned';
                         default:
-                            status = "Close";
+                            status = "Waitting";
                     }
                     return  '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#showBillModal" data-customer="'+ row.customer_name +'" data-type-shipping="'+ row.type_shipping_name +'" data-total-price="'+ row.total_price +'" data-payment-methods="'+ row.payment_methods +'" data-status="'+ status +'" data-total-discount="'+ row.total_discount +'" data-shipping-date="'+ row.shipping_date +'" data-receive-date="'+ row.receive_date +'" data-recipient-name="'+ row.recipient_name +'" data-recipient-phone="'+ row.recipient_phone +'" data-recipient-address="'+ row.recipient_address +'" data-created-at="'+ row.created_at +'" data-note="'+ row.note +'"><i class="fas fa-eye"></i> Show</button>';
                 }

@@ -181,19 +181,24 @@
                             case '1':
                                 status = 'Tranfer to shipping department';
                                 icon = '<i class="fas fa-shipping-fast" style="color: rgb(32, 32, 223);" title="In progress shipping"></i> ';
+                                break;
                             case '2':
                                 status = 'In progress shipping';
                                 icon = '<i class="fas fa-check-circle fa-lg" style="color: green;" title="Done"></i> ';
+                                break;
                             case '3':
                                 status = 'Done';
                                 icon = '<i class="fas fa-undo-alt" style="color: rgb(236, 128, 19);" title="Returned"></i>';
+                                break;
                             case '4':
                                 status = 'Returned';
+                                break;
                             default:
                                 status = "Waitting";
                                 icon = '<i class="fas fa-boxes" style="color: rgb(0, 64, 255);"  title="Tranfer to shipping department"></i>';
                         }
                         var btnTranfer = '<button type="button" class="btn btn-success btn-tranfer" data-id="'+ row.id +'" data-status="'+ row.status +'">'+ icon +' Tranfer</button>';
+                        if(row.status == 4) { btnTranfer = ''; }
                         return  btnTranfer + ' <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#showBillModal" data-customer="'+ row.customer_name +'" data-type-shipping="'+ row.type_shipping_name +'" data-total-price="'+ row.total_price +'" data-payment-methods="'+ row.payment_methods +'" data-status="'+ status +'" data-total-discount="'+ row.total_discount +'" data-shipping-date="'+ row.shipping_date +'" data-receive-date="'+ row.receive_date +'" data-recipient-name="'+ row.recipient_name +'" data-recipient-phone="'+ row.recipient_phone +'" data-recipient-address="'+ row.recipient_address +'" data-created-at="'+ row.created_at +'" data-note="'+ row.note +'"><i class="fas fa-eye"></i> Show</button>';
                     }
                 },

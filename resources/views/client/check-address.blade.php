@@ -36,11 +36,11 @@
                             <div class="form-section-box border-red">
                                 <h5>Shipping Type</h5>
                                 <ul class="shipping-list">
-                                    @foreach ($typeShipping as $item)
+                                    @foreach ($typeShipping as $key => $item)
                                         <li>
                                             <span class="price mark-price">{{ $item->price }}</span>
                                             <div class="radio">
-                                                <label><input type="radio" data-price="{{ $item->price }}" name="shipping_type" value="{{ $item->id }}" class="checkParent"><strong>{{ $item->name }} (about {{ $item->day_shipping_count }} days)</strong></label>
+                                                <label><input type="radio" data-price="{{ $item->price }}" name="shipping_type" value="{{ $item->id }}" class="checkParent" {{ $key == 0 ? 'checked' : null }}><strong>{{ $item->name }} (about {{ $item->day_shipping_count }} days)</strong></label>
                                             </div>
                                         </li>
                                     @endforeach

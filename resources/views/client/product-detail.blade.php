@@ -79,7 +79,7 @@
 								<div class="col-sm-4">{{ $product->quantity }} sản phẩm có sẵn</div>
 							</div>
 							<button type="button" class="btn-custom btn-default" id="add-cart">Thêm Vào Giỏ Hàng</button>
-							<button type="button" class="btn-custom btn-default" id="buy-it">Mua Ngay</button>
+							{{-- <button type="button" class="btn-custom btn-default" id="buy-it">Mua Ngay</button> --}}
 				        </div>
 				      </div>
 				    </div>

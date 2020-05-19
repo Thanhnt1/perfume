@@ -40,10 +40,33 @@ class UserController extends Controller
      */
     public function purchase(Request $request)
     {
-        $billProducts = Bill::with(['billProducts'])->get();
+        if($request->showOrder) {
+            $take = $request->showOrder;
+            if($request->showOrder == 'all') {
+                $take = PHP_INT_MAX;
+            }
+        }
+        else {
+            $take = 5;
+        }
+
+        if($request->showReturns) {
+            $takeReturn = $request->showReturns;
+            if($request->showReturns == 'all') {
+                $takeReturn = PHP_INT_MAX;
+            }
+        }
+        else {
+            $takeReturn = 5;
+        }
         
+        $billProducts = Bill::where('customer_id', \Auth::guard('customer')->user()->id)->where('status','<', 4)->with(['billProducts'])->take($take)->get();
+        
+        $billProductsReturn = Bill::where('customer_id', \Auth::guard('customer')->user()->id)->where('status', 4)->with(['billProducts'])->latest()->get()->take($takeReturn);
+
         return view('client.purchase', [
-            'billProducts' => $billProducts
+            'billProducts' => $billProducts,
+            'billProductsReturn' => $billProductsReturn
         ]);
     }
 
