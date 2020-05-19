@@ -125,7 +125,7 @@
         <!-- Nav Item - Promotions -->
         <li class="nav-item">
           <a class="nav-link" href="{{ route('admin.shipping-department.index') }}">
-            <i class="fas fa-percent"></i>
+            <i class="fas fa-store"></i>
             <span>Shipping Department</span></a>
         </li>
   
