@@ -158,11 +158,11 @@
             <ul class="main-nav">
                 <li><a href="/">Home</a></li>
                 <li>
-                    <a href="#">Pages</a>
-                    <ul>
-                        {{-- <li><a href="blog.html">Blog</a></li>
+                    <a href="{{ route('client.products') }}">Shop</a>
+                    {{-- <ul>
+                        <li><a href="blog.html">Blog</a></li>
                         <li><a href="blog-single.html">Blog Single</a></li>
-                        <li><a href="product-single.html">Product Single</a></li> --}}
+                        <li><a href="product-single.html">Product Single</a></li>
                         <li>
                             <a href="{{ route('client.products') }}">Shop Pages</a>
                             <ul>
@@ -172,7 +172,7 @@
                                 <li><a href="my-account.html">My Account</a></li>
                             </ul>
                         </li>
-                        {{-- <li><a href="services.html">Services</a></li>
+                        <li><a href="services.html">Services</a></li>
                         <li><a href="promotions.html">Promotions</a></li>
                         <li><a href="testimonials.html">Testimonials</a></li>
                         <li><a href="categories.html">Categories</a></li>
@@ -183,8 +183,8 @@
                         <li><a href="faq.html">FAQ</a></li>
                         <li><a href="register.html">Register</a></li>
                         <li><a href="coming-soon.html">Coming Soon</a></li>
-                        <li><a href="error.html">404 Page</a></li> --}}
-                    </ul>
+                        <li><a href="error.html">404 Page</a></li>
+                    </ul> --}}
                 </li>
                 <li><a href="#">Fragrances</a></li>
                 <li><a href="beauty-expert.html">Makeup</a></li>

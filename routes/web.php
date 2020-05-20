@@ -31,6 +31,7 @@ Route::group(['middleware' => ['customer']], function(){
     Route::get('/shipping-address', 'CartController@shippingAddress')->name('client.shippingAddress');
     Route::get('/payment', 'CartController@payment')->name('client.payment');
     Route::post('/order', 'CartController@order')->name('client.order');
+    Route::get('/delete-bill', 'CartController@deleteBill')->name('client.deleteBill');
 
 });
 

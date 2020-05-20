@@ -9,14 +9,17 @@ use App\Models\Customer;
 use App\Models\Bill;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Services\Bill\IBillService;
 
 class UserController extends Controller
 {
     protected $userService;
+    protected $billService;
 
-    public function __construct(IUserService $IUserService)
+    public function __construct(IUserService $IUserService, IBillService $IBillService)
     {
         $this->userService = $IUserService;
+        $this->billService = $IBillService;
     }
 
     /**
@@ -59,14 +62,27 @@ class UserController extends Controller
         else {
             $takeReturn = 5;
         }
+
+        if($request->showCancel) {
+            $takeCancel = $request->showCancel;
+            if($request->showCancel == 'all') {
+                $takeCancel = PHP_INT_MAX;
+            }
+        }
+        else {
+            $takeCancel = 5;
+        }
         
         $billProducts = Bill::where('customer_id', \Auth::guard('customer')->user()->id)->where('status','<', 4)->with(['billProducts'])->take($take)->get();
         
         $billProductsReturn = Bill::where('customer_id', \Auth::guard('customer')->user()->id)->where('status', 4)->with(['billProducts'])->latest()->get()->take($takeReturn);
+        
+        $billProductsCancel = Bill::onlyTrashed()->where('customer_id', \Auth::guard('customer')->user()->id)->with(['billProducts'])->latest()->get()->take($takeCancel);
 
         return view('client.purchase', [
             'billProducts' => $billProducts,
-            'billProductsReturn' => $billProductsReturn
+            'billProductsReturn' => $billProductsReturn,
+            'billProductsCancel' => $billProductsCancel
         ]);
     }
 

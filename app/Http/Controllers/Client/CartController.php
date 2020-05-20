@@ -200,4 +200,22 @@ class CartController extends Controller
             return redirect()->back()->withErrors(['msg' => trans($e->getMessage())])->withInput();
         }
     }
+
+        /**
+     * Remove the specified resource from storage.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteBill(Request $request)
+    {
+        $bill = $this->billService->findByUuid($request->uuid);
+        if ($bill instanceof Bill) {
+            $bill->delete();
+
+            return redirect()->route('client.user.purchase')->with('message', trans('bill.removedSuccessfull'));
+        } else {
+            return redirect()->back()->withErrors(['msg' => trans('Not found bill')])->withInput();
+        }
+    }
 }

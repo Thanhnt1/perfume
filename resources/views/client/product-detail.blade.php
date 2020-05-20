@@ -79,7 +79,7 @@
 								<div class="col-sm-4">{{ $product->quantity }} sản phẩm có sẵn</div>
 							</div>
 							<button type="button" class="btn-custom btn-default" id="add-cart">Thêm Vào Giỏ Hàng</button>
-							{{-- <button type="button" class="btn-custom btn-default" id="buy-it">Mua Ngay</button> --}}
+							<button type="button" class="btn-custom btn-default" id="buy-it">Mua Ngay</button>
 				        </div>
 				      </div>
 				    </div>
@@ -497,7 +497,8 @@
 			}
 			else volume = null;
 		});
-		$('#add-cart').on('click', function() {
+
+		function addToCart() {
 			if({!! !$color->isEmpty() ? 'true' : 'false' !!} && color == null) {
 				console.log(1)
 				$.notify({ message: 'Vui lòng chọn phân loại hàng' },{ type: 'warning' });
@@ -535,12 +536,15 @@
 				// location.reload();
 				console.log(data)
 			});
-
+		}
+		$('#add-cart').on('click', function() {
+			addToCart()
 			loadCart()
 		});
 
 		$('#buy-it').on('click', function() {
-			console.log('asd')
+			addToCart();
+			window.location.href = "{{ route('client.cart') }}"
 		});
 
 		

@@ -53,7 +53,15 @@
                                     </div>
                                 </td>
                                 <td><div class="prod-price mark-price">{{ $item->selling_price }}</div></td>
-                                <td><div class="prod-qty"><input type="text" value="{{ $item->pivot->quantity }}">pcs</div></td>
+                                <td>
+                                    
+                                    <div class="prod-qty"><input type="number" class="quantity" data-quantity="{{ $item->quantity }}" value="{{ $item->pivot->quantity > $item->quantity ? $item->quantity :  $item->pivot->quantity }}" max="{{ $item->quantity ?? null}}">
+                                        pcs
+                                        @if ($item->quantity)
+                                            <p>(< {{ $item->quantity }})</p>
+                                        @endif
+                                    </div>
+                                </td>
                                 <td><div class="prod-price" style="width: 100px;"><strong class="mark-price">{{ $item->selling_price * $item->pivot->quantity }}</strong></div></td>
                                 <td><a href="#" class="prod-del remove-prod" data-id="{{ $item->pivot->id }}"><i class="flaticon-close9"></i>Delete</a></td>
                             </tr>
@@ -170,6 +178,9 @@
                 $('#total-price').text(totalPriceReduction.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")).append(' đ')
             });
 		});
-       
+        $('.quantity').on('change', function(){
+            if ($(this).val() < 0) $(this).val(0);
+            if ($(this).val() > $(this).data('quantity')) $(this).val($(this).data('quantity'));
+        });
     </script>
 @endsection

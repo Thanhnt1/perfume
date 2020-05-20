@@ -7,14 +7,17 @@ use Illuminate\Http\Request;
 use App\Services\Bill\IBillService;
 use App\Models\Bill;
 use Illuminate\Support\Facades\DB;
+use App\Services\Product\IProductService;
 
 class BillController extends Controller
 {
     protected $billService;
+    protected $productService;
 
-    public function __construct(IBillService $IBillService)
+    public function __construct(IBillService $IBillService, IProductService $IProductService)
     {
         $this->billService = $IBillService;
+        $this->productService = $IProductService;
     }
 
     /**
@@ -64,6 +67,14 @@ class BillController extends Controller
 
                 $bill = $this->billService->updateData($params, $bill->id);
 
+                // reduct quantity product
+                if($bill->status == 3) {
+                    foreach ($bill->billProducts as $item) {
+                        $quantity = $item->quantity - $item->pivot->first()->quantity;
+                        // dd($quantity, $item->quantity, $item->pivot->first()->quantity );
+                        $this->productService->updateData(['quantity' => $quantity],$item->id);
+                    }
+                }
                 // Commit transaction
                 DB::commit();
                 //

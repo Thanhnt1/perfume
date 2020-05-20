@@ -52,7 +52,7 @@
 
                                 <div class="section-inner">
                                     <ul class="meta-list">
-                                        <li><a href="{{ route('client.user.purchase') }}">Đơn Mua</a></li>
+                                        <li><a href="{{ route('client.user.purchase') }}">My Order</a></li>
                                     </ul>
                                     {{-- <ul class="meta-list">
                                         <li><a href="#">Edit Information</a></li>

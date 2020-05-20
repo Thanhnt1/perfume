@@ -1966,14 +1966,14 @@ label.label-md {
 	width: 110px;
 	color: #7b7b7b;
 }
-.prod-qty input[type="text"] {
+.prod-qty input[type="number"] {
 	width: 68px;
 	height: 35px;
 	padding: 6px;
 	margin-right: 10px;
 	border: 1px solid #dddddd;
 }
-.prod-qty input[type="text"]:focus {
+.prod-qty input[type="number"]:focus {
 	border-color: #141414;
 }
 .prod-del {
