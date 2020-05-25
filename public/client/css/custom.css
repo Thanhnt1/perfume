@@ -351,16 +351,22 @@
 /* end card */
 
 /* process */
-.glyphicon {
+.glyphiconProcess {
   border-radius:50%;
   border: 2px #ddd solid;
   padding:15px;
   font-size:24px;
   background-color:#fff;
   color:#999;
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
 }
 
-.glyphicon.active {
+.glyphiconProcess.active {
   border-radius:50%;
   color:#fff;
   background-color:#ddd;

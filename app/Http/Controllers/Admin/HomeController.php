@@ -9,6 +9,9 @@ use Dropbox\Client;
 use Dropbox\WriteMode;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
+use App\Models\Bill;
+use App\Models\Product;
+use Illuminate\Support\Carbon;
 
 class HomeController extends Controller
 {
@@ -29,7 +32,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.dasboard');
+        $earningMonthly = Bill::whereMonth('created_at', Carbon::now()->subMonth()->month + 1)->sum('total_price');
+        $earningAnnual = Bill::whereYear('created_at', date('Y'))->sum('total_price');
+        $orderProcess = Bill::where('status', 0)->count();
+        $products = Product::count();
+
+        // dd($products);
+        return view('admin.dasboard', [
+            'earningMonthly' => $earningMonthly,
+            'earningAnnual' => $earningAnnual,
+            'orderProcess' => $orderProcess,
+            'products' => $products
+        ]);
     }
 
     /**
@@ -107,4 +121,10 @@ class HomeController extends Controller
     //         return Redirect::back()->withErrors(['msg'=>'file failed to uploaded on dropbox']);
     //     }
     // }
+
+    public function getAlert(Request $request)
+    {
+        $orderProcess = Bill::where('status', 0)->get();
+        return $this->response(true, trans('success'), $this->CODE_SUCCESSFUL, $orderProcess);
+    }
 }

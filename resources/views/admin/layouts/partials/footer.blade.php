@@ -36,4 +36,5 @@
 
     @yield('chart-dashboard')
     @yield('custom-js')
+    @yield('topbar-js')
 </html>

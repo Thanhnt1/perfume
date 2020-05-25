@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\Nexmo;
 use App\Models\Customer;
+use App\Models\Product;
 use App\Models\Cart;
 use Socialite;
 use Validator,Redirect,Response,File;
@@ -19,20 +20,23 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('client.index');
+        $products = Product::latest()->take(4)->get();
+        return view('client.index', [
+            'products' => $products,
+        ]);
     }
 
     public function sendSms($phone)
     {
-        try {
+        // try {
             $activeCode = Nexmo::generateRandomString();
-            $content = "Your activate code is: $activeCode  .";
+            $content = "Your activate code is: $activeCode .";
             Nexmo::send($phone, $content, 'NgocDepGai');
             return $this->response(true, trans('Send sms was successfully.'), $this->CODE_SUCCESSFUL, $activeCode);
 
-        } catch (\Throwable $th) {
-            return $this->response(false, trans('Phone number was error or Not register in Nexmo.'), $this->CODE_BAD_REQUEST);
-        }
+        // } catch (\Throwable $th) {
+        //     return $this->response(false, trans('Phone number was error or Not register in Nexmo.'), $this->CODE_BAD_REQUEST);
+        // }
     }
 
     public function redirect($provider)

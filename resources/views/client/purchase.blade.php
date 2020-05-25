@@ -56,19 +56,19 @@
                                                             <div class="line hidden-xs"></div>
                                                             <div class="col text-center">
                                                                 <div class="col-sm-3" >
-                                                                    <span class="glyphicon {{ $item->status == 0 ? 'active' : '' }}"><i class="fas fa-clock" style="color: rgb(153, 153, 0);" title="Waitting"></i></i></span>
+                                                                    <span class="glyphiconProcess {{ $item->status == 0 ? 'active' : '' }}"><i class="fas fa-clock" style="color: rgb(153, 153, 0);" title="Waitting"></i></i></span>
                                                                     <h5>Waitting Checking</h5>
                                                                 </div>
                                                                 <div class="col-sm-3" >
-                                                                    <span class="glyphicon {{ $item->status == 1 ? 'active' : '' }}"><i class="fas fa-boxes" style="color: rgb(0, 64, 255);"  title="Tranfer to shipping department"></i></i> </span>
+                                                                    <span class="glyphiconProcess {{ $item->status == 1 ? 'active' : '' }}"><i class="fas fa-boxes" style="color: rgb(0, 64, 255);"  title="Tranfer to shipping department"></i></i> </span>
                                                                     <h5>Tranfer to shipping department</h5>
                                                                 </div>
                                                                 <div class="col-sm-3">
-                                                                    <span class="glyphicon {{ $item->status == 2 ? 'active' : '' }}"><i class="fas fa-shipping-fast" style="color: rgb(32, 32, 223);" title="In progress shipping"></i></span>
+                                                                    <span class="glyphiconProcess {{ $item->status == 2 ? 'active' : '' }}"><i class="fas fa-shipping-fast" style="color: rgb(32, 32, 223);" title="In progress shipping"></i></span>
                                                                     <h5>In progress</h5>
                                                                 </div>
                                                                 <div class="col-sm-3">
-                                                                    <span class="glyphicon {{ $item->status == 3 ? 'active' : '' }}"><i class="fas fa-check-circle fa-lg" style="color: green;" title="Done"></i></span>
+                                                                    <span class="glyphiconProcess {{ $item->status == 3 ? 'active' : '' }}"><i class="fas fa-check-circle fa-lg" style="color: green;" title="Done"></i></span>
                                                                     <h5>Done</h5>
                                                                 </div>
                                                             </div>  
@@ -142,19 +142,19 @@
                                                             <div class="line hidden-xs"></div>
                                                             <div class="col text-center">
                                                                 <div class="col-sm-3" >
-                                                                    <span class="glyphicon"><i class="fas fa-boxes" style="color: rgb(0, 64, 255);"  title="Tranfer to shipping department"></i></i> </span>
+                                                                    <span class="glyphiconProcess"><i class="fas fa-boxes" style="color: rgb(0, 64, 255);"  title="Tranfer to shipping department"></i></i> </span>
                                                                     <h5>Tranfer to shipping department</h5>
                                                                 </div>
                                                                 <div class="col-sm-3">
-                                                                    <span class="glyphicon"><i class="fas fa-shipping-fast" style="color: rgb(32, 32, 223);" title="In progress shipping"></i></span>
+                                                                    <span class="glyphiconProcess"><i class="fas fa-shipping-fast" style="color: rgb(32, 32, 223);" title="In progress shipping"></i></span>
                                                                     <h5>In progress</h5>
                                                                 </div>
                                                                 <div class="col-sm-3">
-                                                                    <span class="glyphicon"><i class="fas fa-check-circle fa-lg" style="color: green;" title="Done"></i></span>
+                                                                    <span class="glyphiconProcess"><i class="fas fa-check-circle fa-lg" style="color: green;" title="Done"></i></span>
                                                                     <h5>Done</h5>
                                                                 </div>
                                                                 <div class="col-sm-3" >
-                                                                    <span class="glyphicon active"><i class="fas fa-undo-alt" style="color: rgb(236, 128, 19);" title="Returned"></i></span>
+                                                                    <span class="glyphiconProcess active"><i class="fas fa-undo-alt" style="color: rgb(236, 128, 19);" title="Returned"></i></span>
                                                                     <h5>Returned</h5>
                                                                 </div>
                                                             </div>  
@@ -222,19 +222,19 @@
                                                             <div class="line hidden-xs"></div>
                                                             <div class="col text-center">
                                                                 <div class="col-sm-3" >
-                                                                    <span class="glyphicon {{ $item->status == 0 ? 'active' : '' }}"><i class="fas fa-clock" style="color: rgb(153, 153, 0);" title="Waitting"></i></i></span>
+                                                                    <span class="glyphiconProcess {{ $item->status == 0 ? 'active' : '' }}"><i class="fas fa-clock" style="color: rgb(153, 153, 0);" title="Waitting"></i></i></span>
                                                                     <h5>Waitting Checking</h5>
                                                                 </div>
                                                                 <div class="col-sm-3" >
-                                                                    <span class="glyphicon {{ $item->status == 1 ? 'active' : '' }}"><i class="fas fa-boxes" style="color: rgb(0, 64, 255);"  title="Tranfer to shipping department"></i></i> </span>
+                                                                    <span class="glyphiconProcess {{ $item->status == 1 ? 'active' : '' }}"><i class="fas fa-boxes" style="color: rgb(0, 64, 255);"  title="Tranfer to shipping department"></i></i> </span>
                                                                     <h5>Tranfer to shipping department</h5>
                                                                 </div>
                                                                 <div class="col-sm-3">
-                                                                    <span class="glyphicon {{ $item->status == 2 ? 'active' : '' }}"><i class="fas fa-shipping-fast" style="color: rgb(32, 32, 223);" title="In progress shipping"></i></span>
+                                                                    <span class="glyphiconProcess {{ $item->status == 2 ? 'active' : '' }}"><i class="fas fa-shipping-fast" style="color: rgb(32, 32, 223);" title="In progress shipping"></i></span>
                                                                     <h5>In progress</h5>
                                                                 </div>
                                                                 <div class="col-sm-3">
-                                                                    <span class="glyphicon {{ $item->status == 3 ? 'active' : '' }}"><i class="fas fa-check-circle fa-lg" style="color: green;" title="Done"></i></span>
+                                                                    <span class="glyphiconProcess {{ $item->status == 3 ? 'active' : '' }}"><i class="fas fa-check-circle fa-lg" style="color: green;" title="Done"></i></span>
                                                                     <h5>Done</h5>
                                                                 </div>
                                                             </div>  

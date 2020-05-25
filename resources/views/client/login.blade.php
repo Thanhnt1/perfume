@@ -227,7 +227,7 @@
 
 @section('custom-js')
     <script>
-        var code = '';
+        var code = null;
         $('#phone_login').mask('0000000000');
         $('#sign-up-login').hide();
         $('.password').hide();

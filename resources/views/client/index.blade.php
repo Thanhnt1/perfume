@@ -144,101 +144,47 @@
             <!-- /features-list-box -->
 
             <div class="row">
-                <div class="col-sm-6 col-md-3">
-                    <div class="thumbnail thumbnail-product">
-                        <figure class="image-zoom">
-                            <img src="{{ asset('client/images/resource/img-5.jpeg')}}" alt="image">
-                        </figure>
-                        <div class="caption text-center">
-                            <h5><a href="product-single.html">Guess Seductive eau de toilette for women</a></h5>
-                            <div class="rating-star">
-                                <i class="flaticon-favourites7 selected"></i>
-                                <i class="flaticon-favourites7 selected"></i>
-                                <i class="flaticon-favourites7 selected"></i>
-                                <i class="flaticon-favourites7"></i>
-                                <i class="flaticon-favourites7"></i>
+                @if ($products)
+                    @foreach ($products as $item)
+                        <div class="col-sm-6 col-md-3">
+                            <div class="thumbnail thumbnail-product">
+                                <figure class="image-zoom" style="height: 200px;">
+                                    <img src="{{ $item->avatar ? Storage::disk('dropbox')->url($item->avatar) : '/admin/img/no-image.jpg' }}" style="width: 100%;height: auto;margin-top: 25%;" alt="{{ $item->name }}">
+                                </figure>
+                                <div class="caption text-center">
+                                    <h5><a href="{{ route('client.products.detail', ['id' => $item->uuid, 'name' => str_replace(' ', '-', strtolower($item->name))]) }}">{{ $item->name }}</a></h5>
+                                    <div class="rating-star">
+                                        @for ($i = 0; $i < 5; $i++)
+                                            @if ($i < $item['rate'])
+                                                <i class="fas fa-star" style="color: #db4437;"></i>
+                                            @else
+                                                <i class="far fa-star"></i>
+                                            @endif
+                                        @endfor
+                                    </div>
+                                    <!-- /rating-star -->
+                                    <p class="prod-price text-primary">from <span class="price">{{ $item->selling_price }}</span></p>
+                                </div>
                             </div>
-                            <!-- /rating-star -->
-                            <p class="prod-price text-primary">from $17.13</p>
+                            <!-- /thumbail -->
                         </div>
-                    </div>
-                    <!-- /thumbail -->
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="thumbnail thumbnail-product">
-                        <figure class="image-zoom">
-                            <img src="{{ asset('client/images/resource/img-6.jpeg')}}" alt="image">
-                        </figure>
-                        <div class="caption text-center">
-                            <h5><a href="product-single.html">Bvlgari Noir eau de toilette for women</a></h5>
-                            <div class="rating-star">
-                                <i class="flaticon-favourites7 selected"></i>
-                                <i class="flaticon-favourites7 selected"></i>
-                                <i class="flaticon-favourites7 selected"></i>
-                                <i class="flaticon-favourites7 selected"></i>
-                                <i class="flaticon-favourites7"></i>
-                            </div>
-                            <!-- /rating-star -->
-                            <p class="prod-price text-primary">from $32.45</p>
-                        </div>
-                    </div>
-                    <!-- /thumbail -->
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="thumbnail thumbnail-product">
-                        <figure class="image-zoom">
-                            <img src="{{ asset('client/images/resource/img-7.jpeg')}}" alt="image">
-                        </figure>
-                        <div class="caption text-center">
-                            <h5><a href="product-single.html">Gucci Premiere eau de parfum for women</a></h5>
-                            <div class="rating-star">
-                                <i class="flaticon-favourites7 selected"></i>
-                                <i class="flaticon-favourites7 selected"></i>
-                                <i class="flaticon-favourites7 selected"></i>
-                                <i class="flaticon-favourites7 selected"></i>
-                                <i class="flaticon-favourites7 selected"></i>
-                            </div>
-                            <!-- /rating-star -->
-                            <p class="prod-price text-primary">from $41.37</p>
-                        </div>
-                    </div>
-                    <!-- /thumbail -->
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="thumbnail thumbnail-product">
-                        <figure class="image-zoom">
-                            <img src="{{ asset('client/images/resource/img-8.jpeg')}}" alt="image">
-                        </figure>
-                        <div class="caption text-center">
-                            <h5><a href="product-single.html">Ralph Lauren Polo Black eau de toilette for men</a></h5>
-                            <div class="rating-star">
-                                <i class="flaticon-favourites7 selected"></i>
-                                <i class="flaticon-favourites7 selected"></i>
-                                <i class="flaticon-favourites7"></i>
-                                <i class="flaticon-favourites7"></i>
-                                <i class="flaticon-favourites7"></i>
-                            </div>
-                            <!-- /rating-star -->
-                            <p class="prod-price text-primary">from $54.69</p>
-                        </div>
-                    </div>
-                    <!-- /thumbail -->
-                </div>
+                    @endforeach
+                @endif
             </div>
 
-            <div class="tips-bar bg-primary">
+            {{-- <div class="tips-bar bg-primary">
                 <p>Our today tips <strong>Hugo Boss Boss No. 6 Bottled Night</strong>, eau de toilette for men 3.4 oz only for <strong>$35.71</strong></p>
                 <a href="beauty-expert.html" class="read-more">read more</a>
-            </div>
+            </div> --}}
             <!-- /tips-bar -->
 
-            <header class="heading">
+            {{-- <header class="heading">
                 <span class="caro-prev caro-featured-prev"><i class="flaticon-arrowhead7"></i></span>
                 <span class="caro-next caro-featured-next"><i class="flaticon-arrow487"></i></span>
                 <h4>Featured Perfume</h4>
-            </header>
+            </header> --}}
 
-            <div class="carousel-single owl-carousel" data-trans="backSlide" data-btn-next="caro-featured-next" data-btn-prev="caro-featured-prev">
+            {{-- <div class="carousel-single owl-carousel" data-trans="backSlide" data-btn-next="caro-featured-next" data-btn-prev="caro-featured-prev">
                 <div class="item">
                     <div class="featured-box">
                         <div class="row">
@@ -291,7 +237,7 @@
                     </div>
                     <!-- /featured-box -->
                 </div>
-            </div>
+            </div> --}}
         </div>
         <!-- /container -->
     </section>
@@ -681,4 +627,10 @@
     </div>
     <!-- /newsletter-holder -->
     <div class="newsletter-cover"></div>
+@endsection
+
+@section('custom-js')
+    <script>
+        $('.price').mask('#.##0', { reverse: true }).append(' đ');
+    </script>
 @endsection

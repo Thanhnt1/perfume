@@ -100,6 +100,9 @@ Route::group(['middleware' => 'admin'], function(){
 
     });
 
+    // Topbar
+    Route::get('/get-alert', 'HomeController@getAlert')->name('admin.getAlert');
+
 });
 
 Route::get('/login-admin', 'HomeController@login')->name('loginView');
