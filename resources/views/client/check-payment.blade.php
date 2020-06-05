@@ -34,7 +34,7 @@
                 <input type="hidden" name="customer_id" value="{{ \Auth::guard('customer')->user()->id }}">
                 <input type="hidden" name="type_shipping_id" value="{{ request()->shipping_type }}">
                 <input type="hidden" name="total_price" value="{{ request()->total }}">
-                <input type="hidden" name="total_discount" value="{{ $voucher }}">
+                <input type="hidden" name="total_discount" value="{{ $totalDiscount }}">
                 <input type="hidden" name="shipping_date" value="{{ Carbon\Carbon::now()->addDays(1)->format('Y-m-d')  }}">
                 <input type="hidden" name="receive_date" value="{{ Carbon\Carbon::now()->addDays($typeShipping->day_shipping_count+1)->format('Y-m-d')  }}">
                 <input type="hidden" name="recipient_name" value="{{ request()->name }}">
@@ -77,13 +77,18 @@
                     <div class="col-sm-6">
                         <div class="widget widget-shipping-info" style="margin-bottom: 15px;">
                             <ul>
-                                <li>Price of items <span class="mark-price">{{ $totalPrice }}</span></li>
+                                <li>Price of items <span class="mark-price">{{ $currentTotalPrice }}</span></li>
                                 @if ($voucher)
-                                    <li>Voucher Fee Reduce <span class="mark-price">{{ $voucher }}</span></li>
+                                    <li>Voucher Fee Reduce 
+                                        @foreach ($voucher as $item)
+                                            <span class="mark-price">{{ $item['price'] }}</span>
+                                            <br>
+                                        @endforeach
+                                    </li>
                                 @endif
                                 <li>Shipping Fee <span class="shipping-fee mark-price">{{ $typeShipping->price }}</span></li>
-                                <li class="total-price-hid" hidden>{{ $voucher ? $totalPrice - $voucher : $totalPrice  }}</li>
-                                <li>Total <strong class="mark-price total-price">{{ request()->total  }}</strong></li>
+                                <li class="total-price-hid" hidden>{{ $totalPrice }}</li>
+                                <li>Total <strong class="mark-price total-price">{{ $totalPrice }}</strong></li>
                             </ul>
                         </div><!-- /widget-shipping-info -->
                         <div class="form-group">

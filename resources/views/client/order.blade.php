@@ -36,6 +36,12 @@
                         <div class="text-center">
                             <i class="fas fa-check-circle fa-lg" style="color: green;"></i> Payment Success
                         </div>
+                        <div class="text-center" style="margin-top: 15px;">
+                            <p>Orders will be shipped : <span>{{ $bill->receive_date }}</span></p>
+                            <p>Recipient name: <span>{{ $bill->recipient_name }}</span></p>
+                            <p>Recipient phone: <span>{{ $bill->recipient_phone }}</span></p>
+                            <p>Address: <span>{{ $bill->recipient_address }}</span></p>
+                        </div>
                     </div><!-- /widget-shipping-info -->
                     
                 </div>

@@ -29,9 +29,9 @@ class ShippingDepartmentService extends BaseService implements IShippingDepartme
      * {@inheritDoc}
      * @see \App\Services\Template\ITemplateService::fetchAllJSON()
      */
-    public function fetchAllTypeJSON()
+    public function fetchAllTypeJSON(Request $request)
     {
-        $typeShippingDepartment = $this->repository->fetchTypeData();
+        $typeShippingDepartment = $this->repository->fetchTypeData($request);
         
         return datatables()->of($typeShippingDepartment)->make(true);
     }

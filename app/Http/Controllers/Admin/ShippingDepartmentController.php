@@ -117,6 +117,7 @@ class ShippingDepartmentController extends Controller
     public function typeShipping(Request $request)
     {
         if ($request->ajax()) {
+            // dd($request->all());
             return $this->shippingDepartmentService->fetchAllTypeJSON($request);
         }
     }

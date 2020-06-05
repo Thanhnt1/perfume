@@ -32,6 +32,7 @@ Route::group(['middleware' => ['customer']], function(){
     Route::get('/payment', 'CartController@payment')->name('client.payment');
     Route::post('/order', 'CartController@order')->name('client.order');
     Route::get('/delete-bill', 'CartController@deleteBill')->name('client.deleteBill');
+    Route::get('/ajax-update-quantity-cart', 'CartController@ajaxUpdateQuantityCart')->name('client.ajaxUpdateQuantityCart');
 
 });
 

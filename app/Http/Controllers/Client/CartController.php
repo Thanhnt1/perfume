@@ -14,6 +14,7 @@ use App\Models\Sale;
 use App\Models\TypeShipping;
 use App\Models\Bill;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
@@ -107,67 +108,74 @@ class CartController extends Controller
     }
 
     public function shippingAddress(Request $request){
-        $totalPrice = 0;
+        $currentTotalPrice = 0;
         if(\Auth::guard('customer')->check()) {
             $cart = \Auth::guard('customer')->user()->cart->cartProducts;
             foreach ($cart as $key => $value) {
-                $totalPrice += $value->selling_price * $value->pivot->quantity;
+                $currentTotalPrice += $value->selling_price * $value->pivot->quantity;
             }
         }
 
-        $promotion = null;
+        $promotion = [];
+        $totalPrice = $currentTotalPrice;
         if($request->voucher) {
-            $promotion = Sale::where('code', $request->voucher)->first();
-            if($promotion) {
-                $totalPrice -= $promotion->price;
+            foreach (preg_split("/[,]/",$request->voucher) as $key => $value) {
+                $findPro = Sale::where('code', $value)->first();
+                if($findPro) {
+                    array_push($promotion, ['code'=> $findPro->code,'price'=> $findPro->price]);
+                    $totalPrice += $findPro->price;
+                }
             }
-        }
-        if($totalPrice < 0) {
-            $totalPrice = 0;
         }
 
         $typeShipping = TypeShipping::with(['shipping_department'])->get();
 
         return view('client.check-address', [
+            'currentTotalPrice' => $currentTotalPrice,
             'totalPrice' => $totalPrice,
-            'voucher' => $promotion ? $promotion->price : $promotion,
+            'voucher' => !empty($promotion) ? $promotion : null,
             'typeShipping' => $typeShipping
         ]);
     }
 
     public function payment(Request $request){
-        $totalPrice = 0;
+        $currentTotalPrice = 0;
         if(\Auth::guard('customer')->check()) {
             $cart = \Auth::guard('customer')->user()->cart->cartProducts;
             foreach ($cart as $key => $value) {
-                $totalPrice += $value->selling_price * $value->pivot->quantity;
+                $currentTotalPrice += $value->selling_price * $value->pivot->quantity;
             }
         }
 
-        $promotion = null;
+        $promotion = [];
+        $totalDiscount = 0;
+        $totalPrice = $currentTotalPrice;
+
         if($request->voucher) {
-            $promotion = Sale::where('code', $request->voucher)->first();
-            if($promotion) {
-                $totalPrice -= $promotion->price;
+            foreach (preg_split("/[,]/",$request->voucher) as $key => $value) {
+                $findPro = Sale::where('code', $value)->first();
+                if($findPro) {
+                    array_push($promotion, ['code'=> $findPro->code,'price'=> $findPro->price]);
+                    $totalPrice += $findPro->price;
+                    $totalDiscount += $findPro->price;
+                }
             }
-        }
-        if($totalPrice < 0) {
-            $totalPrice = 0;
         }
 
         $typeShipping = TypeShipping::find($request->shipping_type);
 
         return view('client.check-payment', [
+            'currentTotalPrice' => $currentTotalPrice,
             'totalPrice' => $totalPrice,
-            'voucher' => $promotion ? $promotion->price : $promotion,
-            'typeShipping' => $typeShipping
+            'voucher' => !empty($promotion) ? $promotion : null,
+            'typeShipping' => $typeShipping,
+            'totalDiscount' => $totalDiscount
         ]);
     }
 
     public function order(Request $request){
         try {
             $params = $request->all();
-            // dd($params);
             // Open transaction
             DB::beginTransaction();
             //
@@ -182,18 +190,22 @@ class CartController extends Controller
                 $bill->billProducts()->attach([
                     $value->id => ['quantity' => $value->pivot->quantity],
                 ]);
-
             }
 
             // remove cart
             \Auth::guard('customer')->user()->cart->cartProducts()->detach();
-            
+            // dd($bill);
+            // Send email
+            if(\Auth::guard('customer')->user()->email) {
+                Mail::send('admin.email.order', ['id' => $bill->id, 'total_price' => $bill->total_price, 'receive_date' => $bill->receive_date], function($message) {
+                    $message->to(\Auth::guard('customer')->user()->email, "")->subject("Sunflower - Your Order");
+                });
+            }
+
             // Commit transaction
             DB::commit();
             //
-            return view('client.order', [
-                'bill' => $bill,
-            ]);
+            return view('client.order', ['bill' => $bill]);
         } catch (\Exception $e) {
             // Rollback transaction
             DB::rollBack();
@@ -201,7 +213,7 @@ class CartController extends Controller
         }
     }
 
-        /**
+    /**
      * Remove the specified resource from storage.
      *
      * @param Request $request
@@ -217,5 +229,18 @@ class CartController extends Controller
         } else {
             return redirect()->back()->withErrors(['msg' => trans('Not found bill')])->withInput();
         }
+    }
+
+    public function ajaxUpdateQuantityCart(Request $request)
+    {
+        $cart = \Auth::guard('customer')->user()->cart;
+        $productInCart = DB::table('cart_product')->select('*')
+        ->where('cart_id', $cart->id)
+        ->where('product_id', $request->id);
+
+        // update data cart
+        $productInCart->update(['quantity' => $request->quantity]);
+
+        return $this->responseJSON(true, trans('Success'), 200);
     }
 }

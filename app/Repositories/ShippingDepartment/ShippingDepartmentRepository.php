@@ -3,6 +3,8 @@ namespace App\Repositories\ShippingDepartment;
 
 use App\Repositories\BaseRepository;
 use App\Models\ShippingDepartment;
+use Illuminate\Http\Request;
+
 class ShippingDepartmentRepository extends BaseRepository implements IShippingDepartmentRepository
 {
     /**
@@ -20,8 +22,8 @@ class ShippingDepartmentRepository extends BaseRepository implements IShippingDe
         ->whereNull($this->model->getTable().'.deleted_at');
     }
 
-    public function fetchTypeData()
+    public function fetchTypeData(Request $request)
     {
-        return \DB::table('type_shipping')->select('*')->whereNull('deleted_at');
+        return \DB::table('type_shipping')->select('*')->where('shipping_department_id', $request->shipping_department_id)->whereNull('deleted_at');
     }
 }

@@ -8,5 +8,5 @@ use Illuminate\Http\Request;
 interface IShippingDepartmentService extends IBaseService
 {
     public function fetchAllJSON();
-    public function fetchAllTypeJSON();
+    public function fetchAllTypeJSON(Request $request);
 }

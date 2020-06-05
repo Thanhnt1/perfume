@@ -205,19 +205,21 @@
                     "sortable": false,
                     "className": "text-center",
                     "render": function(data, type, row, meta){
-                        return  '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateShippingDepartmentModal" data-name="'+ row.name +'" data-id="'+ row.id +'" data-phone="'+ row.phone +'" data-email="'+ row.email +'" ><i class="fas fa-edit"></i> Edit</button> <button type="button" class="btn btn-success" data-toggle="modal" data-target="#showTypeShippingDepartmentModal" data-shipping-department-id="'+ row.id +'"><i class="fas fa-gifts"></i> Show Type</button>';
+                        return  '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateShippingDepartmentModal" data-name="'+ row.name +'" data-id="'+ row.id +'" data-phone="'+ row.phone +'" data-email="'+ row.email +'" ><i class="fas fa-edit"></i> Edit</button> <button type="button" class="btn btn-success btn-show-type" data-toggle="modal" data-target="#showTypeShippingDepartmentModal" data-shipping-department-id="'+ row.id +'"><i class="fas fa-gifts"></i> Show Type</button>';
                     }
                 },
             ],
         });
-
+        var shippingDepartmentId = null
         var tableTypeShipping = $('#datatableTypeShipping').DataTable({
             ...optionDataTable,
             order: [[0, 'desc']],
             ajax: {
                 type: "GET",
                 url: "{{ route('admin.shipping-department.typeShipping') }}",
-                data : function ( d ) {}
+                data : function(){
+                    return {shipping_department_id: shippingDepartmentId};
+                }
             },
             columns: [
                 { data: 'name', name: 'name'},
@@ -286,6 +288,14 @@
             modal.find('#nameShippingDepartment').val(name)
             modal.find('#phoneShippingDepartment').val(phone)
             modal.find('#emailShippingDepartment').val(email)
+        });
+
+        $('#datatable').on('click', '.btn-show-type', function(){
+            var dataShippingDepartmentId = $(this).data('shipping-department-id');
+            shippingDepartmentId = dataShippingDepartmentId
+            console.log(dataShippingDepartmentId, shippingDepartmentId)
+            // reload data
+            $('#datatableTypeShipping').DataTable().ajax.reload();
         });
 
         $('.btn-add-type').on('click', function(){

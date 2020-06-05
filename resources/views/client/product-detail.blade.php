@@ -532,10 +532,8 @@
 					// options
 					message: data.msg
 				});
-				
-				// location.reload();
-				console.log(data)
 			});
+			return 1;
 		}
 		$('#add-cart').on('click', function() {
 			addToCart()
@@ -543,8 +541,9 @@
 		});
 
 		$('#buy-it').on('click', function() {
-			addToCart();
-			window.location.href = "{{ route('client.cart') }}"
+			if(addToCart() == 1) {
+				window.location.href = "{{ route('client.cart') }}"
+			};
 		});
 
 		
